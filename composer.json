@@ -2,6 +2,7 @@
     "name": "digiw/api-code",
     "description": "Api Application Framework",
     "keywords": ["slim", "react"],
+    "license": "MIT",
     "homepage": "",
     "type": "component",
     "require": {
