@@ -1,0 +1,12 @@
+<?php
+namespace code\service;
+
+class ServiceTypes {
+    const CONFIGURATIONS = "configuration";
+    const DATABASE = "database";
+    const LOGGER = "logger";
+    const RENDER = "render";
+    const MAILER = "mailer";
+    const SESSION = "session";
+    const FILESYSTEM = "filesystem";
+}
