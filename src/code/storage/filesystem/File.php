@@ -78,7 +78,7 @@ class File {
     }
 
     public function stream() {
-        if(is_null($this->fileHandle)){
+        if (is_null($this->fileHandle)) {
             $this->open();
         }
         return new Stream($this->fileHandle);
@@ -98,8 +98,8 @@ class File {
      * @param int $offset
      * @return int
      */
-    public function seek(int $offset) {
-        return fseek($this->fileHandle, $offset);
+    public function seek(int $offset, int $whence = SEEK_SET) {
+        return fseek($this->fileHandle, $offset, $whence);
     }
 
 }
