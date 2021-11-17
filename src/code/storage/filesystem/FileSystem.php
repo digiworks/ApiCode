@@ -25,4 +25,16 @@ class FileSystem implements ServiceInterface {
         return mkdir($this->basePath . "/" . $directory, $permissions, $recursive);
     }
 
+    public function rmdir(string $directory) {
+        return rmdir($this->basePath . "/" . $directory);
+    }
+
+    public function diskfreespace($directory) {
+        return disk_free_space($directory);
+    }
+
+    public function disktotalspace($directory) {
+        return disk_total_space($directory);
+    }
+
 }
