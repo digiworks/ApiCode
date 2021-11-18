@@ -74,7 +74,11 @@ class Escaper {
     public function filterArray(array $values) {
         $escaped_values = [];
         foreach ($values as $key => $value) {
-            $escaped_values[$key] = $this->stripTags($value);
+            if (is_string($value)) {
+                $escaped_values[$key] = $this->stripTags($value);
+            } else {
+                $escaped_values[$key] = $value;
+            }
         }
         return $escaped_values;
     }
