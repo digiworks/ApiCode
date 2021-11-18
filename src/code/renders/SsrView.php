@@ -2,8 +2,13 @@
 
 namespace code\renders;
 
+use code\applications\ApiAppFactory;
+use code\service\ServiceTypes;
+
 class SsrView extends Loader {
 
+    const API_GATEWAY_CONFIGURATIONS = "env.apiGateway";
+    
     private $buffered;
     private $imports = "";
     private $stylesheets = "";
@@ -78,6 +83,7 @@ class SsrView extends Loader {
      */
     private function buildClientImports(array $imports) {
 
+        $apiGtw = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::API_GATEWAY_CONFIGURATIONS);
         $import_scripts = "";
         foreach ($imports as $import) {
             $type = "";
@@ -85,7 +91,7 @@ class SsrView extends Loader {
                 if (!empty($import['tranlsator'])) {
                     $type = 'type="' . $import['tranlsator'] . '"';
                 }
-                $script = '<script ' . $type . ' src="' . $import['lib'] . '"></script>';
+                $script = '<script ' . $type . ' src="'. $apiGtw . '/api/file/js?file=' . $import['lib'] . '"></script>';
                 $import_scripts .= $script . PHP_EOL;
             }
         }
