@@ -9,24 +9,30 @@ use code\service\ServiceTypes;
 class FileSystem implements ServiceInterface {
 
     private $basePath = "";
+    private $basePathJS = "";
 
     public function init() {
-        $this->basePath = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get('env.baseStaticFolderPath', "");
+        $this->basePath = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseStaticFolderPath', "");
+        $this->basePathJS = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseJsFolderPath', "");
     }
 
     public function getFile($url) {
-        return new File($this->basePath . "/" . $url);
+        return new File($this->basePath . DIRECTORY_SEPARATOR . $url);
+    }
+
+    public function getJs($url) {
+        return new File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
     }
 
     public function mkdir(string $directory,
             int $permissions = 0777,
             bool $recursive = false) {
 
-        return mkdir($this->basePath . "/" . $directory, $permissions, $recursive);
+        return mkdir($this->basePath . DIRECTORY_SEPARATOR . $directory, $permissions, $recursive);
     }
 
     public function rmdir(string $directory) {
-        return rmdir($this->basePath . "/" . $directory);
+        return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
     }
 
     public function diskfreespace($directory) {
