@@ -10,10 +10,12 @@ class FileSystem implements ServiceInterface {
 
     private $basePath = "";
     private $basePathJS = "";
+    private $basePathCss = "";
 
     public function init() {
         $this->basePath = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseStaticFolderPath', "");
         $this->basePathJS = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseJsFolderPath', "");
+        $this->basePathCss = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseCssFolderPath', "");
     }
 
     public function getFile($url) {
@@ -22,6 +24,10 @@ class FileSystem implements ServiceInterface {
 
     public function getJs($url) {
         return new File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
+    }
+    
+     public function getCss($url) {
+        return new File($this->basePathCss . DIRECTORY_SEPARATOR . $url);
     }
 
     public function mkdir(string $directory,
