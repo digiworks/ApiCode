@@ -180,7 +180,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
     }
 
     public function addParams($params) {
-        $this->param = Arr::mergeRecursive($this->params, $params);
+        $this->params = Arr::mergeRecursive($this->params, $params);
     }
 
     public function getParam($name, $default) {
