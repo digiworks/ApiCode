@@ -4,7 +4,7 @@ namespace code\user;
 
 abstract class AppUser {
     
-    public abstract function getHash() : string;
+    public abstract function getPassword() : string;
     
     public function passwordHash(string $value){
         return password_hash($value,PASSWORD_DEFAULT);
