@@ -13,7 +13,7 @@ abstract class AppUser {
     public function verifyPassword(string $value){
         $ret = false;
         $pwdHash = $this->passwordHash($value);
-        if($pwdHash === $this->getHash()){
+        if($pwdHash === $this->getPassword()){
             $ret = true;
         }
         return $ret;
