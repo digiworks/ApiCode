@@ -4,6 +4,7 @@ namespace code\applications;
 
 use code\configuration\Configurations;
 use code\service\ServiceTypes;
+use code\utility\Arr;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -19,9 +20,10 @@ use Slim\Interfaces\RouteResolverInterface;
 class ApiApplication extends App implements CoreApplicationInterface {
 
     private $config_path = "etc/configurations";
+    private $params = [];
     private $services = [];
     private $middlewares = [];
-    
+
     /**
      * Get the logger.
      *
@@ -64,16 +66,15 @@ class ApiApplication extends App implements CoreApplicationInterface {
         $this->middlewares[$name] = $middleware;
         $this->add($middleware);
     }
-    
-    public function getMiddleware($name)
-    {
+
+    public function getMiddleware($name) {
         $middleware = null;
         if (isset($this->middlewares[$name])) {
             $middleware = $this->middlewares[$name];
         }
         return $middleware;
     }
-    
+
     /**
      * 
      * @return $this
@@ -92,47 +93,44 @@ class ApiApplication extends App implements CoreApplicationInterface {
     public function loadServices() {
         $services = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('services', []);
         foreach ($services as $name => $class) {
-            if(is_callable($class)){
+            if (is_callable($class)) {
                 $service = $class();
-            }else{
+            } else {
                 $service = $this->newInstance($class);
             }
             $this->addService($name, $service);
             $service->init();
         }
     }
-    
+
     /**
      * 
      */
-    public function loadMiddleware()
-    {
+    public function loadMiddleware() {
         $middlewars = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('middlewares', []);
         foreach ($middlewars as $name => $middlewareConf) {
-            if(is_callable($middlewareConf)){
+            if (is_callable($middlewareConf)) {
                 $middleware = $middlewareConf();
-            }elseif(is_string($middlewareConf)){
+            } elseif (is_string($middlewareConf)) {
                 $middleware = $this->newInstance($middlewareConf);
-            }else{
-                if(isset($middlewareConf["options"])){
+            } else {
+                if (isset($middlewareConf["options"])) {
                     $middleware = $this->newInstance($middlewareConf["class"], $middlewareConf["options"]);
-                }else{
+                } else {
                     $middleware = $this->newInstance($middlewareConf["class"]);
                 }
             }
             $this->addNamedMiddleware($name, $middleware);
         }
     }
-    
+
     /**
      * 
      */
-    public function loadRoutes()
-    {
+    public function loadRoutes() {
         $routes = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('routes', []);
         foreach ($routes as $route) {
-            switch (strtolower($route['method']))
-            {
+            switch (strtolower($route['method'])) {
                 case "get":
                     $this->get($route['route'], $route['controller']);
                     break;
@@ -142,7 +140,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
             }
         }
     }
-    
+
     /**
      * 
      * @param string $class
@@ -151,8 +149,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
      * @throws DependencyResolutionException
      * @throws InvalidArgumentException
      */
-    public function newInstance($class, array $args = [])
-    {
+    public function newInstance($class, array $args = []) {
         if (is_string($class)) {
             try {
                 $reflection = new ReflectionClass($class);
@@ -171,14 +168,27 @@ class ApiApplication extends App implements CoreApplicationInterface {
             $reflection = new ReflectionClass($instance);
         } else {
             throw new InvalidArgumentException(
-                'New instance must get first argument as class name, callable.'
+                            'New instance must get first argument as class name, callable.'
             );
         }
 
         return $instance;
     }
 
-     public function addMessage($messages, $type = Bootstrap::MSG_INFO) {
+    public function addMessage($messages, $type = Bootstrap::MSG_INFO) {
         
     }
+
+    public function addParams($params) {
+        $this->param = Arr::mergeRecursive($this->params, $params);
+    }
+
+    public function getParam($name, $default) {
+        if (isset($this->params[$name])) {
+            return $this->params[$name];
+        } else {
+            return $default;
+        }
+    }
+
 }
