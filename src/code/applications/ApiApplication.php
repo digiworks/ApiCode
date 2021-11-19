@@ -20,7 +20,7 @@ use Slim\Interfaces\RouteResolverInterface;
 class ApiApplication extends App implements CoreApplicationInterface {
 
     private $config_path = "etc/configurations";
-    private $params = [];
+    private $params;
     private $services = [];
     private $middlewares = [];
 
@@ -46,7 +46,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
      */
     public function __construct(ResponseFactoryInterface $responseFactory, ?ContainerInterface $container = null, ?CallableResolverInterface $callableResolver = null, ?RouteCollectorInterface $routeCollector = null, ?RouteResolverInterface $routeResolver = null, ?MiddlewareDispatcherInterface $middlewareDispatcher = null) {
         parent::__construct($responseFactory, $container, $callableResolver, $routeCollector, $routeResolver, $middlewareDispatcher);
-
+         $this->params = new Structure();
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->config_path))->init());
     }
 
@@ -180,15 +180,12 @@ class ApiApplication extends App implements CoreApplicationInterface {
     }
 
     public function addParams($params) {
-        $this->params = Arr::mergeRecursive($this->params, $params);
+        $data = Arr::mergeRecursive($this->params->toArray(), $params);
+        $this->params->load($data);
     }
 
-    public function getParam($name, $default) {
-        if (isset($this->params[$name])) {
-            return $this->params[$name];
-        } else {
-            return $default;
-        }
+    public function getParams() {
+        return $this->params;
     }
 
 }
