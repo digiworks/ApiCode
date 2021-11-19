@@ -4,6 +4,7 @@ namespace code\applications;
 
 use code\configuration\Configurations;
 use code\service\ServiceTypes;
+use code\structure\Structure;
 use code\utility\Arr;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
