@@ -1,4 +1,5 @@
 <?php
+
 namespace code\structure;
 
 use ArrayAccess;
@@ -90,15 +91,15 @@ class StructureHelper {
      */
     public static function getFormatClass($format) {
         // Return a namespace in a given format
-        $class = sprintf('%s\Format\%sFormat', __NAMESPACE__, ucfirst(strtolower($format)));
+        $class = sprintf('%s' . DIRECTORY_SEPARATOR . 'Format' . DIRECTORY_SEPARATOR . '%sFormat', __NAMESPACE__, ucfirst(strtolower($format)));
 
         if (!class_exists($class)) {
             throw new DomainException(
-                    sprintf(
-                            'Structure format: %s not supported. Class: %s not found.',
-                            $format,
-                            $class
-                    )
+                            sprintf(
+                                    'Structure format: %s not supported. Class: %s not found.',
+                                    $format,
+                                    $class
+                            )
             );
         }
 
