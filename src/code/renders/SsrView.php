@@ -91,7 +91,7 @@ class SsrView extends Loader {
                 if (!empty($import['tranlsator'])) {
                     $type = 'type="' . $import['tranlsator'] . '"';
                 }
-                $script = '<script ' . $type . ' src="'. $apiGtw . '/api/file/js?file=' . $import['lib'] . '"></script>';
+                $script = '<script ' . $type . ' src="'. $apiGtw . '/api/file/js/' . $import['lib'] . '"></script>';
                 //$script = '<script ' . $type . ' src="'. $apiGtw . '/' . $import['lib'] . '"></script>';
                 $import_scripts .= $script . PHP_EOL;
             }
