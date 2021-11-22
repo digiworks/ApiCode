@@ -100,8 +100,8 @@ class RenderMailer {
         if (!empty($this->cc)) {
             $email->cc($this->cc);
         }
-        $email->subject('Time for Symfony Mailer!');
-        $email->text('Sending emails is fun again!');
+        $email->subject($this->subject);
+        $email->text($this->render($viewText, $formData));
         $email->html($this->render($this->viewHtml, $formData));
 
         $this->mailer->send($email);
