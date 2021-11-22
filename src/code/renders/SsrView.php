@@ -109,7 +109,7 @@ class SsrView extends Loader {
 
         $stylesheet_scripts = "";
         foreach ($stylesheets as $stylesheet) {
-            $script = '<link rel="stylesheet" href="' . $stylesheet . '"/>';
+            $script = '<link rel="stylesheet" href="/api/file/css/' . $stylesheet . '"/>';
             $stylesheet_scripts .= $script . PHP_EOL;
         }
 
