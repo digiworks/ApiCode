@@ -278,7 +278,7 @@ class JsRender {
             $clientScript = $this->view->setRenderType(RenderTypes::CLIENT)->render();
         }
         $scriptLibs = $this->imports;
-        $renderer = $this->ssrView->addStylesheets($this->stylesheets)->addImports($scriptLibs)->setScriptServer($ssrScript);
+        $renderer = $this->ssrView->addStylesheets($this->stylesheets)->setScriptServer($ssrScript);
         if (!is_null($this->transformer)) {
             if ($this->onlyServerTrasnformation) {
                 $clientScript = $this->transformer->transform($clientScript);
@@ -288,7 +288,7 @@ class JsRender {
                 $renderer->setClientTypeScript($this->transformer->getTypeString());
             }
         }
-        return $renderer->setScriptClient($clientScript)->render();
+        return $renderer->addImports($scriptLibs)->setScriptClient($clientScript)->render();
     }
 
     /**
