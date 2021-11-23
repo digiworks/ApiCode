@@ -16,7 +16,7 @@ abstract class Component {
 
     public abstract function loadImports();
 
-    public abstract function loadCss();
+    public abstract function loadStylesheets();
 
     public abstract function loadRoutes();
 }
