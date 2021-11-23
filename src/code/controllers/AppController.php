@@ -22,9 +22,13 @@ abstract class AppController {
         $this->component = $component;
     }
 
-    public function render($currentView, $theme) {
+    public function render($currentView, $theme = null) {
         $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-        $this->response->getBody()->write($renderManager->getRender()->useTheme($theme)->renderView($this->getFullViewPath($currentView)));
+        $rennder = $renderManager->getRender();
+        if (!is_null($theme)) {
+            $rennder->useTheme($theme);
+        }
+        $this->response->getBody()->write($rennder->renderView($this->getFullViewPath($currentView)));
     }
 
     protected function getFullViewPath($view) {
