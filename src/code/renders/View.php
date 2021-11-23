@@ -39,7 +39,7 @@ class View extends RenderTypes {
      * @return type
      */
     private function clientView() {
-        return ($this->comporess($this->buffered));
+        return ($this->compress($this->buffered));
     }
 
 }

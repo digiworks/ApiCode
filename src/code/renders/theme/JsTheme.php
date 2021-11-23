@@ -60,7 +60,7 @@ class JsTheme extends RenderTypes implements JsThemeInterface
         if (!file_exists($this->template)) {
             throw ServerScriptDoesNotExist::atPath($this->template);
         }
-         $script = $this->comporess(file_get_contents($this->template));
+         $script = $this->compress(file_get_contents($this->template));
          return $script;
     }
     

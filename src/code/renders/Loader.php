@@ -35,7 +35,7 @@ abstract class Loader
      * @param string $script
      * @return string
      */
-    protected function comporess($script)
+    protected function compress($script)
     {
        $script = str_replace("'", "\x27", $script);
        //$this->sinlgeLineComments($script);
