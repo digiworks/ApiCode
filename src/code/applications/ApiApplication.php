@@ -24,6 +24,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
     private $params;
     private $services = [];
     private $middlewares = [];
+    private $components = [];
 
     /**
      * Get the logger.
@@ -47,7 +48,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
      */
     public function __construct(ResponseFactoryInterface $responseFactory, ?ContainerInterface $container = null, ?CallableResolverInterface $callableResolver = null, ?RouteCollectorInterface $routeCollector = null, ?RouteResolverInterface $routeResolver = null, ?MiddlewareDispatcherInterface $middlewareDispatcher = null) {
         parent::__construct($responseFactory, $container, $callableResolver, $routeCollector, $routeResolver, $middlewareDispatcher);
-         $this->params = new Structure();
+        $this->params = new Structure();
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->config_path))->init());
     }
 
@@ -140,6 +141,13 @@ class ApiApplication extends App implements CoreApplicationInterface {
                     break;
             }
         }
+    }
+
+    public function loadComponents() {
+         $components = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('components', []);
+         foreach($components as $component){
+             
+         }
     }
 
     /**
