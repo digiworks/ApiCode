@@ -32,22 +32,22 @@ abstract class AppController {
         return $this->theme;
     }
 
-    public function setRequest($request) {
+    public function setRequest($request): AppController {
         $this->request = $request;
         return $this;
     }
 
-    public function setResponse($response) {
+    public function setResponse($response): AppController {
         $this->response = $response;
         return $this;
     }
 
-    public function setCurrentView($currentView) {
+    public function setCurrentView($currentView): AppController {
         $this->currentView = $currentView;
         return $this;
     }
 
-    public function useTheme($theme) {
+    public function useTheme($theme): AppController {
         $this->theme = $theme;
         return $this;
     }
@@ -56,8 +56,9 @@ abstract class AppController {
         return $this->component;
     }
 
-    public function setComponent($component): void {
+    public function setComponent($component): AppController {
         $this->component = $component;
+        return $this;
     }
 
     public function render() {
