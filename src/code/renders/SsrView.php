@@ -63,7 +63,7 @@ class SsrView extends Loader {
             '{{imports}}' => $this->imports,
             '{{javascript}}' => $this->scriptClient,
             '{{serverside}}' => $this->scriptServer,
-            '{{launchScript}}' => $this->launchScript(),
+            '{{launchScript}}' => $this->getLaunchScript(),
             '{{typeScript}}' => $this->clientTypeScript
         ];
         return strtr($this->buffered, $placeholders);
