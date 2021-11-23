@@ -10,9 +10,46 @@ abstract class AppController {
 
     protected $request;
     protected $response;
+    protected $currentView;
+    protected $theme;
 
     /** @var Component $component */
     protected $component;
+
+    public function getRequest() {
+        return $this->request;
+    }
+
+    public function getResponse() {
+        return $this->response;
+    }
+
+    public function getCurrentView() {
+        return $this->currentView;
+    }
+
+    public function getTheme() {
+        return $this->theme;
+    }
+
+    public function setRequest($request) {
+        $this->request = $request;
+        return $this;
+    }
+
+    public function setResponse($response) {
+        $this->response = $response;
+        return $this;
+    }
+
+    public function setCurrentView($currentView) {
+        $this->currentView = $currentView;
+        return $this;
+    }
+
+    public function setTheme($theme) {
+        $this->theme = $theme;
+    }
 
     public function getComponent() {
         return $this->component;
@@ -22,13 +59,13 @@ abstract class AppController {
         $this->component = $component;
     }
 
-    public function render($currentView, $theme = null) {
+    public function render() {
         $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-        $rennder = $renderManager->getRender();
-        if (!is_null($theme)) {
-            $rennder->useTheme($theme);
+        $render = $renderManager->getRender();
+        if (!is_null($this->theme)) {
+            $render->useTheme($this->theme);
         }
-        $this->response->getBody()->write($rennder->renderView($this->getFullViewPath($currentView)));
+        $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
     }
 
     protected function getFullViewPath($view) {
