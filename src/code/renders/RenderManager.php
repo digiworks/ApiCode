@@ -42,15 +42,17 @@ class RenderManager implements ServiceInterface {
                 $this->render->addTheme($th, $key);
             }
         }
-        if(isset($conf['stylesheets'])){
-             $this->render->addStylesheets($conf['stylesheets']);
+        if (isset($conf['stylesheets'])) {
+            $this->render->addStylesheets($conf['stylesheets']);
         }
-        
+
         if (isset($conf['imports'])) {
             $this->render->addImports($conf['imports']);
             $this->render->loadImports();
         }
-        
+        if (isset($conf['onlyServerTrasnformation'])) {
+            $this->render->setOnlyServerTrasnformation($conf['onlyServerTrasnformation']);
+        }
     }
 
 }
