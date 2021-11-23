@@ -44,6 +44,10 @@ abstract class Component {
         return $imports;
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function loadStylesheets(): array {
         $stylesheets = [];
         foreach ($this->defineStylesheets() as $stylesheet) {
@@ -52,10 +56,20 @@ abstract class Component {
         return $stylesheets;
     }
 
+    /**
+     * 
+     * @param string $url
+     * @return File
+     */
     public function getJs($url) {
         return new File($this->getBasePath() . DIRECTORY_SEPARATOR . $url);
     }
 
+    /**
+     * 
+     * @param string $url
+     * @return File
+     */
     public function getCss($url) {
         return new File($this->getBasePath() . DIRECTORY_SEPARATOR . $url);
     }
