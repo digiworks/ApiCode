@@ -278,15 +278,16 @@ class JsRender {
             $clientScript = $this->view->setRenderType(RenderTypes::CLIENT)->render();
         }
         $scriptLibs = $this->imports;
+        $renderer = $this->ssrView->addStylesheets($this->stylesheets)->addImports($scriptLibs)->setScriptServer($ssrScript);
         if (!is_null($this->transformer)) {
-            if($this->onlyServerTrasnformation){
+            if ($this->onlyServerTrasnformation) {
                 $clientScript = $this->transformer->transform($clientScript);
-            }else{
+            } else {
                 array_unshift($scriptLibs, ['lib' => $this->transformer->getLib(), "tranlsator" => ""]);
+                $renderer->setClientTypeScript($this->transformer->getTypeString());
             }
-            
         }
-        return $this->ssrView->addStylesheets($this->stylesheets)->addImports($scriptLibs)->setScriptServer($ssrScript)->setScriptClient($clientScript)->render();
+        return$renderer->setScriptClient($clientScript)->render();
     }
 
     /**

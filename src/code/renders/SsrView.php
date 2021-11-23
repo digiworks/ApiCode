@@ -13,6 +13,7 @@ class SsrView extends Loader {
     private $imports = "";
     private $stylesheets = "";
     private $scriptClient;
+    private $clientTypeScript = "text/javascript";
     private $scriptServer;
 
     public function __construct($ssrFile, $scriptC = null, $scriptS = null) {
@@ -42,6 +43,15 @@ class SsrView extends Loader {
         return $this;
     }
 
+    public function setClientTypeScript($clientTypeScript) {
+        $this->clientTypeScript = $clientTypeScript;
+        return $this;
+    }
+
+    public function getClientTypeScript() {
+        return $this->clientTypeScript;
+    }
+
     /**
      * 
      * @return string
@@ -53,7 +63,7 @@ class SsrView extends Loader {
             '{{javascript}}' => $this->scriptClient,
             '{{serverside}}' => $this->scriptServer,
             '{{launchScript}}' => $this->launchScript(),
-            '{{typeScript}}' => "text/javascript"
+            '{{typeScript}}' => $this->clientTypeScript
         ];
         return strtr($this->buffered, $placeholders);
     }
@@ -118,7 +128,7 @@ class SsrView extends Loader {
         return $stylesheet_scripts;
     }
 
-    protected function launchScript() {
+    public function launchScript() {
         return "function init(){ ReactDOM.hydrate(<App />,document.getElementById(\"root\"));}init();";
     }
 

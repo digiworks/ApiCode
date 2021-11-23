@@ -95,4 +95,8 @@ class BabelTranslator {
         return !strcmp(static::type, $type);
     }
 
+    public function getTypeString() {
+        return static::type;
+    }
+
 }
