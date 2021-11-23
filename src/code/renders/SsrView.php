@@ -8,7 +8,7 @@ use code\service\ServiceTypes;
 class SsrView extends Loader {
 
     const API_GATEWAY_CONFIGURATIONS = "env.apiGateway";
-    
+
     private $buffered;
     private $imports = "";
     private $stylesheets = "";
@@ -51,9 +51,11 @@ class SsrView extends Loader {
             '{{stylesheets}}' => $this->stylesheets,
             '{{imports}}' => $this->imports,
             '{{javascript}}' => $this->scriptClient,
-            '{{serverside}}' => $this->scriptServer
+            '{{serverside}}' => $this->scriptServer,
+            '{{launchScript}}' => $this->launchScript(),
+            '{{typeScript}}' => "text/javascript"
         ];
-        return strtr($this->buffered,$placeholders);
+        return strtr($this->buffered, $placeholders);
     }
 
     /**
@@ -75,7 +77,7 @@ class SsrView extends Loader {
         $this->stylesheets = $this->buildClientStyleSheets($stylesheets);
         return $this;
     }
-    
+
     /**
      * 
      * @param array $imports
@@ -91,7 +93,7 @@ class SsrView extends Loader {
                 if (!empty($import['tranlsator'])) {
                     $type = 'type="' . $import['tranlsator'] . '"';
                 }
-                $script = '<script ' . $type . ' src="'. $apiGtw . '/api/file/js/' . $import['lib'] . '"></script>';
+                $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '"></script>';
                 //$script = '<script ' . $type . ' src="'. $apiGtw . '/' . $import['lib'] . '"></script>';
                 $import_scripts .= $script . PHP_EOL;
             }
@@ -99,7 +101,7 @@ class SsrView extends Loader {
 
         return $import_scripts;
     }
-    
+
     /**
      * 
      * @param array $stylesheets
@@ -114,6 +116,10 @@ class SsrView extends Loader {
         }
 
         return $stylesheet_scripts;
+    }
+
+    protected function launchScript() {
+        return "function init(){ ReactDOM.hydrate(<App />,document.getElementById(\"root\"));}init();";
     }
 
 }
