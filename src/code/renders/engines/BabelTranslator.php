@@ -55,13 +55,9 @@ class BabelTranslator {
      * @param string $script
      * @return string
      */
-    public function transform($script, $compress = false) {
+    public function transform($script) {
         $babel_text = $this->comporess($script);
-        $transformed = $this->engine->run(sprintf(static::command, $babel_text));
-        if ($compress) {
-            $transformed = $this->comporess($transformed);
-        }
-        return $transformed;
+        return $this->engine->run(sprintf(static::command, $babel_text));
     }
 
     /**

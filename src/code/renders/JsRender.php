@@ -280,7 +280,7 @@ class JsRender {
         $scriptLibs = $this->imports;
         if (!is_null($this->transformer)) {
             if($this->onlyServerTrasnformation){
-                $clientScript = $this->transformer->transform($clientScript, true);
+                $clientScript = $this->transformer->transform($clientScript);
             }else{
                 array_unshift($scriptLibs, ['lib' => $this->transformer->getLib(), "tranlsator" => ""]);
             }
