@@ -24,7 +24,15 @@ class JsRender {
 
     /** @var bool */
     protected $debug = false;
+
+    /**
+     * 
+     * 
+     */
     protected $transformer;
+
+    /** @var bool */
+    protected $onlyServerTrasnformation = false;
 
     /** @var View */
     protected $view = null;
@@ -93,6 +101,14 @@ class JsRender {
     public function DOMTransformer($cmd) {
         $this->transformer = $cmd;
         return $this;
+    }
+
+    public function getOnlyServerTrasnformation(): bool {
+        return $this->onlyServerTrasnformation;
+    }
+
+    public function setOnlyServerTrasnformation(bool $onlyServerTrasnformation): void {
+        $this->onlyServerTrasnformation = $onlyServerTrasnformation;
     }
 
     /**
@@ -263,7 +279,12 @@ class JsRender {
         }
         $scriptLibs = $this->imports;
         if (!is_null($this->transformer)) {
-            array_unshift($scriptLibs, ['lib' => $this->transformer->getLib(), "tranlsator" => ""]);
+            if($this->onlyServerTrasnformation){
+                $clientScript = $this->transformer->transform($clientScript);
+            }else{
+                array_unshift($scriptLibs, ['lib' => $this->transformer->getLib(), "tranlsator" => ""]);
+            }
+            
         }
         return $this->ssrView->addStylesheets($this->stylesheets)->addImports($scriptLibs)->setScriptServer($ssrScript)->setScriptClient($clientScript)->render();
     }
