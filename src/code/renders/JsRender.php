@@ -5,6 +5,7 @@ namespace code\renders;
 use code\exceptions\EngineError;
 use code\renders\theme\JsTheme;
 use code\renders\theme\JsThemeInterface;
+use code\utility\Arr;
 use code\utility\Curl;
 
 class JsRender {
@@ -160,6 +161,16 @@ class JsRender {
      * @return $this
      */
     public function addImports(array $imports) {
+        $this->imports = Arr::mergeRecursive($this->imports, $imports);
+        return $this;
+    }
+
+    /**
+     * 
+     * @param array $imports
+     * @return $this
+     */
+    public function setImports(array $imports) {
         $this->imports = $imports;
         return $this;
     }
@@ -169,8 +180,18 @@ class JsRender {
      * @param array $stylesheets
      * @return $this
      */
-    public function addStylesheets(array $stylesheets) {
+    public function setStylesheets(array $stylesheets) {
         $this->stylesheets = $stylesheets;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param array $stylesheets
+     * @return $this
+     */
+    public function addStylesheets(array $stylesheets) {
+        $this->stylesheets = Arr::mergeRecursive($this->stylesheets, $stylesheets);
         return $this;
     }
 

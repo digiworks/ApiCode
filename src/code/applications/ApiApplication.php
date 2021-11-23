@@ -131,6 +131,10 @@ class ApiApplication extends App implements CoreApplicationInterface {
      */
     public function loadRoutes() {
         $routes = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('routes', []);
+        $this->processRoutes($routes);
+    }
+
+    protected function processRoutes(array $routes) {
         foreach ($routes as $route) {
             switch (strtolower($route['method'])) {
                 case "get":
@@ -144,10 +148,10 @@ class ApiApplication extends App implements CoreApplicationInterface {
     }
 
     public function loadComponents() {
-         $components = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('components', []);
-         foreach($components as $component){
-             
-         }
+        $components = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('components', []);
+        foreach ($components as $component) {
+            $this->processRoutes($component->loadRoutes());
+        }
     }
 
     /**
