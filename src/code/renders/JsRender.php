@@ -288,7 +288,7 @@ class JsRender {
                 $renderer->setClientTypeScript($this->transformer->getTypeString());
             }
         }
-        return$renderer->setScriptClient($clientScript)->render();
+        return $renderer->setScriptClient($clientScript)->render();
     }
 
     /**
