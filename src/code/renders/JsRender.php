@@ -284,9 +284,9 @@ class JsRender {
                 $clientScript = $this->transformer->transform($clientScript);
                 $renderer->setLaunchScript($this->transformer->transform($renderer->getLaunchScript()));
             } else {
-                array_unshift($scriptLibs, ['lib' => $this->transformer->getLib(), "tranlsator" => ""]);
                 $renderer->setClientTypeScript($this->transformer->getTypeString());
             }
+            array_unshift($scriptLibs, ['lib' => $this->transformer->getLib(), "tranlsator" => ""]);
         }
         return $renderer->addImports($scriptLibs)->setScriptClient($clientScript)->render();
     }
