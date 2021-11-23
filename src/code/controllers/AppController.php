@@ -49,6 +49,7 @@ abstract class AppController {
 
     public function useTheme($theme) {
         $this->theme = $theme;
+        return $this;
     }
 
     public function getComponent() {
