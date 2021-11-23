@@ -15,6 +15,7 @@ class SsrView extends Loader {
     private $scriptClient;
     private $clientTypeScript = "text/javascript";
     private $scriptServer;
+    private $launchScript = "function init(){ ReactDOM.hydrate(<App />,document.getElementById(\"root\"));}init();";
 
     public function __construct($ssrFile, $scriptC = null, $scriptS = null) {
         $this->addPart($ssrFile);
@@ -128,8 +129,12 @@ class SsrView extends Loader {
         return $stylesheet_scripts;
     }
 
-    public function launchScript() {
-        return "function init(){ ReactDOM.hydrate(<App />,document.getElementById(\"root\"));}init();";
+    public function getLaunchScript() {
+        return $this->launchScript;
+    }
+
+    public function setLaunchScript($launchScript): void {
+        $this->launchScript = $launchScript;
     }
 
 }

@@ -282,6 +282,7 @@ class JsRender {
         if (!is_null($this->transformer)) {
             if ($this->onlyServerTrasnformation) {
                 $clientScript = $this->transformer->transform($clientScript);
+                $renderer->setLaunchScript($this->transformer->transform($renderer->getLaunchScript()));
             } else {
                 array_unshift($scriptLibs, ['lib' => $this->transformer->getLib(), "tranlsator" => ""]);
                 $renderer->setClientTypeScript($this->transformer->getTypeString());
