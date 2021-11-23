@@ -141,6 +141,10 @@ class ApiApplication extends App implements CoreApplicationInterface {
         $this->processRoutes($routes);
     }
 
+    /**
+     * 
+     * @param array $routes
+     */
     protected function processRoutes(array $routes) {
         foreach ($routes as $route) {
             switch (strtolower($route['method'])) {

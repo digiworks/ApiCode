@@ -2,6 +2,8 @@
 
 namespace code\components;
 
+use code\storage\filesystem\File;
+
 abstract class Component {
 
     private $id;
@@ -14,9 +16,52 @@ abstract class Component {
         $this->id = $id;
     }
 
-    public abstract function loadImports();
-
-    public abstract function loadStylesheets();
-
+    /**
+     * 
+     */
     public abstract function loadRoutes();
+
+    /**
+     * 
+     */
+    protected abstract function defineImports(): array;
+
+    /**
+     * 
+     */
+    protected abstract function defineStylesheets(): array;
+
+    /**
+     * 
+     * @return array
+     */
+    public function loadImports(): array {
+        $imports = [];
+        foreach ($this->defineImports() as $import) {
+            $import['lib'] = $this->getId() . "/" . $import['lib'];
+            $imports[] = $import;
+        }
+        return $imports;
+    }
+
+    public function loadStylesheets(): array {
+        $stylesheets = [];
+        foreach ($this->defineStylesheets() as $stylesheet) {
+            $stylesheets[] = $this->getId() . "/" . $stylesheet;
+        }
+        return $stylesheets;
+    }
+
+    public function getJs($url) {
+        return new File($this->getBasePath() . DIRECTORY_SEPARATOR . $url);
+    }
+
+    public function getCss($url) {
+        return new File($this->getBasePath() . DIRECTORY_SEPARATOR . $url);
+    }
+
+    public function getBasePath() {
+        return __DIR__;
+    }
+
 }
