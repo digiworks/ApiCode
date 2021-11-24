@@ -2,7 +2,7 @@
 
 namespace code\user;
 
-abstract class AppUser {
+abstract class AppUser implements AppUserInterface {
 
     public abstract function getPassword(): string;
 
