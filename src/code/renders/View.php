@@ -5,8 +5,11 @@ namespace code\renders;
 class View extends RenderTypes {
 
     private $buffered;
+    private $fileSystem;
 
     public function __construct($viewFile) {
+        $this->fileSystem = ApiAppFactory::getApp()->getService(ServiceTypes::FILESYSTEM);
+        $this->getTRanslationFiles($viewFile);
         $this->addPart($viewFile);
     }
 
@@ -43,7 +46,11 @@ class View extends RenderTypes {
     }
 
     protected function getTRanslationFiles($viewFile) {
-        
+        $baseDir = $this->fileSystem->dirname($viewFile);
+        $localeFile = $baseDir . DIRECTORY_SEPARATOR . "locale" . DIRECTORY_SEPARATOR . "locale.js";
+        if ($this->fileSystem->fileExists($localeFile)) {
+            $this->addPart($localeFile);
+        }
     }
 
 }

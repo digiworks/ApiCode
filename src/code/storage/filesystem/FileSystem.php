@@ -53,4 +53,16 @@ class FileSystem implements ServiceInterface {
         return file_exists($url);
     }
 
+    public function dirname($url) {
+        return dirname($url);
+    }
+
+    public function basename($url) {
+        return basename($url);
+    }
+
+    public function realpath($url) {
+        return realpath($url);
+    }
+
 }
