@@ -2,26 +2,23 @@
 
 namespace code\renders\theme;
 
-use code\applications\ApiAppFactory;
 use code\exceptions\ServerScriptDoesNotExist;
 use code\renders\RenderTranslated;
 use code\renders\RenderTypes;
 use code\renders\View;
-use code\service\ServiceTypes;
 
 class JsTheme extends RenderTranslated implements JsThemeInterface {
 
     private $bufferedParts;
     private $buffered;
     private $template;
-    private $fileSystem;
 
     /** @var View */
     private $view;
 
-    public function __construct($themeFile) {
-        $this->template = $themeFile;
-        $this->fileSystem = ApiAppFactory::getApp()->getService(ServiceTypes::FILESYSTEM);
+    public function __construct($viewFile) {
+        parent::__construct($viewFile);
+        $this->template = $viewFile;
         $this->getTRanslationFiles($this->template);
         $this->addPart($this->template);
     }

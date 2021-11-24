@@ -2,16 +2,12 @@
 
 namespace code\renders;
 
-use code\applications\ApiAppFactory;
-use code\service\ServiceTypes;
-
 class View extends RenderTranslated {
 
     private $buffered;
-    private $fileSystem;
 
     public function __construct($viewFile) {
-        $this->fileSystem = ApiAppFactory::getApp()->getService(ServiceTypes::FILESYSTEM);
+        parent::__construct($viewFile);
         $this->getTRanslationFiles($viewFile);
         $this->addPart($viewFile);
     }
