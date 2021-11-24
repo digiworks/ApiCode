@@ -35,31 +35,15 @@ class JsTheme extends RenderTranslated implements JsThemeInterface {
      * @return string
      */
     public function render() {
-        if (is_null($this->bufferedParts)) {
-            $this->bufferedParts = $this->load();
-        }
-        $scriptsParts = (strlen($this->bufferedParts) ? $this->bufferedParts . "\n;" : "" ) . $this->view->setRenderType(RenderTypes::CLIENT)->render();
         if (is_null($this->buffered)) {
-            $this->buffered = $this->loadTemplate();
+            $this->buffered = $this->load();
         }
         $script = $this->buffered;
         if ($this->getRenderType() == RenderTypes::SERVER) {
             $script = $this->serverView();
         }
-        $scriptsParts .= $script;
+        $scriptsParts = $this->compress($this->view->setRenderType(RenderTypes::CLIENT)->render() . $script);
         return $scriptsParts;
-    }
-
-    /**
-     * 
-     * @throws ServerScriptDoesNotExist
-     */
-    private function loadTemplate() {
-        if (!$this->fileSystem->fileExists($this->template)) {
-            throw ServerScriptDoesNotExist::atPath($this->template);
-        }
-        $script = $this->compress(file_get_contents($this->template));
-        return $script;
     }
 
     /**
