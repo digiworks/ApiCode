@@ -25,8 +25,8 @@ class FileSystem implements ServiceInterface {
     public function getJs($url) {
         return new File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
     }
-    
-     public function getCss($url) {
+
+    public function getCss($url) {
         return new File($this->basePathCss . DIRECTORY_SEPARATOR . $url);
     }
 
@@ -47,6 +47,10 @@ class FileSystem implements ServiceInterface {
 
     public function disktotalspace($directory) {
         return disk_total_space($directory);
+    }
+
+    public function fileExists($url) {
+        return file_exists($url);
     }
 
 }

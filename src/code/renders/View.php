@@ -42,4 +42,8 @@ class View extends RenderTypes {
         return ($this->compress($this->buffered));
     }
 
+    protected function getTRanslationFiles($viewFile) {
+        
+    }
+
 }

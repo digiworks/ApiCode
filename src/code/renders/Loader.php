@@ -18,10 +18,11 @@ abstract class Loader
     
     public function load()
     {
+        $fileSystem = ApiAppFactory::getApp()->getService(ServiceTypes::FILESYSTEM);
         $view = "";
         foreach($this->parts as $part)
         {
-            if (!file_exists($part)) {
+            if (!$fileSystem->fileExists($part)) {
                throw ServerScriptDoesNotExist::atPath($part);
             }
             $script = Curl::get($part);
