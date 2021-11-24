@@ -102,4 +102,8 @@ class File {
         return fseek($this->fileHandle, $offset, $whence);
     }
 
+    public function filemtime() {
+        return filemtime($this->path);
+    }
+
 }
