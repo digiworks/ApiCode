@@ -2,6 +2,9 @@
 
 namespace code\renders;
 
+use code\applications\ApiAppFactory;
+use code\service\ServiceTypes;
+
 class View extends RenderTypes {
 
     private $buffered;
