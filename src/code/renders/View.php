@@ -5,7 +5,7 @@ namespace code\renders;
 use code\applications\ApiAppFactory;
 use code\service\ServiceTypes;
 
-class View extends RenderTypes {
+class View extends RenderTranslated {
 
     private $buffered;
     private $fileSystem;
@@ -46,14 +46,6 @@ class View extends RenderTypes {
      */
     private function clientView() {
         return ($this->compress($this->buffered));
-    }
-
-    protected function getTRanslationFiles($viewFile) {
-        $baseDir = $this->fileSystem->dirname($viewFile);
-        $localeFile = $baseDir . DIRECTORY_SEPARATOR . "locale" . DIRECTORY_SEPARATOR . "locale.js";
-        if ($this->fileSystem->fileExists($localeFile)) {
-            $this->addPart($localeFile);
-        }
     }
 
 }
