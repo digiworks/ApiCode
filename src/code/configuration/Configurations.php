@@ -7,6 +7,10 @@ use code\structure\Structure;
 
 class Configurations implements ServiceInterface, ConfigurationsInterface {
 
+    const ENV = "env";
+    const API_GATEWAY_CONFIGURATIONS = "env.apiGateway";
+    
+    
     private static $filepath = '';
 
     /**
@@ -20,7 +24,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
         static::$filepath = $filepath;
         static::$items = new Structure();
     }
-    
+
     /**
      * Loads the config file specified and sets $items to the array
      *
@@ -45,7 +49,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
 
         return null;
     }
-    
+
     /**
      * 
      * @param type $path

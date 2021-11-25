@@ -2,13 +2,14 @@
 namespace code\renders\engines;
 
 use code\applications\ApiAppFactory;
+use code\configuration\Configurations;
 use code\exceptions\EngineError;
 use code\renders\RenderEngineInterface;
 use code\service\ServiceTypes;
 use V8JsException;
 
 class V8 implements RenderEngineInterface
-{
+{   
     /** @var V8JsExt */
     protected $v8;
 
@@ -20,7 +21,7 @@ class V8 implements RenderEngineInterface
         });
         
         $this->v8->SetHostValue('queryStringValues', $_GET);
-        $this->v8->SetHostValue('envConf',  ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::ENV));
+        $this->v8->SetHostValue('envConf',  ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::ENV));
     }
 
     public function run(string $script, $first = true): string

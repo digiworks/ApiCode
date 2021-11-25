@@ -3,12 +3,10 @@
 namespace code\renders;
 
 use code\applications\ApiAppFactory;
+use code\configuration\Configurations;
 use code\service\ServiceTypes;
 
 class SsrView extends Loader {
-
-    const API_GATEWAY_CONFIGURATIONS = "env.apiGateway";
-    const ENV = "env";
 
     private $buffered;
     private $imports = "";
@@ -59,7 +57,7 @@ class SsrView extends Loader {
      * @return string
      */
     public function render() {
-        $env = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::ENV);
+        $env = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::ENV);
         $placeholders = [
             '{{stylesheets}}' => $this->stylesheets,
             '{{imports}}' => $this->imports,
@@ -99,7 +97,7 @@ class SsrView extends Loader {
      */
     private function buildClientImports(array $imports) {
 
-        $apiGtw = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::API_GATEWAY_CONFIGURATIONS);
+        $apiGtw = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::API_GATEWAY_CONFIGURATIONS);
         $import_scripts = "";
         foreach ($imports as $import) {
             $type = "";
