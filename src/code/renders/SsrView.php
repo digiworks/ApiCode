@@ -8,6 +8,7 @@ use code\service\ServiceTypes;
 class SsrView extends Loader {
 
     const API_GATEWAY_CONFIGURATIONS = "env.apiGateway";
+    const ENV = "env";
 
     private $buffered;
     private $imports = "";
@@ -58,8 +59,7 @@ class SsrView extends Loader {
      * @return string
      */
     public function render() {
-
-        $env = "";
+        $env = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::ENV);
         $placeholders = [
             '{{stylesheets}}' => $this->stylesheets,
             '{{imports}}' => $this->imports,
