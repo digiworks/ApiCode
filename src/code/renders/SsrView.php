@@ -60,18 +60,14 @@ class SsrView extends Loader {
     public function render() {
 
         $env = "";
-        $launchScript = $this->getLaunchScript();
-        $placeholders = [
-            '{{envConf}}' => $env
-        ];
-        $launchScript = strtr($launchScript, $placeholders);
         $placeholders = [
             '{{stylesheets}}' => $this->stylesheets,
             '{{imports}}' => $this->imports,
             '{{javascript}}' => $this->scriptClient,
             '{{serverside}}' => $this->scriptServer,
-            '{{launchScript}}' => $launchScript,
-            '{{typeScript}}' => $this->clientTypeScript
+            '{{launchScript}}' => $this->getLaunchScript(),
+            '{{typeScript}}' => $this->clientTypeScript,
+            '{{envConf}}' => $env
         ];
         return strtr($this->buffered, $placeholders);
     }
