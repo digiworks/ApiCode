@@ -18,6 +18,7 @@ class V8 implements RenderEngineInterface
         });
         
         $this->v8->SetHostValue('queryStringValues', $_GET);
+        $this->v8->SetHostValue('envConf', []);
     }
 
     public function run(string $script, $first = true): string

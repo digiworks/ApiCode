@@ -62,7 +62,7 @@ class SsrView extends Loader {
         $env = "";
         $launchScript = $this->getLaunchScript();
         $placeholders = [
-            '{{env}}' => $env
+            '{{envConf}}' => $env
         ];
         $launchScript = strtr($launchScript, $placeholders);
         $placeholders = [
