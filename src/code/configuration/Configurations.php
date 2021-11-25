@@ -9,8 +9,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
 
     const ENV = "env";
     const API_GATEWAY_CONFIGURATIONS = "env.apiGateway";
-    
-    
+
     private static $filepath = '';
 
     /**
@@ -65,6 +64,19 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
     public function init() {
         static::load();
         return $this;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function createJSEnvinroment(): array {
+        $env = $this->get(Configurations::ENV);
+        $envJs = [
+            'apiGateway' => $env['apiGateway']
+        ];
+
+        return $envJs;
     }
 
 }

@@ -57,10 +57,7 @@ class SsrView extends Loader {
      * @return string
      */
     public function render() {
-        $env = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::ENV);
-        $envJs = [
-            'apiGateway' => $env['apiGateway']
-        ];
+
         $placeholders = [
             '{{stylesheets}}' => $this->stylesheets,
             '{{imports}}' => $this->imports,
@@ -68,7 +65,7 @@ class SsrView extends Loader {
             '{{serverside}}' => $this->scriptServer,
             '{{launchScript}}' => $this->getLaunchScript(),
             '{{typeScript}}' => $this->clientTypeScript,
-            '{{envConf}}' => json_encode($envJs)
+            '{{envConf}}' => json_encode(ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->createJSEnvinroment())
         ];
         return strtr($this->buffered, $placeholders);
     }
