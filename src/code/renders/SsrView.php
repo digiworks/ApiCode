@@ -5,7 +5,6 @@ namespace code\renders;
 use code\applications\ApiAppFactory;
 use code\configuration\Configurations;
 use code\service\ServiceTypes;
-use code\utility\Arr;
 
 class SsrView extends Loader {
 
@@ -59,6 +58,9 @@ class SsrView extends Loader {
      */
     public function render() {
         $env = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::ENV);
+        $envJs = [
+            'apiGateway' => $env['apiGateway']
+        ];
         $placeholders = [
             '{{stylesheets}}' => $this->stylesheets,
             '{{imports}}' => $this->imports,
@@ -66,7 +68,7 @@ class SsrView extends Loader {
             '{{serverside}}' => $this->scriptServer,
             '{{launchScript}}' => $this->getLaunchScript(),
             '{{typeScript}}' => $this->clientTypeScript,
-            '{{envConf}}' => Arr::dump($env)
+            '{{envConf}}' => json_encode($envJs)
         ];
         return strtr($this->buffered, $placeholders);
     }
