@@ -15,7 +15,7 @@ class SsrView extends Loader {
     private $scriptClient;
     private $clientTypeScript = "text/javascript";
     private $scriptServer;
-    private $launchScript = "function init(){ ReactDOM.hydrate(<App />,document.getElementById(\"root\")); } init();";
+    private $launchScript = "function init(){ ReactDOM.hydrate(<App />,document.getElementById(\"root\")); } init({{{env}}});";
 
     public function __construct($ssrFile, $scriptC = null, $scriptS = null) {
         $this->addPart($ssrFile);
@@ -64,7 +64,8 @@ class SsrView extends Loader {
             '{{javascript}}' => $this->scriptClient,
             '{{serverside}}' => $this->scriptServer,
             '{{launchScript}}' => $this->getLaunchScript(),
-            '{{typeScript}}' => $this->clientTypeScript
+            '{{typeScript}}' => $this->clientTypeScript,
+            '{{env}}' => ""
         ];
         return strtr($this->buffered, $placeholders);
     }
