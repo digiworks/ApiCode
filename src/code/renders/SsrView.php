@@ -5,6 +5,7 @@ namespace code\renders;
 use code\applications\ApiAppFactory;
 use code\configuration\Configurations;
 use code\service\ServiceTypes;
+use code\utility\Arr;
 
 class SsrView extends Loader {
 
@@ -65,7 +66,7 @@ class SsrView extends Loader {
             '{{serverside}}' => $this->scriptServer,
             '{{launchScript}}' => $this->getLaunchScript(),
             '{{typeScript}}' => $this->clientTypeScript,
-            '{{envConf}}' => $env
+            '{{envConf}}' => Arr::dump($env)
         ];
         return strtr($this->buffered, $placeholders);
     }
