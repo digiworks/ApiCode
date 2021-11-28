@@ -1,6 +1,6 @@
 <?php
 
-namespace code\debigger;
+namespace code\debugger;
 
 use code\service\ServiceInterface;
 use ReflectionClass;
