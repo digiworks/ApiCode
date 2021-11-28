@@ -28,7 +28,7 @@ abstract class Loader
                throw ServerScriptDoesNotExist::atPath($part);
             }
             $script = Curl::get($part);
-            $view .= $script ."\n;";
+            $view .= $script ."\n";
         }
         return $view;
     }
