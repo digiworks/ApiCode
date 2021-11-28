@@ -1130,8 +1130,8 @@ class Debugger implements ServiceInterface, DebuggerInterface {
                     $result .= '<span style="' . $span_color . '">' . $type . '(' . $count . ')</span></br>';
                 }
             } else if (is_object($avar)) {
-                $rf = @new ReflectionFunction($avar);
-                if (( @$rf->getName() == '{closure}')) { // work with lambda functions first
+                 if ($avar instanceof \Closure) {
+                    $rf = @new ReflectionFunction($avar);
                     $result .= $indent . ( $varName ? $varName . ' => ' : '');
                     $result .= '<span>**RUNTIME CREATED FUNCTION** ';
                     if (@$rf->getFileName()) {
