@@ -156,9 +156,13 @@ class Debugger implements ServiceInterface, DebuggerInterface {
             }
             if (static::$_options['enable_inspector'] || static::$_options['code_coverage'] ||
                     static::$_options['trace_functions']) {
-                register_tick_function(array($called_class, 'tickHandler'));
+                $enable = register_tick_function(array($called_class, 'tickHandler'),[]);
                 //if ( static::$_options[ 'declare_ticks' ] ) { declare( ticks = 1 ); }
-                $buffer .= "<br>Variables inspector enabled!";
+                if($enable){
+                    $buffer .= "<br>Variables inspector enabled!";
+                }else{
+                    $buffer .= "<br>Variables inspector error!";
+                }
             }
             if (static::$_options['code_coverage'] === 'full') {
                 static::startCoverage();
