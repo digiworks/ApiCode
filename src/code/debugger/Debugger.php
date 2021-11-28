@@ -11,7 +11,7 @@ use ReflectionFunction;
 class Debugger implements ServiceInterface, DebuggerInterface {
 
     public function init() {
-        $this->load();
+        static::load();
     }
 
     /**
