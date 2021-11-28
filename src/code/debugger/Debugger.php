@@ -157,7 +157,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
             if (static::$_options['enable_inspector'] || static::$_options['code_coverage'] ||
                     static::$_options['trace_functions']) {
                 $enable = register_tick_function(array($called_class, 'tickHandler'),[]);
-                //if ( static::$_options[ 'declare_ticks' ] ) { declare( ticks = 1 ); }
+                if ( static::$_options[ 'declare_ticks' ] ) { declare( ticks = 1 ); }
                 if($enable){
                     $buffer .= "<br>Variables inspector enabled!";
                 }else{
@@ -584,6 +584,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
         'enable_inspector' => true, // enable variables inspector, use declare(ticks=n); in code block
         'code_coverage' => true, // enable code coverage analysis, use "full" to start globally
         'trace_functions' => true, // enable function calls tracing, use "full" to start globally
+        'declare_ticks' => true,
         'exclude_categories' => array('Event Manager', 'Autoloader') // exclude categories from the output
     );
 
