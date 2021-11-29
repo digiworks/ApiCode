@@ -42,12 +42,15 @@ abstract class Loader {
         return $script;
     }
 
+    
     /**
      * 
-     * @param string $output
+     * @param string $script
+     * @return string
      */
     protected function removeComments($script) {
-        return preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script); // remove comments
+        $script = preg_replace('#^\s*//.+$#m', "", $script); // remove comments //
+        return preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script); // remove comments /**/
     }
 
     public abstract function render();
