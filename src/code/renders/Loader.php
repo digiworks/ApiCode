@@ -36,7 +36,7 @@ abstract class Loader {
      */
     protected function compress($script) {
         $script = str_replace("'", "\x27", $script);
-        $this->removeComments($script);
+        $script = $this->removeComments($script);
         $script = trim(preg_replace('/[\t\n\r\s]+/', ' ', $script)); // tabs,newlines,etc.
         $script = trim(preg_replace('/>(\s)+</m', '><', $script)); // remove spaces
         return $script;
@@ -46,8 +46,8 @@ abstract class Loader {
      * 
      * @param string $output
      */
-    protected function removeComments(&$script) {
-        $script = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script); // remove comments
+    protected function removeComments($script) {
+        return preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script); // remove comments
     }
 
     public abstract function render();
