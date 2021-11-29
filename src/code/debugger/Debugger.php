@@ -2,7 +2,10 @@
 
 namespace code\debugger;
 
+use Closure;
+use code\applications\ApiAppFactory;
 use code\service\ServiceInterface;
+use code\service\ServiceTypes;
 use ReflectionClass;
 use ReflectionFunction;
 
@@ -13,7 +16,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
     const CONF_VARIABLE = "debugger";
 
     public function init() {
-        $configuration = \code\applications\ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::CONF_VARIABLE, []);
+        $configuration = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::CONF_VARIABLE, []);
         static::load($configuration);
     }
 
@@ -1140,7 +1143,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
                     $result .= '<span style="' . $span_color . '">' . $type . '(' . $count . ')</span></br>';
                 }
             } else if (is_object($avar)) {
-                if ($avar instanceof \Closure) {
+                if ($avar instanceof Closure) {
                     $rf = @new ReflectionFunction($avar);
                     $result .= $indent . ( $varName ? $varName . ' => ' : '');
                     $result .= '<span>**RUNTIME CREATED FUNCTION** ';
