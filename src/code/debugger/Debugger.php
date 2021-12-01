@@ -1355,7 +1355,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
         $interface .= static::_buildTimerPanel();    // timer
         $interface .= '<div id="DebuggerStatusBar" style="display:none;">&nbsp;</div>';
         $interface .= '</div>';
-        //$interface = static::_compressHtml( $interface );	// make html lighter
+        $interface = static::_compressHtml( $interface );	// make html lighter
         return $interface;
     }
 
