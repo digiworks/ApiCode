@@ -74,7 +74,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
         $env = $this->get(Configurations::ENV);
         $envJs = [
             'apiGateway' => $env['apiGateway'],
-            'debug' => $env['apiGateway']
+            'debug' => $env['debug']
         ];
 
         return $envJs;
