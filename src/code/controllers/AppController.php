@@ -4,7 +4,9 @@ namespace code\controllers;
 
 use code\applications\ApiAppFactory;
 use code\components\Component;
+use code\debugger\Debugger;
 use code\service\ServiceTypes;
+use Psr\Http\Message\ResponseInterface;
 
 abstract class AppController {
 
@@ -78,6 +80,31 @@ abstract class AppController {
             $path = $view;
         }
         return $path;
+    }
+
+    /**
+     * 
+     * @param string $status
+     * @param array $data
+     * @param string $message
+     * @return ResponseInterface
+     */
+    public function buildRestResponse($status = "succesful", $data = [], $message = null) {
+        $send_to_response = [
+            "status" => $status,
+            "data" => $data,
+            "message" => $message
+        ];
+        $config = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS);
+        $debug = $config->get("env.debug", false);
+        if ($debug) {
+            Debugger::processAjaxBuffer();
+            $send_to_response['debugger'] ['buffer'] = Debugger::getBuffer();
+            $send_to_response['debugger'] ['trace'] = Debugger::getTrace();
+            $send_to_response['debugger'] ['Coverage'] = Debugger::getCoverage();
+        }
+        $this->response->getBody()->write(json_encode($send_to_response));
+        return $this->response;
     }
 
 }

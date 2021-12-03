@@ -35,6 +35,10 @@ class Debugger implements ServiceInterface, DebuggerInterface {
         return static::$_finalCoverageData;
     }
 
+    public static function getTrace() {
+        return static::$_finalTraceData;
+    }
+
     /**
      * Adds style properties to the floating panel styles array
      * @param	string		$css		some css to add
@@ -455,6 +459,29 @@ class Debugger implements ServiceInterface, DebuggerInterface {
             $interface = static::_buildInterface(); // build the interface
             print $interface;
         }
+    }
+
+    public static function processAjaxBuffer() {
+        @unregister_tick_function('tickHandler');
+        static::$_countTime = false;
+        if (static::$_codeCoverage) {
+            $trace_o = static::$_options['code_coverage'];
+            static::$_options['code_coverage'] = true;
+            static::stopCoverage();
+            static::$_options['code_coverage'] = $trace_o;
+        }
+        if (static::$_functionTrace) {
+            $trace_o = static::$_options['trace_functions'];
+            static::$_options['trace_functions'] = true;
+            static::stopTrace();
+            static::$_options['trace_functions'] = $trace_o;
+        }
+        static::$_endTime = microtime(true);
+        if (static::$_consoleStarted) {
+            static::_debugConsole();
+        }
+
+        static::_lastError();     // get last php fatal error
     }
 
     /**
@@ -1355,7 +1382,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
         $interface .= static::_buildTimerPanel();    // timer
         $interface .= '<div id="DebuggerStatusBar" style="display:none;">&nbsp;</div>';
         $interface .= '</div>';
-        $interface = static::_compressHtml( $interface );	// make html lighter
+        $interface = static::_compressHtml($interface); // make html lighter
         return $interface;
     }
 
