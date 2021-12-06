@@ -162,7 +162,7 @@ class File implements StorageDriver {
      * @param string $directory
      * @return type
      */
-    public static function deleteDirectory(string $directory) {
+    public static function deleteDirectory(string $directory): void {
         return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
     }
 
