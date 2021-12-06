@@ -36,14 +36,8 @@ class FileSystem implements ServiceInterface {
      */
     protected $customCreators = [];
 
-    /**
-     * @var MimeTypeDetector
-     */
-    private $mimeTypeDetector;
-
-    public function __construct(MimeTypeDetector $mimeTypeDetector = null) {
+    public function __construct() {
         $this->app = ApiAppFactory::getApp();
-        $this->mimeTypeDetector = $mimeTypeDetector ?: new FinfoMimeTypeDetector();
     }
 
     public function init() {
@@ -68,7 +62,7 @@ class FileSystem implements ServiceInterface {
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return File
      */
     public function drive($name = null) {
         return $this->disk($name);
@@ -78,7 +72,7 @@ class FileSystem implements ServiceInterface {
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return File
      */
     public function disk($name = null) {
         $name = $name ?: $this->getDefaultDriver();

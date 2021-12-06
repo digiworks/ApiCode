@@ -5,7 +5,6 @@ namespace code\storage\filesystem;
 use ArrayAccess;
 use JsonSerializable;
 
-
 interface StorageAttributes extends JsonSerializable, ArrayAccess {
 
     public const ATTRIBUTE_PATH = 'path';
@@ -21,8 +20,6 @@ interface StorageAttributes extends JsonSerializable, ArrayAccess {
     public function path(): string;
 
     public function type(): string;
-
-    public function visibility(): ?string;
 
     public function lastModified(): ?int;
 

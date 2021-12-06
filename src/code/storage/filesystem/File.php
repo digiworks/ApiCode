@@ -2,17 +2,23 @@
 
 namespace code\storage\filesystem;
 
+use code\exceptions\SymbolicLinkEncountered;
 use code\exceptions\UnableToCreateDirectory;
 use code\exceptions\UnableToRetrieveMetadata;
+use code\storage\filesystem\mimetypes\FinfoMimeTypeDetector;
+use code\storage\filesystem\mimetypes\MimeTypeDetector;
 use DirectoryIterator;
 use FilesystemIterator;
 use Generator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Slim\Psr7\Stream;
+use SplFileInfo;
 
-class File {
+class File implements StorageDriver {
 
+    const SKIP_LINKS = 0001;
+    const DISALLOW_LINKS = 0002;
     const MODE_APPEND = "a";
     const MODE_WRITE = "wb";
     const MODE_READ = "rb";
@@ -20,6 +26,18 @@ class File {
     private $path;
     private $fileHandle;
     private $mode = 'rb';
+
+    /**
+     * @var MimeTypeDetector
+     */
+    private $mimeTypeDetector;
+    
+    
+    /**
+     * @var int
+     */
+    private $linkHandling;
+    
 
     public function getPath() {
         return $this->path;
@@ -45,8 +63,10 @@ class File {
         $this->mode = $mode;
     }
 
-    public function __construct($path) {
+    public function __construct($path, MimeTypeDetector $mimeTypeDetector = null, int $linkHandling = self::DISALLOW_LINKS) {
         $this->path = $path;
+        $this->mimeTypeDetector = $mimeTypeDetector ?: new FinfoMimeTypeDetector();
+        $this->linkHandling = $linkHandling;
     }
 
     public function open($mode = null) {
@@ -65,12 +85,16 @@ class File {
         return basename($this->path);
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function mime_content_type() {
-        return mime_content_type($this->path);
+        return $this->mimeType();
     }
 
     public function filesize() {
-        return filesize($this->path);
+        return $this->fileSize();
     }
 
     public function delete() {
@@ -109,6 +133,10 @@ class File {
         return fseek($this->fileHandle, $offset, $whence);
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function filemtime() {
         return filemtime($this->path);
     }
@@ -128,7 +156,7 @@ class File {
      * @param bool $recursive
      * @return type
      */
-    public function createDirectory(string $directory,
+    public static function createDirectory(string $directory,
             int $permissions = 0777,
             bool $recursive = false) {
 
@@ -140,7 +168,7 @@ class File {
      * @param string $directory
      * @return type
      */
-    public function deleteDirectory(string $directory) {
+    public static function deleteDirectory(string $directory) {
         return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
     }
 
@@ -150,7 +178,7 @@ class File {
      * @param int $mode
      * @return Generator
      */
-    private function listDirectoryRecursively(
+    private static function listDirectoryRecursively(
             string $path,
             int $mode = RecursiveIteratorIterator::SELF_FIRST
     ): Generator {
@@ -165,7 +193,7 @@ class File {
      * @param string $location
      * @return Generator
      */
-    private function listDirectory(string $location): Generator {
+    private static function listDirectory(string $location): Generator {
         $iterator = new DirectoryIterator($location);
 
         foreach ($iterator as $item) {
@@ -251,52 +279,74 @@ class File {
 
     /**
      * 
-     * @param string $path
      * @return FileAttributes
      * @throws type
      */
-    public function mimeType(string $path): FileAttributes {
+    public function mimeType(): FileAttributes {
         error_clear_last();
-        $mimeType = $this->mimeTypeDetector->detectMimeTypeFromFile($path);
+        $mimeType = $this->mimeTypeDetector->detectMimeTypeFromFile($this->path);
 
         if ($mimeType === null) {
-            throw UnableToRetrieveMetadata::mimeType($path, error_get_last()['message'] ?? '');
+            throw UnableToRetrieveMetadata::mimeType($this->path, error_get_last()['message'] ?? '');
         }
 
-        return new FileAttributes($path, null, null, null, $mimeType);
+        return new FileAttributes($this->path, null, null, null, $mimeType);
     }
 
     /**
      * 
-     * @param string $path
      * @return FileAttributes
      * @throws type
      */
-    public function lastModified(string $path): FileAttributes {
+    public function lastModified(): FileAttributes {
         error_clear_last();
-        $lastModified = @filemtime($path);
+        $lastModified = @filemtime($this->path);
 
         if ($lastModified === false) {
-            throw UnableToRetrieveMetadata::lastModified($path, error_get_last()['message'] ?? '');
+            throw UnableToRetrieveMetadata::lastModified($this->path, error_get_last()['message'] ?? '');
         }
 
-        return new FileAttributes($path, null, null, $lastModified);
+        return new FileAttributes($this->path, null, null, $lastModified);
     }
 
     /**
      * 
-     * @param string $path
      * @return FileAttributes
      * @throws type
      */
-    public function fileSize(string $path): FileAttributes {
+    public function fileSize(): FileAttributes {
         error_clear_last();
 
-        if (is_file($location) && ($fileSize = @filesize($path)) !== false) {
-            return new FileAttributes($path, $fileSize);
+        if (is_file($location) && ($fileSize = @filesize($this->path)) !== false) {
+            return new FileAttributes($this->path, $fileSize);
         }
 
-        throw UnableToRetrieveMetadata::fileSize($path, error_get_last()['message'] ?? '');
+        throw UnableToRetrieveMetadata::fileSize($this->path, error_get_last()['message'] ?? '');
+    }
+
+    public static function listContents(string $path, bool $deep): iterable {
+        /** @var SplFileInfo[] $iterator */
+        $iterator = $deep ? $this->listDirectoryRecursively($path) : $this->listDirectory($path);
+
+        foreach ($iterator as $fileInfo) {
+            if ($fileInfo->isLink()) {
+                if ($this->linkHandling & self::SKIP_LINKS) {
+                    continue;
+                }
+                throw SymbolicLinkEncountered::atLocation($fileInfo->getPathname());
+            }
+
+            $path = $fileInfo->getPathname();
+            $lastModified = $fileInfo->getMTime();
+            $isDirectory = $fileInfo->isDir();
+            $permissions = octdec(substr(sprintf('%o', $fileInfo->getPerms()), -4));
+
+            yield $isDirectory ? new DirectoryAttributes($path, $lastModified) : new FileAttributes(
+                                    str_replace('\\', '/', $path),
+                                    $fileInfo->getSize(),
+                                    $lastModified
+            );
+        }
     }
 
 }
