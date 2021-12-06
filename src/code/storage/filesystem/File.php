@@ -135,11 +135,11 @@ class File implements StorageDriver {
         return filemtime($this->path);
     }
 
-    public function move(string $destination) {
+    public function move(string $destination): bool {
         
     }
 
-    public function copy($destination) {
+    public function copy($destination): bool {
         
     }
 

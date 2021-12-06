@@ -83,11 +83,11 @@ interface StorageDriver {
      * @throws UnableToMoveFile
      * @throws FilesystemException
      */
-    public function move(string $destination): void;
+    public function move(string $destination): bool;
 
     /**
      * @throws UnableToCopyFile
      * @throws FilesystemException
      */
-    public function copy(string $destination): void;
+    public function copy(string $destination): bool;
 }
