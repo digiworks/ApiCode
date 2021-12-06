@@ -4,10 +4,9 @@ namespace code\storage\filesystem;
 
 use Closure;
 use code\applications\ApiAppFactory;
+use code\applications\ApiApplication;
 use code\service\ServiceInterface;
 use code\service\ServiceTypes;
-use code\storage\filesystem\mimetypes\FinfoMimeTypeDetector;
-use code\storage\filesystem\mimetypes\MimeTypeDetector;
 
 class FileSystem implements ServiceInterface {
 
@@ -18,7 +17,7 @@ class FileSystem implements ServiceInterface {
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var ApiApplication
      */
     protected $app;
 
@@ -46,14 +45,29 @@ class FileSystem implements ServiceInterface {
         $this->basePathCss = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseCssFolderPath', "");
     }
 
+    /**
+     * 
+     * @param type $url
+     * @return File
+     */
     public function getFile($url) {
         return new File($this->basePath . DIRECTORY_SEPARATOR . $url);
     }
 
+    /**
+     * 
+     * @param type $url
+     * @return File
+     */
     public function getJs($url) {
         return new File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
     }
 
+    /**
+     * 
+     * @param type $url
+     * @return File
+     */
     public function getCss($url) {
         return new File($this->basePathCss . DIRECTORY_SEPARATOR . $url);
     }
@@ -62,7 +76,7 @@ class FileSystem implements ServiceInterface {
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return File
+     * @return StorageDriver
      */
     public function drive($name = null) {
         return $this->disk($name);
@@ -72,7 +86,7 @@ class FileSystem implements ServiceInterface {
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return File
+     * @return StorageDriver
      */
     public function disk($name = null) {
         $name = $name ?: $this->getDefaultDriver();
