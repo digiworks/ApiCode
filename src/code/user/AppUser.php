@@ -15,4 +15,8 @@ abstract class AppUser implements AppUserInterface {
         return password_verify($value, $this->getPassword());
     }
 
+    public function isAllowedTo() {
+        return true;
+    }
+
 }

@@ -106,4 +106,70 @@ class File {
         return filemtime($this->path);
     }
 
+    public function move(string $destination) {
+        
+    }
+
+    public function copy($destination) {
+        
+    }
+
+    /**
+     * 
+     * @param string $directory
+     * @param int $permissions
+     * @param bool $recursive
+     * @return type
+     */
+    public function createDirectory(string $directory,
+            int $permissions = 0777,
+            bool $recursive = false) {
+
+        return mkdir($this->basePath . DIRECTORY_SEPARATOR . $directory, $permissions, $recursive);
+    }
+
+    public function deleteDirectory(string $directory) {
+        return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
+    }
+
+    protected function ensureDirectoryExists(string $dirname, int $visibility): void {
+        if (is_dir($dirname)) {
+            return;
+        }
+
+        error_clear_last();
+
+        if (!@mkdir($dirname, $visibility, true)) {
+            $mkdirError = error_get_last();
+        }
+
+        clearstatcache(true, $dirname);
+
+        if (!is_dir($dirname)) {
+            $errorMessage = isset($mkdirError['message']) ? $mkdirError['message'] : '';
+
+            throw UnableToCreateDirectory::atLocation($dirname, $errorMessage);
+        }
+    }
+
+    public function diskfreespace($directory) {
+        return disk_free_space($directory);
+    }
+
+    public function disktotalspace($directory) {
+        return disk_total_space($directory);
+    }
+
+    public static function fileExists($url) {
+        return is_file($url);
+    }
+
+    public function dirname($url) {
+        return dirname($url);
+    }
+
+    public function realpath($url) {
+        return realpath($url);
+    }
+
 }
