@@ -32,7 +32,7 @@ interface StorageDriver {
      * @throws UnableToReadFile
      * @throws FilesystemException
      */
-    public function read(): string;
+    public function read();
 
     /**
      * @throws UnableToDeleteFile
