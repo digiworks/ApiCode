@@ -95,12 +95,34 @@ class FileSystem implements ServiceInterface {
     }
 
     /**
+     * 
+     * @param type $name
+     * @return type
+     */
+    protected function get($name) {
+        return $this->disks[$name] ?? $this->resolve($name);
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return type
+     */
+    protected function resolve($name) {
+        if (isset($this->customCreators[$name])) {
+            return $this->callCustomCreator();
+        }
+        $driverMethod = $this->app->newInstance($name);
+        return $this->{$driverMethod}();
+    }
+
+    /**
      * Get the default driver name.
      *
      * @return string
      */
     public function getDefaultDriver() {
-        return $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.filesystems.default', "");
+        return $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.filesystems.default', File::class);
     }
 
     /**
