@@ -2,6 +2,13 @@
 
 namespace code\storage\filesystem;
 
+use code\exceptions\UnableToCreateDirectory;
+use code\exceptions\UnableToRetrieveMetadata;
+use DirectoryIterator;
+use FilesystemIterator;
+use Generator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Slim\Psr7\Stream;
 
 class File {
@@ -128,10 +135,55 @@ class File {
         return mkdir($this->basePath . DIRECTORY_SEPARATOR . $directory, $permissions, $recursive);
     }
 
+    /**
+     * 
+     * @param string $directory
+     * @return type
+     */
     public function deleteDirectory(string $directory) {
         return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
     }
 
+    /**
+     * 
+     * @param string $path
+     * @param int $mode
+     * @return Generator
+     */
+    private function listDirectoryRecursively(
+            string $path,
+            int $mode = RecursiveIteratorIterator::SELF_FIRST
+    ): Generator {
+        yield from new RecursiveIteratorIterator(
+                        new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
+                        $mode
+        );
+    }
+
+    /**
+     * 
+     * @param string $location
+     * @return Generator
+     */
+    private function listDirectory(string $location): Generator {
+        $iterator = new DirectoryIterator($location);
+
+        foreach ($iterator as $item) {
+            if ($item->isDot()) {
+                continue;
+            }
+
+            yield $item;
+        }
+    }
+
+    /**
+     * 
+     * @param string $dirname
+     * @param int $visibility
+     * @return void
+     * @throws type
+     */
     protected function ensureDirectoryExists(string $dirname, int $visibility): void {
         if (is_dir($dirname)) {
             return;
@@ -152,24 +204,99 @@ class File {
         }
     }
 
+    /**
+     * 
+     * @param string $directory
+     * @return type
+     */
     public function diskfreespace($directory) {
         return disk_free_space($directory);
     }
 
+    /**
+     * 
+     * @param string $directory
+     * @return type
+     */
     public function disktotalspace($directory) {
         return disk_total_space($directory);
     }
 
+    /**
+     * 
+     * @param string $url
+     * @return type
+     */
     public static function fileExists($url) {
         return is_file($url);
     }
 
+    /**
+     * 
+     * @param string $url
+     * @return type
+     */
     public function dirname($url) {
         return dirname($url);
     }
 
+    /**
+     * 
+     * @param string $url
+     * @return type
+     */
     public function realpath($url) {
         return realpath($url);
+    }
+
+    /**
+     * 
+     * @param string $path
+     * @return FileAttributes
+     * @throws type
+     */
+    public function mimeType(string $path): FileAttributes {
+        error_clear_last();
+        $mimeType = $this->mimeTypeDetector->detectMimeTypeFromFile($path);
+
+        if ($mimeType === null) {
+            throw UnableToRetrieveMetadata::mimeType($path, error_get_last()['message'] ?? '');
+        }
+
+        return new FileAttributes($path, null, null, null, $mimeType);
+    }
+
+    /**
+     * 
+     * @param string $path
+     * @return FileAttributes
+     * @throws type
+     */
+    public function lastModified(string $path): FileAttributes {
+        error_clear_last();
+        $lastModified = @filemtime($path);
+
+        if ($lastModified === false) {
+            throw UnableToRetrieveMetadata::lastModified($path, error_get_last()['message'] ?? '');
+        }
+
+        return new FileAttributes($path, null, null, $lastModified);
+    }
+
+    /**
+     * 
+     * @param string $path
+     * @return FileAttributes
+     * @throws type
+     */
+    public function fileSize(string $path): FileAttributes {
+        error_clear_last();
+
+        if (is_file($location) && ($fileSize = @filesize($path)) !== false) {
+            return new FileAttributes($path, $fileSize);
+        }
+
+        throw UnableToRetrieveMetadata::fileSize($path, error_get_last()['message'] ?? '');
     }
 
 }
