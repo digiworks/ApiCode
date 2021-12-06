@@ -91,7 +91,7 @@ class File implements StorageDriver {
         return $this->mimeType();
     }
 
-    public function delete() {
+    public function delete(): void {
         if (!is_null($this->fileHandle)) {
             $this->close();
         }
