@@ -20,7 +20,7 @@ interface StorageDriver {
     /**
      * @throws FilesystemException
      */
-    public function fileExists(string $path): bool;
+    public static function fileExists(string $path): bool;
 
     /**
      * @throws UnableToWriteFile
