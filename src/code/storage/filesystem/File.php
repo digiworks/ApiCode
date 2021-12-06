@@ -31,13 +31,11 @@ class File implements StorageDriver {
      * @var MimeTypeDetector
      */
     private $mimeTypeDetector;
-    
-    
+
     /**
      * @var int
      */
     private $linkHandling;
-    
 
     public function getPath() {
         return $this->path;
@@ -251,8 +249,8 @@ class File implements StorageDriver {
      * @param string $url
      * @return type
      */
-    public static function fileExists($url) {
-        return is_file($url);
+    public static function fileExists(string $path): bool {
+        return is_file($path);
     }
 
     /**
