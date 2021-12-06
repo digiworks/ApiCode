@@ -114,7 +114,7 @@ class File implements StorageDriver {
      * @param string $output
      * @return int|false
      */
-    public function write(string $output) {
+    public function write(string $output): int {
         return fwrite($this->fileHandle, $output, strlen($output));
     }
 

@@ -26,7 +26,7 @@ interface StorageDriver {
      * @throws UnableToWriteFile
      * @throws FilesystemException
      */
-    public function write(string $contents, Config $config): void;
+    public function write(string $output): int;
 
     /**
      * @throws UnableToReadFile
