@@ -93,10 +93,6 @@ class File implements StorageDriver {
         return $this->mimeType();
     }
 
-    public function filesize() {
-        return $this->fileSize();
-    }
-
     public function delete() {
         if (!is_null($this->fileHandle)) {
             $this->close();
