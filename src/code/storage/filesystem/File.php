@@ -152,7 +152,7 @@ class File implements StorageDriver {
      */
     public static function createDirectory(string $directory,
             int $permissions = 0777,
-            bool $recursive = false) {
+            bool $recursive = false): bool {
 
         return mkdir($this->basePath . DIRECTORY_SEPARATOR . $directory, $permissions, $recursive);
     }
@@ -162,7 +162,7 @@ class File implements StorageDriver {
      * @param string $directory
      * @return type
      */
-    public static function deleteDirectory(string $directory): void {
+    public static function deleteDirectory(string $directory): bool {
         return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
     }
 

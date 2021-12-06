@@ -44,7 +44,7 @@ interface StorageDriver {
      * @throws UnableToDeleteDirectory
      * @throws FilesystemException
      */
-    public static function deleteDirectory(string $path): void;
+    public static function deleteDirectory(string $path): bool;
 
     /**
      * @throws UnableToCreateDirectory
@@ -52,7 +52,7 @@ interface StorageDriver {
      */
     public static function createDirectory(string $directory,
             int $permissions = 0777,
-            bool $recursive = false): void;
+            bool $recursive = false): bool;
 
     /**
      * @throws UnableToRetrieveMetadata
