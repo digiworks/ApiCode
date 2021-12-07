@@ -71,7 +71,7 @@ class File extends StorageItem {
      * @return string
      */
     public function mime_content_type() {
-        return $this->mimeType();
+        return $this->mimeType()->mimeType();
     }
 
     public function delete(): void {
