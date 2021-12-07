@@ -7,7 +7,7 @@ use code\applications\ApiAppFactory;
 use code\applications\ApiApplication;
 use code\service\ServiceInterface;
 use code\service\ServiceTypes;
-use code\storage\filesystem\drivers\LocalFS;
+use code\storage\filesystem\drivers\FileSystemDrivers;
 
 class FileSystem implements ServiceInterface {
 
@@ -123,7 +123,7 @@ class FileSystem implements ServiceInterface {
      * @return string
      */
     public function getDefaultDriver() {
-        return $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.filesystems.default', LocalFS::class);
+        return $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.filesystems.default', FileSystemDrivers::LocalFS);
     }
 
     /**
