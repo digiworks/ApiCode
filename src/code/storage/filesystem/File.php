@@ -22,8 +22,6 @@ class File implements StorageItem {
      */
     private $mimeTypeDetector;
 
-    
-
     public function getPath() {
         return $this->path;
     }
@@ -167,6 +165,7 @@ class File implements StorageItem {
      * @throws type
      */
     public function fileSize(): FileAttributes {
+        $fileSize = 0;
         error_clear_last();
 
         if (is_file($this->path) && ($fileSize = @filesize($this->path)) !== false) {
