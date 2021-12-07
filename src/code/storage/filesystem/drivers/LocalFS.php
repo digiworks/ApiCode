@@ -15,17 +15,16 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 
-class LocalFS implements StorageDriver{
+class LocalFS implements StorageDriver {
 
     const SKIP_LINKS = 0001;
     const DISALLOW_LINKS = 0002;
-    
+
     /**
      * @var int
      */
     private $linkHandling;
-    
-    
+
     public function __construct(int $linkHandling = self::DISALLOW_LINKS) {
         $this->linkHandling = $linkHandling;
     }
@@ -143,7 +142,7 @@ class LocalFS implements StorageDriver{
      * @param string $directory
      * @return type
      */
-    public function diskfreespace($directory) {
+    public static function diskfreespace($directory) {
         return disk_free_space($directory);
     }
 
@@ -152,7 +151,7 @@ class LocalFS implements StorageDriver{
      * @param string $directory
      * @return type
      */
-    public function disktotalspace($directory) {
+    public static function disktotalspace($directory) {
         return disk_total_space($directory);
     }
 
@@ -170,7 +169,7 @@ class LocalFS implements StorageDriver{
      * @param string $url
      * @return type
      */
-    public function dirname($url) {
+    public static function dirname($url) {
         return dirname($url);
     }
 
@@ -179,7 +178,7 @@ class LocalFS implements StorageDriver{
      * @param string $url
      * @return type
      */
-    public function realpath($url) {
+    public static function realpath($url) {
         return realpath($url);
     }
 
