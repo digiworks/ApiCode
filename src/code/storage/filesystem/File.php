@@ -22,10 +22,7 @@ class File implements StorageItem {
      */
     private $mimeTypeDetector;
 
-    /**
-     * @var int
-     */
-    private $linkHandling;
+    
 
     public function getPath() {
         return $this->path;
@@ -51,10 +48,9 @@ class File implements StorageItem {
         $this->mode = $mode;
     }
 
-    public function __construct($path, MimeTypeDetector $mimeTypeDetector = null, int $linkHandling = self::DISALLOW_LINKS) {
+    public function __construct($path, MimeTypeDetector $mimeTypeDetector = null) {
         $this->path = $path;
         $this->mimeTypeDetector = $mimeTypeDetector ?: new FinfoMimeTypeDetector();
-        $this->linkHandling = $linkHandling;
     }
 
     public function open($mode = null) {

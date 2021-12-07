@@ -19,6 +19,16 @@ class LocalFS implements StorageDriver{
 
     const SKIP_LINKS = 0001;
     const DISALLOW_LINKS = 0002;
+    
+    /**
+     * @var int
+     */
+    private $linkHandling;
+    
+    
+    public function __construct(int $linkHandling = self::DISALLOW_LINKS) {
+        $this->linkHandling = $linkHandling;
+    }
 
     /**
      * 
