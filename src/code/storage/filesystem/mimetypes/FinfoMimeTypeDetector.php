@@ -2,6 +2,8 @@
 
 namespace code\storage\filesystem\mimetypes;
 
+use finfo;
+
 class FinfoMimeTypeDetector implements MimeTypeDetector {
 
     private const INCONCLUSIVE_MIME_TYPES = ['application/x-empty', 'text/plain', 'text/x-asm'];
