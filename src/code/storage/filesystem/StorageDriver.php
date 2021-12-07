@@ -11,35 +11,13 @@ use code\exceptions\UnableToRetrieveMetadata;
 
 interface StorageDriver {
 
-    public function open($mode = null);
-
-    public function close();
-
-    public function stream();
-
+    
     /**
      * @throws FilesystemException
      */
     public static function fileExists(string $path): bool;
 
-    /**
-     * @throws UnableToWriteFile
-     * @throws FilesystemException
-     */
-    public function write(string $output): int;
-
-    /**
-     * @throws UnableToReadFile
-     * @throws FilesystemException
-     */
-    public function read();
-
-    /**
-     * @throws UnableToDeleteFile
-     * @throws FilesystemException
-     */
-    public function delete(): void;
-
+    
     /**
      * @throws UnableToDeleteDirectory
      * @throws FilesystemException
@@ -54,23 +32,7 @@ interface StorageDriver {
             int $permissions = 0777,
             bool $recursive = false): bool;
 
-    /**
-     * @throws UnableToRetrieveMetadata
-     * @throws FilesystemException
-     */
-    public function mimeType(): FileAttributes;
-
-    /**
-     * @throws UnableToRetrieveMetadata
-     * @throws FilesystemException
-     */
-    public function lastModified(): FileAttributes;
-
-    /**
-     * @throws UnableToRetrieveMetadata
-     * @throws FilesystemException
-     */
-    public function fileSize(): FileAttributes;
+    
 
     /**
      * @return iterable<StorageAttributes>
@@ -79,15 +41,5 @@ interface StorageDriver {
      */
     public static function listContents(string $path, bool $deep): iterable;
 
-    /**
-     * @throws UnableToMoveFile
-     * @throws FilesystemException
-     */
-    public function move(string $destination): bool;
-
-    /**
-     * @throws UnableToCopyFile
-     * @throws FilesystemException
-     */
-    public function copy(string $destination): bool;
+    
 }

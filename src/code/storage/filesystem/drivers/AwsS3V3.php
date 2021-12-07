@@ -1,6 +1,6 @@
 <?php
 
-namespace code\storage\filesystem\awss3v3;
+namespace code\storage\filesystem\drivers;
 
 class AwsS3V3 {
     //put your code here
