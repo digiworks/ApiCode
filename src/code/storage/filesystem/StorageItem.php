@@ -44,7 +44,7 @@ interface StorageItem {
      * @throws UnableToRetrieveMetadata
      * @throws FilesystemException
      */
-    public function fileSize(): FileAttributes;
+    public function filesize(): FileAttributes;
 
     /**
      * @throws UnableToMoveFile

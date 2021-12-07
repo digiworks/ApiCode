@@ -164,7 +164,7 @@ class File implements StorageItem {
      * @return FileAttributes
      * @throws type
      */
-    public function fileSize(): FileAttributes {
+    public function filesize(): FileAttributes {
         $fileSize = 0;
         error_clear_last();
 
