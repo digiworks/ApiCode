@@ -139,7 +139,7 @@ class File extends StorageItem {
             throw UnableToRetrieveMetadata::mimeType($this->path, error_get_last()['message'] ?? '');
         }
 
-        return new FileAttributes($this->path, null, null, null, $mimeType);
+        return new FileAttributes($this->path, null, null, $mimeType);
     }
 
     /**
