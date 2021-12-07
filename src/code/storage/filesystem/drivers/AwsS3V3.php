@@ -64,7 +64,7 @@ class AwsS3V3 implements StorageDriverInterface {
     }
 
     public function createStorageItem($path) {
-        
+        new \code\storage\filesystem\AwsS3File($path, $this->client);
     }
 
     public static function createDirectory(string $directory, int $permissions = 0777, bool $recursive = false): bool {
