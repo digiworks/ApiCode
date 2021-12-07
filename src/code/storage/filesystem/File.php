@@ -7,13 +7,12 @@ use code\storage\filesystem\mimetypes\FinfoMimeTypeDetector;
 use code\storage\filesystem\mimetypes\MimeTypeDetector;
 use Slim\Psr7\Stream;
 
-class File implements StorageItemInterface {
+class File extends StorageItem {
 
     const MODE_APPEND = "a";
     const MODE_WRITE = "wb";
     const MODE_READ = "rb";
 
-    private $path;
     private $fileHandle;
     private $mode = 'rb';
 

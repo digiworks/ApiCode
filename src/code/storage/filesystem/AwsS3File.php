@@ -2,10 +2,19 @@
 
 namespace code\storage\filesystem;
 
-class AwsS3File implements StorageItemInterface {
+use code\storage\filesystem\mimetypes\FinfoMimeTypeDetector;
+use code\storage\filesystem\mimetypes\MimeTypeDetector;
 
-    public function __construct($path, MimeTypeDetector $mimeTypeDetector = null, array $options = []) {
+class AwsS3File extends StorageItem {
+
+    /**
+     * @var S3ClientInterface
+     */
+    private $client;
+
+    public function __construct($path, $client, MimeTypeDetector $mimeTypeDetector = null, array $options = []) {
         $this->path = $path;
+        $this->client = $client;
         $this->mimeTypeDetector = $mimeTypeDetector ?: new FinfoMimeTypeDetector();
     }
 
