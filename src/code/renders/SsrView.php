@@ -128,7 +128,7 @@ class SsrView extends Loader {
 
         $stylesheet_scripts = "";
         foreach ($stylesheets as $stylesheet) {
-            if (Str::startsWith($import['lib'], "http", false)) {
+            if (Str::startsWith($stylesheet, "http", false)) {
                 $script = '<link rel="stylesheet" href="' . $stylesheet . '"/>';
             } else {
                 $script = '<link rel="stylesheet" href="/api/file/css/' . $stylesheet . '"/>';
