@@ -169,7 +169,7 @@ class File implements StorageItem {
     public function fileSize(): FileAttributes {
         error_clear_last();
 
-        if (is_file($location) && ($fileSize = @filesize($this->path)) !== false) {
+        if (is_file($this->path) && ($fileSize = @filesize($this->path)) !== false) {
             return new FileAttributes($this->path, $fileSize);
         }
 
