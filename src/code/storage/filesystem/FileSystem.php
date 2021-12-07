@@ -77,7 +77,7 @@ class FileSystem implements ServiceInterface {
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return StorageDriver
+     * @return StorageDriverInterface
      */
     public function drive($name = null) {
         return $this->disk($name);
@@ -87,7 +87,7 @@ class FileSystem implements ServiceInterface {
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return StorageDriver
+     * @return StorageDriverInterface
      */
     public function disk($name = null) {
         $name = $name ?: $this->getDefaultDriver();

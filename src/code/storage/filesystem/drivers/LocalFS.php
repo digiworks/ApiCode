@@ -7,7 +7,7 @@ use code\exceptions\UnableToCreateDirectory;
 use code\storage\filesystem\DirectoryAttributes;
 use code\storage\filesystem\File;
 use code\storage\filesystem\FileAttributes;
-use code\storage\filesystem\StorageDriver;
+use code\storage\filesystem\StorageDriverInterface;
 use DirectoryIterator;
 use FilesystemIterator;
 use Generator;
@@ -15,7 +15,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 
-class LocalFS implements StorageDriver {
+class LocalFS implements StorageDriverInterface {
 
     const SKIP_LINKS = 0001;
     const DISALLOW_LINKS = 0002;

@@ -2,7 +2,7 @@
 
 namespace code\storage\filesystem;
 
-interface StorageItem {
+interface StorageItemInterface {
 
     public function open($mode = null);
 

@@ -9,7 +9,7 @@ use code\exceptions\UnableToDeleteFile;
 use code\exceptions\UnableToMoveFile;
 use code\exceptions\UnableToRetrieveMetadata;
 
-interface StorageDriver {
+interface StorageDriverInterface {
 
     /**
      * @throws FilesystemException

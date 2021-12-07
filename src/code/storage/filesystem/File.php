@@ -7,7 +7,7 @@ use code\storage\filesystem\mimetypes\FinfoMimeTypeDetector;
 use code\storage\filesystem\mimetypes\MimeTypeDetector;
 use Slim\Psr7\Stream;
 
-class File implements StorageItem {
+class File implements StorageItemInterface {
 
     const MODE_APPEND = "a";
     const MODE_WRITE = "wb";
@@ -46,7 +46,7 @@ class File implements StorageItem {
         $this->mode = $mode;
     }
 
-    public function __construct($path, MimeTypeDetector $mimeTypeDetector = null) {
+    public function __construct($path, MimeTypeDetector $mimeTypeDetector = null, array $options = []) {
         $this->path = $path;
         $this->mimeTypeDetector = $mimeTypeDetector ?: new FinfoMimeTypeDetector();
     }
