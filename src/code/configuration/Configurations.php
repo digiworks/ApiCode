@@ -9,6 +9,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
 
     const ENV = "env";
     const API_GATEWAY_CONFIGURATIONS = "env.apiGateway";
+    const VERSION = "env.version";
 
     private static $filepath = '';
 

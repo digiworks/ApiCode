@@ -98,7 +98,9 @@ class SsrView extends Loader {
      */
     private function buildClientImports(array $imports) {
 
-        $apiGtw = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::API_GATEWAY_CONFIGURATIONS);
+        $env = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::ENV);
+        $apiGtw = $env['apiGateway'];
+        $version = $env['version'];
         $import_scripts = "";
         foreach ($imports as $import) {
             $type = "";
@@ -109,7 +111,7 @@ class SsrView extends Loader {
                 if (Str::startsWith($import['lib'], "http", false)) {
                     $script = '<script ' . $type . ' src="' . $import['lib'] . '"></script>';
                 } else {
-                    $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '"></script>';
+                    $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '?version='. $version . '"></script>';
                     //$script = '<script ' . $type . ' src="'. $apiGtw . '/' . $import['lib'] . '"></script>';
                 }
                 $import_scripts .= $script . PHP_EOL;
@@ -125,13 +127,13 @@ class SsrView extends Loader {
      * @return string
      */
     private function buildClientStyleSheets(array $stylesheets) {
-
+        $version = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::VERSION);
         $stylesheet_scripts = "";
         foreach ($stylesheets as $stylesheet) {
             if (Str::startsWith($stylesheet, "http", false)) {
                 $script = '<link rel="stylesheet" href="' . $stylesheet . '"/>';
             } else {
-                $script = '<link rel="stylesheet" href="/api/file/css/' . $stylesheet . '"/>';
+                $script = '<link rel="stylesheet" href="/api/file/css/' . $stylesheet . '?version='. $version . '"/>';
             }
             $stylesheet_scripts .= $script . PHP_EOL;
         }
