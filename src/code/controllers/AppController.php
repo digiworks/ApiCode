@@ -89,6 +89,11 @@ abstract class AppController {
         $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
     }
 
+    /**
+     * 
+     * @param string $view
+     * @return string
+     */
     protected function getFullViewPath($view) {
         $path = "";
         if (!is_null($this->component)) {
