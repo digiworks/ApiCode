@@ -74,6 +74,10 @@ abstract class Component {
         return new File($this->getBasePath() . DIRECTORY_SEPARATOR . $url);
     }
 
+    /**
+     * 
+     * @return system
+     */
     public function getBasePath() {
         return __DIR__;
     }
