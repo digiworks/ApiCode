@@ -142,7 +142,6 @@ class JsRender {
      */
     public function debug(bool $debug = true) {
         $this->debug = $debug;
-
         return $this;
     }
 
