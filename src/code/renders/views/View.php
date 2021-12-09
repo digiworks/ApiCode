@@ -2,6 +2,9 @@
 
 namespace code\renders\views;
 
+use code\renders\RenderTranslated;
+use code\renders\RenderTypes;
+
 class View extends RenderTranslated {
 
     private $buffered;
