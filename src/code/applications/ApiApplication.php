@@ -33,6 +33,15 @@ class ApiApplication extends App implements CoreApplicationInterface {
     public function getComponents() {
         return $this->components;
     }
+    
+    public function getComponent($id){
+        $ret = null;
+        if(array_key_exists($id, $this->components)){
+            return $this->components[$id];
+        }
+        
+        return $ret;
+    }
 
     /**
      * Get the logger.
