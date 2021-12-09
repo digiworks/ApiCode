@@ -2,10 +2,10 @@
 
 namespace code\renders\theme;
 
-use code\exceptions\ServerScriptDoesNotExist;
 use code\renders\RenderTranslated;
 use code\renders\RenderTypes;
-use code\renders\View;
+use code\renders\views\View;
+
 
 class JsTheme extends RenderTranslated implements JsThemeInterface {
 

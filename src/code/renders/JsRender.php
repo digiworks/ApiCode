@@ -5,6 +5,7 @@ namespace code\renders;
 use code\exceptions\EngineError;
 use code\renders\theme\JsTheme;
 use code\renders\theme\JsThemeInterface;
+use code\renders\views\View;
 use code\utility\Arr;
 use code\utility\Curl;
 

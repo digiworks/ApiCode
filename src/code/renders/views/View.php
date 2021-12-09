@@ -1,6 +1,6 @@
 <?php
 
-namespace code\renders;
+namespace code\renders\views;
 
 class View extends RenderTranslated {
 
