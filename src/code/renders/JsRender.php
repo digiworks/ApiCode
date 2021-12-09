@@ -47,12 +47,12 @@ class JsRender {
     /** @var string */
     private $defualtThemeName = null;
 
-    /** @var SsrView */
+    /** @var SsrLoader */
     private $ssrView;
 
     public function __construct(RenderEngineInterface $engine) {
         $this->engine = $engine;
-        $this->ssrView = new SsrView('js/lib/ssr.js');
+        $this->ssrView = new SsrLoader('js/lib/ssr.js');
     }
 
     /**

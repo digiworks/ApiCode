@@ -7,7 +7,7 @@ use code\configuration\Configurations;
 use code\service\ServiceTypes;
 use code\utility\string\Str;
 
-class SsrView extends Loader {
+class SsrLoader extends Loader {
 
     private $buffered;
     private $imports = "";
