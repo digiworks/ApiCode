@@ -48,11 +48,11 @@ class JsRender {
     private $defualtThemeName = null;
 
     /** @var SsrLoader */
-    private $ssrView;
+    private $loader;
 
     public function __construct(RenderEngineInterface $engine) {
         $this->engine = $engine;
-        $this->ssrView = new SsrLoader('js/lib/ssr.js');
+        $this->loader = new SsrLoader('js/lib/ssr.js');
     }
 
     /**
@@ -299,7 +299,7 @@ class JsRender {
             $clientScript = $this->view->setRenderType(RenderTypes::CLIENT)->render();
         }
         $scriptLibs = $this->imports;
-        $renderer = $this->ssrView->addStylesheets($this->stylesheets)->setScriptServer($ssrScript);
+        $renderer = $this->loader->addStylesheets($this->stylesheets)->setScriptServer($ssrScript);
         if (!is_null($this->transformer)) {
             if ($this->onlyServerTrasnformation) {
                 $clientScript = $this->transformer->transform($clientScript);
