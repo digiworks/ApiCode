@@ -44,6 +44,11 @@ abstract class AppController {
         return $this;
     }
 
+    /**
+     * 
+     * @param string $currentView
+     * @return AppController
+     */
     public function setCurrentView($currentView): AppController {
         $this->currentView = $currentView;
         return $this;
@@ -54,15 +59,27 @@ abstract class AppController {
         return $this;
     }
 
-    public function getComponent() {
+    /**
+     * 
+     * @return Component
+     */
+    public function getComponent(): Component {
         return $this->component;
     }
 
+    /**
+     * 
+     * @param Component $component
+     * @return AppController
+     */
     public function setComponent($component): AppController {
         $this->component = $component;
         return $this;
     }
 
+    /**
+     * 
+     */
     public function render() {
         $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
         $render = $renderManager->getRender();
