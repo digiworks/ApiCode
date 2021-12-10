@@ -4,9 +4,10 @@ namespace code\controllers;
 
 use code\applications\ApiAppFactory;
 use code\service\ServiceTypes;
+use code\utility\data\Data;
 use Psr\Http\Message\ResponseInterface;
 
-class ResponseBuilder {
+class ResponseBuilder extends Data {
 
     /**
      * 
@@ -109,10 +110,8 @@ class ResponseBuilder {
     public function __construct(ResponseInterface $response) {
         $this->response = $response;
         $config = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS);
-        $cfg = $config->get("env.response", []);
-        if(count($cfg)){
-            
-        }
+        $cfgs = $config->get("env.response", []);
+        $this->bind($cfgs);
     }
 
     public function buildViewResponse(): ResponseInterface {
