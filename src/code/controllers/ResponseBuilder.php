@@ -74,11 +74,11 @@ class ResponseBuilder {
      * https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#Content-Security-Policy
      */
     public $cspDirectives = [
-        //'default-src' => "'none'",
-        //'connect-src' => "'self'",
-        //'img-src' => "'self'",
-        //'script-src' => "'unsafe-inline'",
-        //'style-src' => "'unsafe-inline'"
+            //'default-src' => "'none'",
+            //'connect-src' => "'self'",
+            //'img-src' => "'self'",
+            //'script-src' => "'unsafe-inline'",
+            //'style-src' => "'unsafe-inline'"
     ];
 
     /**
@@ -108,6 +108,11 @@ class ResponseBuilder {
 
     public function __construct(ResponseInterface $response) {
         $this->response = $response;
+        $config = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS);
+        $cfg = $config->get("env.response", []);
+        if(count($cfg)){
+            
+        }
     }
 
     public function buildViewResponse(): ResponseInterface {
