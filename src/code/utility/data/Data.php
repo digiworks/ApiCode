@@ -195,7 +195,7 @@ class Data extends BaseCollection implements DataInterface, IteratorAggregate, A
      * @throws  InvalidArgumentException
      * @return  mixed The value to return.
      */
-    public function offsetGet($offset) {
+    public function &offsetGet($offset) {
         return $this->get($offset);
     }
 

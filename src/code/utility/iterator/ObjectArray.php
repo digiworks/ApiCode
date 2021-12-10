@@ -15,7 +15,7 @@ use JsonSerializable;
 use Serializable;
 
 
-class ArrayObject implements IteratorAggregate, ArrayAccess, Serializable, Countable, JsonSerializable {
+class ObjectArray implements IteratorAggregate, ArrayAccess, Serializable, Countable, JsonSerializable {
 
     /**
      * Properties of the object have their normal functionality

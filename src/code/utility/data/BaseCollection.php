@@ -3,10 +3,10 @@
 namespace code\utility\data;
 
 use code\utility\Arr;
-use code\utility\iterator\ArrayObject;
+use code\utility\iterator\ObjectArray;
 use Traversable;
 
-class BaseCollection extends ArrayObject {
+class BaseCollection extends ObjectArray {
 
     /**
      * wrap
