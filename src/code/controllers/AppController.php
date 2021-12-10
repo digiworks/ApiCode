@@ -95,6 +95,7 @@ abstract class AppController {
             $render->useTheme($this->theme);
         }
         $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
+        return $this;
     }
 
     /**
@@ -134,7 +135,7 @@ abstract class AppController {
             $send_to_response['debugger'] ['Coverage'] = Debugger::getCoverage();
         }
         $this->response->getBody()->write(json_encode($send_to_response));
-        return $this->response;
+        return $this;
     }
 
     public function buildViewResponse() {
