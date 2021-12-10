@@ -77,7 +77,7 @@ class ResponseBuilder {
         'default-src' => "'none'",
         'connect-src' => "'self'",
         'img-src' => "'self'",
-        'script-src' => "'self'",
+        'script-src' => "'unsafe-inline'",
         'style-src' => "'unsafe-inline'"//"'self'"
     ];
 
