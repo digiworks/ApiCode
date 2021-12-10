@@ -115,6 +115,10 @@ class ResponseBuilder {
         return $this->response;
     }
 
+    protected function addHeader($name, $value) {
+        $this->response = $this->response->withHeader($name, $value);
+    }
+
     /**
      * Adds safety headers.
      */
@@ -138,7 +142,7 @@ class ResponseBuilder {
                 $values[] = $directive . " " . $content;
             }
             if (!$this->response->hasHeader('Content-Security-Policy')) {
-                $this->response->withHeader('Content-Security-Policy', implode("; ", $values));
+                $this->addHeader('Content-Security-Policy', implode("; ", $values));
             }
         }
     }
@@ -167,7 +171,7 @@ class ResponseBuilder {
                     $value = "ALLOW-FROM {$this->frameAllowFrom}";
                     break;
             }
-            $this->response->withHeader('X-Frame-Options', $value);
+            $this->addHeader('X-Frame-Options', $value);
         }
     }
 
@@ -190,7 +194,7 @@ class ResponseBuilder {
                     $value = "1";
                     break;
             }
-            $this->response->withHeader('X-XSS-Protection', $value);
+            $this->addHeader('X-XSS-Protection', $value);
         }
     }
 
@@ -205,7 +209,7 @@ class ResponseBuilder {
                 if ($this->hstsIncludeSubdomains) {
                     $value .= "; includeSubDomains";
                 }
-                $this->response->withHeader('Strict-Transport-Security', $value);
+                $this->addHeader('Strict-Transport-Security', $value);
             }
         }
     }
@@ -217,7 +221,7 @@ class ResponseBuilder {
     protected function addContentTypeOptions() {
         if (!$this->response->hasHeader('X-Content-Type-Options')) {
             if ($this->contentTypeLevel) {
-                $this->response->withHeader('X-Content-Type-Options', "nosniff");
+                $this->addHeader('X-Content-Type-Options', "nosniff");
             }
         }
     }
@@ -240,7 +244,7 @@ class ResponseBuilder {
                 if ($this->hpkpIncludeSubdomains) {
                     $values[] = "includeSubDomains";
                 }
-                $this->response->withHeader('Public-Key-Pins', implode("; ", $values));
+                $this->addHeader('Public-Key-Pins', implode("; ", $values));
             }
         }
     }

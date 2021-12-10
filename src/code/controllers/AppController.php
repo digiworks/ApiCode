@@ -138,7 +138,7 @@ abstract class AppController {
     }
 
     public function buildViewResponse() {
-        $this->getResponsebuilder()->buildViewResponse();
+        $this->response = $this->getResponsebuilder()->buildViewResponse();
         return $this;
     }
 
