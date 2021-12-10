@@ -152,7 +152,7 @@ class Data extends BaseCollection implements DataInterface, IteratorAggregate, A
      *
      * @return  mixed The value we want ot get.
      */
-    public function __get($field) {
+    public function &__get($field) {
         return $this->get($field);
     }
 
@@ -172,7 +172,7 @@ class Data extends BaseCollection implements DataInterface, IteratorAggregate, A
      *
      * @return Traversable An instance of an object implementing Iterator or Traversable
      */
-    public function getIterator() {
+    public function &getIterator() {
         return new ArrayIterator(get_object_vars($this));
     }
 
