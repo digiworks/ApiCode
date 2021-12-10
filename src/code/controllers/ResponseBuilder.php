@@ -74,8 +74,8 @@ class ResponseBuilder {
      * https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#Content-Security-Policy
      */
     public $cspDirectives = [
-        'default-src' => "'none'",
-        'connect-src' => "'self'",
+        //'default-src' => "'none'",
+        //'connect-src' => "'self'",
         //'img-src' => "'self'",
         //'script-src' => "'unsafe-inline'",
         //'style-src' => "'unsafe-inline'"
