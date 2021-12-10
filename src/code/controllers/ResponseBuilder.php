@@ -2,6 +2,8 @@
 
 namespace code\controllers;
 
+use code\applications\ApiAppFactory;
+use code\service\ServiceTypes;
 use Psr\Http\Message\ResponseInterface;
 
 class ResponseBuilder {
@@ -127,7 +129,7 @@ class ResponseBuilder {
 
     /**
      * Sets CSP header.
-     * @param HeaderCollection $headers
+     * 
      */
     protected function addContentSecurityPolicy() {
         if ($this->cspDirectives && is_array($this->cspDirectives)) {
@@ -143,7 +145,7 @@ class ResponseBuilder {
 
     /**
      * Sets X-Frame-Options header.
-     * @param HeaderCollection $headers
+     * 
      */
     protected function addFrameOptions() {
         if (!$this->response->hasHeader('X-Frame-Options')) {
@@ -171,7 +173,7 @@ class ResponseBuilder {
 
     /**
      * Sets X-XSS-Protection header.
-     * @param HeaderCollection $headers
+     * 
      */
     protected function addXssProtection() {
         if (!$this->response->hasHeader('X-XSS-Protection')) {
@@ -194,7 +196,7 @@ class ResponseBuilder {
 
     /**
      * Sets Strict-Transport-Security header.
-     * @param HeaderCollection $headers
+     * 
      */
     protected function addStrictTransportSecurity() {
         if (!$this->response->hasHeader('Strict-Transport-Security')) {
@@ -210,7 +212,7 @@ class ResponseBuilder {
 
     /**
      * Sets X-Content-Type-Options header.
-     * @param HeaderCollection $headers
+     * 
      */
     protected function addContentTypeOptions() {
         if (!$this->response->hasHeader('X-Content-Type-Options')) {
@@ -222,7 +224,7 @@ class ResponseBuilder {
 
     /**
      * Sets HPKP header.
-     * @param HeaderCollection $headers
+     *
      */
     protected function addPublicKeyPins() {
         if (!$this->response->hasHeader('Public-Key-Pins')) {
