@@ -76,9 +76,9 @@ class ResponseBuilder {
     public $cspDirectives = [
         'default-src' => "'none'",
         'connect-src' => "'self'",
-        'img-src' => "'self'",
-        'script-src' => "'unsafe-inline'",
-        'style-src' => "'unsafe-inline'"//"'self'"
+        'img-src' => "'none'",
+        'script-src' => "'none'",
+        'style-src' => "'none'"//"'self'"
     ];
 
     /**
