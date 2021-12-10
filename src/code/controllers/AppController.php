@@ -18,6 +18,9 @@ abstract class AppController {
     /** @var Component $component */
     protected $component;
 
+    /** @var ResponseBuilder $responsebuilder */
+    protected $responsebuilder = null;
+
     public function getRequest() {
         return $this->request;
     }
@@ -34,6 +37,10 @@ abstract class AppController {
         return $this->theme;
     }
 
+    public function getResponsebuilder(): ResponseBuilder {
+        return $this->responsebuilder;
+    }
+
     public function setRequest($request): AppController {
         $this->request = $request;
         return $this;
@@ -41,6 +48,7 @@ abstract class AppController {
 
     public function setResponse($response): AppController {
         $this->response = $response;
+        $this->responsebuilder = new ResponseBuilder($this->response);
         return $this;
     }
 
