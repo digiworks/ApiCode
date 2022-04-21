@@ -15,7 +15,7 @@ class SsrLoader extends Loader {
     private $scriptClient;
     private $clientTypeScript = "text/javascript";
     private $scriptServer;
-    private $launchScript = "function init(){ ReactDOM.hydrateRoot(<App />,document.getElementById(\"root\")); } init();";
+    private $launchScript = "function init(){ ReactDOM.hydrateRoot(document.getElementById(\"root\"),<App />); } init();";
 
     public function __construct($ssrFile, $scriptC = null, $scriptS = null) {
         $this->addPart($ssrFile);
