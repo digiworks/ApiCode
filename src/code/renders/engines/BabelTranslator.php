@@ -25,7 +25,7 @@ class BabelTranslator {
     protected $lib = "js/engines/react/babel/6.26.0/babel.js"; //"https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js";
     protected $engine;
 
-    public function __construct(RenderEngineInterface $engine) {
+    public function __construct(?RenderEngineInterface $engine) {
         $this->engine = $engine;
         $this->loadLib();
     }
@@ -56,8 +56,12 @@ class BabelTranslator {
      * @return string
      */
     public function transform($script) {
+        $ret = '';
         $babel_text = $this->comporess($script);
-        return $this->engine->run(sprintf(static::command, $babel_text));
+        if (!is_null($babel_text)) {
+            $ret = $this->engine->run(sprintf(static::command, $babel_text));
+        }
+        return $ret;
     }
 
     /**
