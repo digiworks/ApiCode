@@ -56,9 +56,9 @@ class BabelTranslator {
      * @return string
      */
     public function transform($script) {
-        $ret = '';
-        $babel_text = $this->comporess($script);
-        if (!is_null($babel_text)) {
+        $ret = $script;
+        if (!is_null($this->engine)) {
+            $babel_text = $this->comporess($script);
             $ret = $this->engine->run(sprintf(static::command, $babel_text));
         }
         return $ret;
