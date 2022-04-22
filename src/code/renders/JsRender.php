@@ -51,7 +51,7 @@ class JsRender {
     /** @var SsrLoader */
     private $loader;
 
-    public function __construct(RenderEngineInterface $engine) {
+    public function __construct(?RenderEngineInterface $engine) {
         $this->engine = $engine;
         $this->loader = new SsrLoader('js/lib/ssr.js');
     }
