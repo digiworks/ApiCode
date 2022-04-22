@@ -26,8 +26,11 @@ class RenderManager implements ServiceInterface {
      * 
      */
     public function init() {
+        $engine = null;
         $conf = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::RENDER_CONFIGURATIONS);
-        $engine = ApiAppFactory::getApp()->newInstance($conf['engine']['class']);
+        if(isset($conf['engine']['class'])){
+            $engine = ApiAppFactory::getApp()->newInstance($conf['engine']['class']);
+        }
         $this->render = ApiAppFactory::getApp()->newInstance($conf['class'], [$engine]);
         if (isset($conf['translator'])) {
             $translator = ApiAppFactory::getApp()->newInstance($conf['translator']['class'], [$engine]);

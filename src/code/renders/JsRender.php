@@ -217,7 +217,11 @@ class JsRender {
 
         try {
             $serverScript = $this->importsScript();
-            $result = $this->engine->run($serverScript);
+            if (!is_null($this->engine)) {
+                $result = $this->engine->run($serverScript);
+            } else {
+                $result = $this->fallback;
+            }
         } catch (EngineError $exception) {
             if ($this->debug) {
                 throw $exception->getException();
@@ -257,7 +261,11 @@ class JsRender {
             if (!is_null($this->transformer)) {
                 $result = $this->transformer->transform($result);
             }
-            $result = $this->engine->run($result);
+            if (!is_null($this->engine)) {
+                $result = $this->engine->run($result);
+            }else{
+                $result = $this->fallback;
+            }
         } catch (EngineError $exception) {
             if ($this->debug) {
                 throw $exception->getException();
