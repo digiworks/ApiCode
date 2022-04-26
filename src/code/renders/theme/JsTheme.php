@@ -9,12 +9,12 @@ use code\renders\views\View;
 
 class JsTheme extends RenderTranslated implements JsThemeInterface {
 
-    private $bufferedParts;
-    private $buffered;
-    private $template;
+    protected $bufferedParts;
+    protected $buffered;
+    protected $template;
 
     /** @var View */
-    private $view;
+    protected $view;
 
     public function __construct($viewFile) {
         parent::__construct($viewFile);
