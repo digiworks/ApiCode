@@ -11,7 +11,12 @@ class JsRestRender extends JsRender {
             $clientScript = $this->view->setRenderType(RenderTypes::CLIENT)->render();
         }
 
-        return $clientScript;
+        return $this->addBaseAppConfig() . $clientScript;
+    }
+    
+    protected function addBaseAppConfig(){
+        $jsString = " baseApp.indexPageApiGateway = ''";
+        return $jsString . " ";
     }
 
 }
