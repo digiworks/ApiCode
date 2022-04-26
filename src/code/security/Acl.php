@@ -1,5 +1,5 @@
 <?php
-namespace core\security;
+namespace code\security;
 
 Class Acl {
 
