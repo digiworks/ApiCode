@@ -2,18 +2,16 @@
 
 namespace code\renders;
 
-use code\renders\views\RestView;
-
 class JsRestRender extends JsRender {
 
-    /**
-     * 
-     * @param string $view
-     * @return string
-     */
-    public function renderView(string $view): string {
-        $this->view = new RestView($view);
-        return $this->render();
+    public function render() {
+        if (!is_null($this->getCurrentTheme())) {
+            $clientScript = $this->getCurrentTheme()->setView($this->view)->setRenderType(RenderTypes::CLIENT)->render();
+        } else {
+            $clientScript = $this->view->setRenderType(RenderTypes::CLIENT)->render();
+        }
+
+        return $clientScript;
     }
 
 }
