@@ -15,7 +15,7 @@ class JsRestRender extends JsRender {
     }
     
     protected function addBaseAppConfig(){
-        $jsString = " baseApp.indexPageApiGateway = ''";
+        $jsString = " baseApp.indexPageApiGateway = '';";
         return $jsString . " ";
     }
 
