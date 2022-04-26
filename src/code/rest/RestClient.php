@@ -2,17 +2,23 @@
 
 namespace code\rest;
 
-use code\service\ServiceInterface;
+use GuzzleHttp\Client;
 
-class RestClient implements ServiceInterface {
+class RestClient {
 
     protected $client;
 
-    public function __construct() {
-        
+    public function __construct($base_uri, $timeout = 10) {
+        $config = [
+            // Base URI is used with relative requests
+            'base_uri' => $base_uri,
+            // You can set any number of default request options.
+            'timeout' => $timeout,
+        ];
+        $this->client = new Client($config);
     }
-
-    public function init() {
+    
+    public function get($url, $query){
         
     }
 

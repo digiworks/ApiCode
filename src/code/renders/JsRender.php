@@ -290,7 +290,7 @@ class JsRender {
      * @param string $view
      * @return string
      */
-    public function renderView($view) {
+    public function renderView(string $view) : string {
         $this->view = new View($view);
         return $this->render();
     }

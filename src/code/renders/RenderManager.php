@@ -11,12 +11,12 @@ class RenderManager implements ServiceInterface {
 
     const RENDER_CONFIGURATIONS = "render";
 
-    /** @var JSRender */
+    /** @var JsRender */
     private $render;
 
     /**
      * 
-     * @return Render
+     * @return JsRender
      */
     public function getRender() {
         return $this->render;
