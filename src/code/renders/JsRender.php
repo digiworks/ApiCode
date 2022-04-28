@@ -68,7 +68,7 @@ class JsRender {
      * @param array $conf
      */
     protected function init($conf){
-        
+        $engine = null;
         if (isset($conf['engine']['class'])) {
             $engine = ApiAppFactory::getApp()->newInstance($conf['engine']['class']);
             $this->engine = $engine;
