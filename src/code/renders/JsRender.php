@@ -126,7 +126,7 @@ class JsRender {
 
     public function setOnlyServerTrasnformation(bool $onlyServerTrasnformation) {
         $this->onlyServerTrasnformation = $onlyServerTrasnformation;
-        return this;
+        return $this;
     }
 
     /**
