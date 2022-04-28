@@ -19,7 +19,7 @@ class RestClient {
         $this->client = new Client($config);
     }
 
-    public function addCookieParams($cookies) {
+    public function addCookieParams($request) {
         if ($request->getHeader('Cookie')) {
             $this->cookie = $request->getHeader('Cookie');
         }
