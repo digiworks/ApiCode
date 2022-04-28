@@ -2,6 +2,8 @@
 
 namespace code\renders;
 
+use code\applications\ApiAppFactory;
+use code\components\Component;
 use code\controllers\AppController;
 use code\exceptions\EngineError;
 use code\renders\theme\JsTheme;
