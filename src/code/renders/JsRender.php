@@ -56,11 +56,57 @@ class JsRender {
     /** AppController */
     protected $controller;
 
-    public function __construct(?RenderEngineInterface $engine) {
-        $this->engine = $engine;
+    public function __construct($conf) {
+        $this->init($conf);
         $this->loader = new SsrLoader('js/lib/ssr.js');
     }
 
+    /**
+     * 
+     * @param array $conf
+     */
+    protected function init($conf){
+        
+        if (isset($conf['engine']['class'])) {
+            $engine = ApiAppFactory::getApp()->newInstance($conf['engine']['class']);
+            $this->engine = $engine;
+        }
+        
+        if (isset($conf['translator'])) {
+            $translator = ApiAppFactory::getApp()->newInstance($conf['translator']['class'], [$engine]);
+            $this->DOMTransformer($translator);
+        }
+
+        if (isset($conf['templates'])) {
+            if (isset($conf['templates']['deafult'])) {
+                $this->setDefualtThemeName($conf['templates']['deafult']);
+            }
+            foreach ($conf['templates']['themes'] as $key => $theme) {
+                $th = ApiAppFactory::getApp()->newInstance($theme['class'], [$theme['path']]);
+                $this->addTheme($th, $key);
+            }
+        }
+        $components = ApiAppFactory::getApp()->getComponents();
+        if (isset($conf['stylesheets'])) {
+            $this->addStylesheets($conf['stylesheets']);
+            /** @var Component $component */
+            foreach ($components as $component) {
+                $this->addStylesheets($component->loadStylesheets());
+            }
+        }
+
+        if (isset($conf['imports'])) {
+            $this->addImports($conf['imports']);
+            /** @var Component $component */
+            foreach ($components as $component) {
+                $this->addImports($component->loadImports());
+            }
+            $this->loadImports();
+        }
+        if (isset($conf['onlyServerTrasnformation'])) {
+            $this->setOnlyServerTrasnformation($conf['onlyServerTrasnformation']);
+        }
+    }
     /**
      * 
      * @param RouteContext $controller

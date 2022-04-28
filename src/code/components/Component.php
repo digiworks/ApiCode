@@ -7,6 +7,8 @@ use code\storage\filesystem\File;
 abstract class Component {
 
     private $id;
+    
+    private $render;
 
     public function getId() {
         return $this->id;

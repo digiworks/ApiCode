@@ -14,6 +14,10 @@ class JsRestRender extends JsRender {
         $this->indexPageApiGateway = $indexPageApiGateway;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function render() {
         if (!is_null($this->getCurrentTheme())) {
             $clientScript = $this->getCurrentTheme()->setView($this->view)->setRenderType(RenderTypes::CLIENT)->render();
