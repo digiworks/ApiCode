@@ -4,6 +4,7 @@ namespace code\renders\views;
 
 use code\rest\RestClient;
 use Exception;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RestView extends View {
 
@@ -16,10 +17,11 @@ class RestView extends View {
      * @param string $url
      * @param string $base_url
      */
-    public function __construct(string $url, string $base_url = "", $options = []) {
+    public function __construct(ServerRequestInterface $request, string $url, string $base_url = "", $options = []) {
         $this->url = $url;
         $this->options = $options;
         $this->restClient = new RestClient($base_url);
+        $this->restClient->addCookieParams($request->getCookieParams());
     }
 
     /**
