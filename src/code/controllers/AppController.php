@@ -9,6 +9,7 @@ use code\service\ServiceTypes;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use Slim\Routing\RouteContext;
 
 abstract class AppController {
 
@@ -160,6 +161,16 @@ abstract class AppController {
         $uri = $this->getRequest()->getUri();
         $path = $uri->getPath();
         return $path;
+    }
+
+    public function getFullUrl() {
+        /** @var UriInterface $uri */
+        $uri = $this->getRequest()->getUri();
+        $scheme = $uri->getScheme();
+        $basePath = $uri->getHost();
+
+        return ($scheme !== '' ? $scheme . ':' : '')
+                . ($basePath ? '//' . $basePath : '');
     }
 
 }

@@ -3,17 +3,6 @@
 namespace code\renders;
 
 class JsRestRender extends JsRender {
-
-    private $indexPageApiGateway = '';
-
-    public function getIndexPageApiGateway() {
-        return $this->indexPageApiGateway;
-    }
-
-    public function setIndexPageApiGateway($indexPageApiGateway): void {
-        $this->indexPageApiGateway = $indexPageApiGateway;
-    }
-
     /**
      * 
      * @return string
@@ -29,7 +18,7 @@ class JsRestRender extends JsRender {
     }
 
     protected function addBaseAppConfig() {
-        $jsString = " baseApp.indexPageApiGateway = '" . $this->getIndexPageApiGateway() . "';";
+        $jsString = " baseApp.indexPageApiGateway = '" . $this->controller->getFullUrl() . "';";
         return $jsString . " ";
     }
 
