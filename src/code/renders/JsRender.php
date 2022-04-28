@@ -67,6 +67,7 @@ class JsRender {
      */
     public function setController(?AppController $controller) {
         $this->controller = $controller;
+        return $this;
     }
 
     /**
@@ -91,8 +92,9 @@ class JsRender {
         return $this->defualtThemeName;
     }
 
-    public function setDefualtThemeName(string $defualtThemeName): void {
+    public function setDefualtThemeName(string $defualtThemeName) {
         $this->defualtThemeName = $defualtThemeName;
+        return $this;
     }
 
     public function addTheme(JsThemeInterface $theme, $name) {
@@ -122,8 +124,9 @@ class JsRender {
         return $this->onlyServerTrasnformation;
     }
 
-    public function setOnlyServerTrasnformation(bool $onlyServerTrasnformation): void {
+    public function setOnlyServerTrasnformation(bool $onlyServerTrasnformation) {
         $this->onlyServerTrasnformation = $onlyServerTrasnformation;
+        return this;
     }
 
     /**
