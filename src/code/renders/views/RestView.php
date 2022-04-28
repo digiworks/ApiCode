@@ -21,7 +21,7 @@ class RestView extends View {
         $this->url = $url;
         $this->options = $options;
         $this->restClient = new RestClient($base_url);
-        $this->restClient->addCookieParams($request->getCookieParams());
+        $this->restClient->withRequestCookieParams($request);
     }
 
     /**
