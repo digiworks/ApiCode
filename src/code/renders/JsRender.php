@@ -2,12 +2,14 @@
 
 namespace code\renders;
 
+use code\controllers\AppController;
 use code\exceptions\EngineError;
 use code\renders\theme\JsTheme;
 use code\renders\theme\JsThemeInterface;
 use code\renders\views\View;
 use code\utility\Arr;
 use code\utility\Curl;
+use Slim\Routing\RouteContext;
 
 class JsRender {
 
@@ -51,9 +53,20 @@ class JsRender {
     /** @var SsrLoader */
     private $loader;
 
+    /** AppController */
+    protected $controller;
+
     public function __construct(?RenderEngineInterface $engine) {
         $this->engine = $engine;
         $this->loader = new SsrLoader('js/lib/ssr.js');
+    }
+
+    /**
+     * 
+     * @param RouteContext $controller
+     */
+    public function setController(?AppController $controller) {
+        $this->controller = $controller;
     }
 
     /**
@@ -263,7 +276,7 @@ class JsRender {
             }
             if (!is_null($this->engine)) {
                 $result = $this->engine->run($result);
-            }else{
+            } else {
                 $result = $this->fallback;
             }
         } catch (EngineError $exception) {
@@ -290,7 +303,7 @@ class JsRender {
      * @param string $view
      * @return string
      */
-    public function renderView(string $view) : string {
+    public function renderView(string $view): string {
         $this->view = new View($view);
         return $this->render();
     }

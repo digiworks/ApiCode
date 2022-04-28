@@ -4,6 +4,16 @@ namespace code\renders;
 
 class JsRestRender extends JsRender {
 
+    private $indexPageApiGateway = '';
+
+    public function getIndexPageApiGateway() {
+        return $this->indexPageApiGateway;
+    }
+
+    public function setIndexPageApiGateway($indexPageApiGateway): void {
+        $this->indexPageApiGateway = $indexPageApiGateway;
+    }
+
     public function render() {
         if (!is_null($this->getCurrentTheme())) {
             $clientScript = $this->getCurrentTheme()->setView($this->view)->setRenderType(RenderTypes::CLIENT)->render();
@@ -13,9 +23,9 @@ class JsRestRender extends JsRender {
 
         return $this->addBaseAppConfig() . $clientScript;
     }
-    
-    protected function addBaseAppConfig(){
-        $jsString = " baseApp.indexPageApiGateway = '';";
+
+    protected function addBaseAppConfig() {
+        $jsString = " baseApp.indexPageApiGateway = '" . $this->getIndexPageApiGateway() . "';";
         return $jsString . " ";
     }
 

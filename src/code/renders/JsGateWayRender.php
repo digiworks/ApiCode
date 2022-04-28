@@ -6,8 +6,11 @@ use code\renders\views\RestView;
 
 class JsGateWayRender extends JsRender {
 
-    public $Gateway;
+    /** url gateway*/
+    public $gateway;
+    /** */
     public $timeout = 30;
+    /** */
     public $restOptions = [];
     
     /**
@@ -16,7 +19,8 @@ class JsGateWayRender extends JsRender {
      * @return string
      */
     public function renderView(string $view): string {
-        $this->view = new RestView($view);
+        
+        $this->view = new RestView($this->controller->getPath(), $this->gateway);
         return $this->render();
     }
 

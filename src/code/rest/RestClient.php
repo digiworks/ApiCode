@@ -17,9 +17,9 @@ class RestClient {
         ];
         $this->client = new Client($config);
     }
-    
-    public function get($url, $query){
-        
+
+    public function get($url, $params = []) {
+        return $this->client->get($url, $params)->getBody()->getContents();
     }
 
 }

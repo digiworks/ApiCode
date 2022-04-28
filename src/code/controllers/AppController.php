@@ -7,10 +7,15 @@ use code\components\Component;
 use code\debugger\Debugger;
 use code\service\ServiceTypes;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 
 abstract class AppController {
 
+    /** @var ServerRequestInterface $request */
     protected $request;
+
+    /** @var ResponseInterface $request */
     protected $response;
     protected $currentView;
     protected $theme;
@@ -90,7 +95,7 @@ abstract class AppController {
      */
     public function render() {
         $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-        $render = $renderManager->getRender();
+        $render = $renderManager->getRender($this);
         if (!is_null($this->theme)) {
             $render->useTheme($this->theme);
         }
@@ -141,6 +146,20 @@ abstract class AppController {
     public function buildViewResponse() {
         $this->response = $this->getResponsebuilder()->buildViewResponse();
         return $this;
+    }
+
+    public function getBaseUrl() {
+        /** @var UriInterface $uri */
+        $uri = $this->getRequest()->getUri();
+        $basePath = $uri->getHost();
+        return $basePath;
+    }
+
+    public function getPath() {
+        /** @var UriInterface $uri */
+        $uri = $this->getRequest()->getUri();
+        $path = $uri->getPath();
+        return $path;
     }
 
 }

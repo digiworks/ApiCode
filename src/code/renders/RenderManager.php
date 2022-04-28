@@ -4,6 +4,7 @@ namespace code\renders;
 
 use code\applications\ApiAppFactory;
 use code\components\Component;
+use code\controllers\AppController;
 use code\service\ServiceInterface;
 use code\service\ServiceTypes;
 
@@ -18,8 +19,8 @@ class RenderManager implements ServiceInterface {
      * 
      * @return JsRender
      */
-    public function getRender() {
-        return $this->render;
+    public function getRender(?AppController $controller) {
+        return $this->render->setController($controller);
     }
 
     /**
@@ -28,7 +29,7 @@ class RenderManager implements ServiceInterface {
     public function init() {
         $engine = null;
         $conf = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(static::RENDER_CONFIGURATIONS);
-        if(isset($conf['engine']['class'])){
+        if (isset($conf['engine']['class'])) {
             $engine = ApiAppFactory::getApp()->newInstance($conf['engine']['class']);
         }
         $this->render = ApiAppFactory::getApp()->newInstance($conf['class'], [$engine]);
@@ -50,7 +51,7 @@ class RenderManager implements ServiceInterface {
         if (isset($conf['stylesheets'])) {
             $this->render->addStylesheets($conf['stylesheets']);
             /** @var Component $component */
-            foreach($components as $component){
+            foreach ($components as $component) {
                 $this->render->addStylesheets($component->loadStylesheets());
             }
         }
@@ -58,7 +59,7 @@ class RenderManager implements ServiceInterface {
         if (isset($conf['imports'])) {
             $this->render->addImports($conf['imports']);
             /** @var Component $component */
-            foreach($components as $component){
+            foreach ($components as $component) {
                 $this->render->addImports($component->loadImports());
             }
             $this->render->loadImports();
