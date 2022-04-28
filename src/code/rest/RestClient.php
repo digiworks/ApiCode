@@ -3,8 +3,6 @@
 namespace code\rest;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Cookie\SetCookie;
 
 class RestClient {
 
@@ -22,14 +20,14 @@ class RestClient {
     }
 
     public function addCookieParams($cookies) {
-        $cookie = SetCookie::fromString($cookies);
-        $$this->cookie = new CookieJar();
-        $this->cookie->setCookie($cookie);
+        if ($request->getHeader('Cookie')) {
+            $this->cookie = $request->getHeader('Cookie');
+        }
     }
 
     public function get($url, $params = []) {
         if (!is_null($this->cookie)) {
-            $params['cookies'] = $this->cookie;
+            $params['headers'] = ['Cookie' => $this->cookie];
         }
         return $this->client->get($url, $params)->getBody()->getContents();
     }
