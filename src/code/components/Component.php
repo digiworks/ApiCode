@@ -50,7 +50,7 @@ abstract class Component {
      * @return array
      */
     protected function defineImports(): array {
-        $imports =(array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('imports', []);
+        $imports = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('imports', []);
         return $imports;
     }
 
@@ -63,12 +63,21 @@ abstract class Component {
         return $styles;
     }
 
+    protected function defineRoutes(): array {
+        $routes = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('routes', []);
+        return $routes;
+    }
+
     /**
      * 
      */
-    public  function loadRoutes(): array {
-        $styles = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('routes', []);
-        return $styles;
+    public function loadRoutes(): array {
+        $routes = [];
+        foreach ($this->defineRoutes() as $route) {
+            $route['controller'] = $this->calculatePath($route['controller']);
+            $routes[] = $route;
+        }
+        return $routes;
     }
 
     /**
