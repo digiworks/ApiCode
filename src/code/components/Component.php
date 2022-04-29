@@ -125,7 +125,7 @@ abstract class Component {
         if ($fileSystem->fileExists($localPath)) {
             $path = $localPath;
         }
-        return path;
+        return $path;
     }
 
     /**
