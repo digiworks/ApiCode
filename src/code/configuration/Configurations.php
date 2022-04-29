@@ -11,18 +11,18 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
     const API_GATEWAY_CONFIGURATIONS = "env.apiGateway";
     const VERSION = "env.version";
 
-    private static $filepath = '';
+    private $filepath = '';
 
     /**
      * All of the items from the config file that is loaded
      *
      * @var Structure
      */
-    public static $items;
+    public $items;
 
     public function __construct($filepath) {
-        static::$filepath = $filepath;
-        static::$items = new Structure();
+        $this->filepath = $filepath;
+        $this->items = new Structure();
     }
 
     /**
@@ -32,7 +32,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
      * @return  void
      */
     public static function load() {
-        static::$items->loadFile(static::$filepath . '.php', 'php', ['load_raw' => true]);
+        $this->items->loadFile($this->filepath . '.php', 'php', ['load_raw' => true]);
     }
 
     /**
@@ -44,7 +44,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
     public static function get($key = null, $default = null) {
 
         if (!empty($key)) {
-            return static::$items->get($key, $default);
+            return $this->items->get($key, $default);
         }
 
         return null;
@@ -56,7 +56,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
      * @return type
      */
     public function extract($path) {
-        return static::$items->extract($path);
+        return $this->items->extract($path);
     }
 
     /**
