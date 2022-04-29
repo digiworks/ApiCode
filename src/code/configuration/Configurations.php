@@ -31,7 +31,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
      * @param   string  $filepath
      * @return  void
      */
-    public static function load() {
+    public function load() {
         $this->items->loadFile($this->filepath . '.php', 'php', ['load_raw' => true]);
     }
 
@@ -41,7 +41,7 @@ class Configurations implements ServiceInterface, ConfigurationsInterface {
      * @param   string  $item
      * @return  string
      */
-    public static function get($key = null, $default = null) {
+    public function get($key = null, $default = null) {
 
         if (!empty($key)) {
             return $this->items->get($key, $default);
