@@ -188,7 +188,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
             /** @var Component $component */
             $component = $this->newInstance($comp["class"], [$comp]);
             $this->processRoutes($component->loadRoutes());
-            $this->addComponent($component->getId(), $component);
+            $this->addComponent($component->getName(), $component);
         }
     }
 
