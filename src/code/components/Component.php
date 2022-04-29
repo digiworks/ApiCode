@@ -33,7 +33,7 @@ abstract class Component {
      * @return string
      */
     public static function getName(): string {
-        return $this->name;
+        return static::$name;
     }
 
     /**
@@ -41,8 +41,8 @@ abstract class Component {
      * @param string $name
      * @return void
      */
-    public static function setId(string $name): void {
-        $this->name = $name;
+    public static function setName(string $name): void {
+        static::$name = $name;
     }
 
     /**

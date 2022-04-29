@@ -184,9 +184,10 @@ class ApiApplication extends App implements CoreApplicationInterface {
      */
     public function loadComponents(): void {
         $components = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('components', []);
-        foreach ($components as $comp) {
+        foreach ($components as $key => $comp) {
             /** @var Component $component */
             $component = $this->newInstance($comp["class"], [$comp]);
+            $component->setName($key);
             $this->processRoutes($component->loadRoutes());
             $this->addComponent($component->getName(), $component);
         }
