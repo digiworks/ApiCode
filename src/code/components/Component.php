@@ -2,36 +2,74 @@
 
 namespace code\components;
 
-use code\storage\filesystem\File;
+use code\applications\ApiAppFactory;
+use code\renders\JsRender;
+use code\service\ServicesTrait;
+use code\service\ServiceTypes;
+use code\storage\filesystem\FileSystem;
 
 abstract class Component {
 
-    private $id;
-    
+    use ServicesTrait;
+
+    private $config_path = "etc/configurations";
+
+    /** string name of component */
+    private static $name;
+
+    /** @var JsRender $render */
     private $render;
 
-    public function getId() {
-        return $this->id;
+    public function __construct($conf) {
+        $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath))->init());
     }
 
-    public function setId($id): void {
-        $this->id = $id;
+    public function init() {
+        $this->loadServices();
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public static function getName(): string {
+        return $this->name;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return void
+     */
+    public static function setId(string $name): void {
+        $this->name = $name;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    protected function defineImports(): array {
+        $imports =(array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('imports', []);
+        return $imports;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    protected function defineStylesheets(): array {
+        $styles = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('stylesheets', []);
+        return $styles;
     }
 
     /**
      * 
      */
-    public abstract function loadRoutes();
-
-    /**
-     * 
-     */
-    protected abstract function defineImports(): array;
-
-    /**
-     * 
-     */
-    protected abstract function defineStylesheets(): array;
+    public  function loadRoutes(): array {
+        $styles = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('routes', []);
+        return $styles;
+    }
 
     /**
      * 
@@ -40,7 +78,7 @@ abstract class Component {
     public function loadImports(): array {
         $imports = [];
         foreach ($this->defineImports() as $import) {
-            $import['lib'] = $this->getId() . "/" . $import['lib'];
+            $import['lib'] = $this->calculatePath($import['lib']);
             $imports[] = $import;
         }
         return $imports;
@@ -53,27 +91,9 @@ abstract class Component {
     public function loadStylesheets(): array {
         $stylesheets = [];
         foreach ($this->defineStylesheets() as $stylesheet) {
-            $stylesheets[] = $this->getId() . "/" . $stylesheet;
+            $stylesheets[] = $this->calculatePath($stylesheet);
         }
         return $stylesheets;
-    }
-
-    /**
-     * 
-     * @param string $url
-     * @return File
-     */
-    public function getJs($url) {
-        return new File($this->getBasePath() . DIRECTORY_SEPARATOR . $url);
-    }
-
-    /**
-     * 
-     * @param string $url
-     * @return File
-     */
-    public function getCss($url) {
-        return new File($this->getBasePath() . DIRECTORY_SEPARATOR . $url);
     }
 
     /**
@@ -82,6 +102,28 @@ abstract class Component {
      */
     public function getBasePath() {
         return __DIR__;
+    }
+
+    /**
+     * 
+     * @param string $path
+     * @return string
+     */
+    protected function calculatePath(string $path): string {
+        $fileSystem = $this->getService(ServiceTypes::FILESYSTEM);
+        $localPath = $this->getBasePath() . DIRECTORY_SEPARATOR . $path;
+        if ($fileSystem->fileExists($localPath)) {
+            $path = $localPath;
+        }
+        return path;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getConfigurationPath(): string {
+        return $this->getBasePath() . DIRECTORY_SEPARATOR . $this->config_path;
     }
 
 }

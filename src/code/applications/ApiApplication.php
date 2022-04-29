@@ -2,6 +2,7 @@
 
 namespace code\applications;
 
+use code\components\Component;
 use code\configuration\Configurations;
 use code\service\ServiceTypes;
 use code\structure\Structure;
@@ -33,13 +34,13 @@ class ApiApplication extends App implements CoreApplicationInterface {
     public function getComponents() {
         return $this->components;
     }
-    
-    public function getComponent($id){
+
+    public function getComponent($id) {
         $ret = null;
-        if(array_key_exists($id, $this->components)){
+        if (array_key_exists($id, $this->components)) {
             return $this->components[$id];
         }
-        
+
         return $ret;
     }
 
@@ -68,8 +69,18 @@ class ApiApplication extends App implements CoreApplicationInterface {
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->config_path))->init());
     }
 
-    public function addService($name, $service) {
+    public function addService($name, $service): void {
         $this->services[$name] = $service;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @param Component $component
+     * @return void
+     */
+    public function addComponent($name, Component $component): void {
+        $this->components[$name] = $component;
     }
 
     public function getService($name) {
@@ -168,11 +179,16 @@ class ApiApplication extends App implements CoreApplicationInterface {
         }
     }
 
-    public function loadComponents() {
+    /**
+     * 
+     */
+    public function loadComponents(): void {
         $components = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('components', []);
         foreach ($components as $comp) {
-            $component = $this->newInstance($comp["class"]);
+            /** @var Component $component */
+            $component = $this->newInstance($comp["class"], [$comp]);
             $this->processRoutes($component->loadRoutes());
+            $this->addComponent($component->getId(), $component);
         }
     }
 
