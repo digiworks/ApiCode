@@ -20,7 +20,7 @@ abstract class Component {
     private $render;
 
     public function __construct($conf) {
-        $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath))->init());
+        $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath()))->init());
     }
 
     public function init() {
