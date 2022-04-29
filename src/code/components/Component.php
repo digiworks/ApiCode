@@ -6,6 +6,7 @@ use code\configuration\Configurations;
 use code\renders\JsRender;
 use code\service\ServicesTrait;
 use code\service\ServiceTypes;
+use ReflectionClass;
 
 abstract class Component {
 
@@ -109,7 +110,8 @@ abstract class Component {
      * @return system
      */
     public function getBasePath() {
-        return __DIR__;
+        $rc = new ReflectionClass(get_class($this));
+        return dirname($rc->getFileName());
     }
 
     /**
