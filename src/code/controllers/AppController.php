@@ -112,7 +112,7 @@ abstract class AppController {
     protected function getFullViewPath($view) {
         $path = "";
         if (!is_null($this->component)) {
-            $path = $this->component->getBasePath() . DIRECTORY_SEPARATOR . $view;
+            $path = $this->component->calculatePath($view);
         } else {
             $path = $view;
         }

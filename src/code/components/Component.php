@@ -118,7 +118,7 @@ abstract class Component {
      * @param string $path
      * @return string
      */
-    protected function calculatePath(string $path): string {
+    public function calculatePath(string $path): string {
         $fileSystem = $this->getService(ServiceTypes::FILESYSTEM);
         $localPath = $this->getBasePath() . DIRECTORY_SEPARATOR . $path;
         if ($fileSystem->fileExists($localPath)) {
