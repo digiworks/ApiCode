@@ -89,21 +89,12 @@ class JsRender {
                 $this->addTheme($th, $key);
             }
         }
-        $components = ApiAppFactory::getApp()->getComponents();
         if (isset($conf['stylesheets'])) {
             $this->addStylesheets($conf['stylesheets']);
-            /** @var Component $component */
-            foreach ($components as $component) {
-                $this->addStylesheets($component->loadStylesheets());
-            }
         }
 
         if (isset($conf['imports'])) {
             $this->addImports($conf['imports']);
-            /** @var Component $component */
-            foreach ($components as $component) {
-                $this->addImports($component->loadImports());
-            }
             $this->loadImports();
         }
         if (isset($conf['onlyServerTrasnformation'])) {

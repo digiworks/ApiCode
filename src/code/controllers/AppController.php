@@ -100,6 +100,10 @@ abstract class AppController {
         if (!is_null($this->theme)) {
             $render->useTheme($this->theme);
         }
+        if (!is_null($this->component)) {
+            $render->addStylesheets($this->component->loadStylesheets());
+            $render->addImports($this->component->loadImports());
+        }
         $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
         return $this;
     }

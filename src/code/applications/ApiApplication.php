@@ -112,8 +112,8 @@ class ApiApplication extends App implements CoreApplicationInterface {
         $this->loadServices();
         $this->loadMiddleware();
         $this->loadRoutes();
-        $this->getLogger()->info("info", "Init App");
         $this->loadComponents();
+        $this->getLogger()->info("info", "Init App");
         return $this;
     }
 
