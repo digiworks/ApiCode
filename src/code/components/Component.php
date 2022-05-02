@@ -49,7 +49,7 @@ abstract class Component {
     }
 
     public function getAliasPath() {
-        return static::getName();
+        return "@" . static::getName();
     }
 
     /**
@@ -128,8 +128,8 @@ abstract class Component {
      */
     public function calculatePath(string $path): string {
         $fileSystem = $this->getService(ServiceTypes::FILESYSTEM);
-        $localPath = $this->getAliasPath() . $path;
-        if ($fileSystem->fileExists($localPath)) {
+        $localPath = $this->getAliasPath() . DIRECTORY_SEPARATOR . $path;
+        if ($fileSystem->fileExists(ApiAppFactory::getApp()->getAlias($localPath))) {
             $path = $localPath;
         }
         return $path;
