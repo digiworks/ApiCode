@@ -10,7 +10,7 @@ use code\utility\string\Str;
 class SsrLoader extends Loader {
 
     const launchScriptSSRender = "function init(){ ReactDOM.hydrateRoot(document.getElementById(\"root\"),<App />); } init();";
-    const launchScriptClientRender = "const root = createRoot(document.getElementById(\"root\")); root.render(<App />); init();";
+    const launchScriptClientRender = "function init(){ const root = ReactDOM.createRoot(document.getElementById(\"root\")); root.render(<App />); } init();";
 
     protected $enableSSRender = true;
     private $buffered;
