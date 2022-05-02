@@ -71,7 +71,7 @@ class FileSystem implements ServiceInterface {
             $url = $this->app->getAlias($url);
             $retFile = new File($url);
         } else {
-            $retFile = File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
+            $retFile = new File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
         }
         return $retFile;
     }
@@ -86,7 +86,7 @@ class FileSystem implements ServiceInterface {
             $url = $this->app->getAlias($url);
             $retFile = new File($url);
         } else {
-            $retFile = File($this->basePathCss . DIRECTORY_SEPARATOR . $url);
+            $retFile = new File($this->basePathCss . DIRECTORY_SEPARATOR . $url);
         }
         return $retFile;
     }
