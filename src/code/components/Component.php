@@ -24,7 +24,7 @@ abstract class Component {
     public function __construct($name, $conf) {
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath()))->init());
         static::setName($name);
-        ApiAppFactory::getApp()->setAlias($this->getAliasPath(), $this->getBasePath() . DIRECTORY_SEPARATOR);
+        ApiAppFactory::getApp()->setAlias($this->getAliasPath(), $this->getBasePath());
     }
 
     public function init() {
@@ -49,7 +49,7 @@ abstract class Component {
     }
 
     public function getAliasPath() {
-        return "~" . static::getName();
+        return static::getName();
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class Component {
     public function loadRoutes(): array {
         $routes = [];
         foreach ($this->defineRoutes() as $route) {
-            $route['controller'] = $this->calculatePath($route['controller']);
+            $route['controller'] = $route['controller'];
             $routes[] = $route;
         }
         return $routes;

@@ -5,7 +5,7 @@ namespace code\traits;
 trait AliasTrait {
 
     public static function getAlias($alias, $throwException = true) {
-        if (strncmp((string) $alias, '~', 1) !== 0) {
+        if (strncmp((string) $alias, '@', 1) !== 0) {
             // not an alias
             return $alias;
         }
@@ -27,12 +27,24 @@ trait AliasTrait {
     }
 
     public static function setAlias($alias, $path) {
-        if (strncmp($alias, '~', 1)) {
+        if (strncmp($alias, '@', 1)) {
             $alias = '~' . $alias;
         }
         if (!defined($alias)) {
             define($alias, $path);
         }
+    }
+
+    /**
+     * 
+     * @param string $alias
+     * @return boolean
+     */
+    public function isAlias(string $alias) {
+        if (strncmp((string) $alias, '@', 1) !== 0) {
+            return false;
+        }
+        return true;
     }
 
 }
