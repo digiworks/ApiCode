@@ -186,8 +186,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
         $components = (array) $this->getService(ServiceTypes::CONFIGURATIONS)->get('components', []);
         foreach ($components as $key => $comp) {
             /** @var Component $component */
-            $component = $this->newInstance($comp["class"], [$comp]);
-            $component->setName($key);
+            $component = $this->newInstance($comp["class"], [$key, $comp]);
             $this->processRoutes($component->loadRoutes());
             $this->addComponent($component->getName(), $component);
         }

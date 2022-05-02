@@ -20,8 +20,10 @@ abstract class Component {
     /** @var JsRender $render */
     private $render;
 
-    public function __construct($conf) {
+    public function __construct($name, $conf) {
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath()))->init());
+        static::setName($name);
+        define($this->getAliasPath(), $this->getBasePath() . DIRECTORY_SEPARATOR);
     }
 
     public function init() {
@@ -43,6 +45,10 @@ abstract class Component {
      */
     public static function setName(string $name): void {
         static::$name = $name;
+    }
+
+    public function getAliasPath() {
+        return "@" . static::getName();
     }
 
     /**
@@ -121,7 +127,7 @@ abstract class Component {
      */
     public function calculatePath(string $path): string {
         $fileSystem = $this->getService(ServiceTypes::FILESYSTEM);
-        $localPath = $this->getBasePath() . DIRECTORY_SEPARATOR . $path;
+        $localPath = $this->getAliasPath() . $path;
         if ($fileSystem->fileExists($localPath)) {
             $path = $localPath;
         }
