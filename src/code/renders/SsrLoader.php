@@ -9,19 +9,37 @@ use code\utility\string\Str;
 
 class SsrLoader extends Loader {
 
+    const launchScriptSSRender = "function init(){ ReactDOM.hydrateRoot(document.getElementById(\"root\"),<App />); } init();";
+    const launchScriptClientRender = "const root = createRoot(document.getElementById(\"root\")); root.render(<App />); init();";
+
+    protected $enableSSRender = true;
     private $buffered;
     private $imports = "";
     private $stylesheets = "";
     private $scriptClient;
     private $clientTypeScript = "text/javascript";
     private $scriptServer;
-    private $launchScript = "function init(){ ReactDOM.hydrateRoot(document.getElementById(\"root\"),<App />); } init();";
+    private $launchScript;
 
-    public function __construct($ssrFile, $scriptC = null, $scriptS = null) {
+    public function __construct($ssrFile, $scriptC = null, $scriptS = null, $enableSSRender = true) {
         $this->addPart($ssrFile);
         $this->buffered = $this->load();
         $this->scriptClient = $scriptC;
         $this->scriptServer = $scriptS;
+        $this->setEnableSSRender($enableSSRender);
+    }
+
+    public function getEnableSSRender() {
+        return $this->enableSSRender;
+    }
+
+    public function setEnableSSRender($enableSSRender): void {
+        $this->enableSSRender = $enableSSRender;
+        if ($this->enableSSRender) {
+            $this->launchScript = self::launchScriptSSRender;
+        } else {
+            $this->launchScript = self::launchScriptClientRender;
+        }
     }
 
     /**
@@ -111,7 +129,7 @@ class SsrLoader extends Loader {
                 if (Str::startsWith($import['lib'], "http", false)) {
                     $script = '<script ' . $type . ' src="' . $import['lib'] . '"></script>';
                 } else {
-                    $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '?version='. $version . '"></script>';
+                    $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '?version=' . $version . '"></script>';
                     //$script = '<script ' . $type . ' src="'. $apiGtw . '/' . $import['lib'] . '"></script>';
                 }
                 $import_scripts .= $script . PHP_EOL;
@@ -133,7 +151,7 @@ class SsrLoader extends Loader {
             if (Str::startsWith($stylesheet, "http", false)) {
                 $script = '<link rel="stylesheet" href="' . $stylesheet . '"/>';
             } else {
-                $script = '<link rel="stylesheet" href="/api/file/css/' . $stylesheet . '?version='. $version . '"/>';
+                $script = '<link rel="stylesheet" href="/api/file/css/' . $stylesheet . '?version=' . $version . '"/>';
             }
             $stylesheet_scripts .= $script . PHP_EOL;
         }

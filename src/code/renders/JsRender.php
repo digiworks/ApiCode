@@ -61,6 +61,7 @@ class JsRender {
     public function __construct($conf) {
         $this->init($conf);
         $this->loader = new SsrLoader('js/lib/ssr.js');
+        $this->loader->setEnableSSRender($this->enabled);
     }
 
     /**
