@@ -1192,16 +1192,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
                     $result .= '<span>' . $type . '(' . get_class($avar) . ')&dArr;</span></a>' .
                             '<div style="display:none;" id="' . $id . '">' . $indent . ' <span> ( </span><br>';
                     if ($depth < static::$_options['max_dump_depth']) {
-                        // public properties
-                        $class_properties = array();
-                        foreach ($avar as $name => $value) {
-                            $name = static::_cleanBuffer($name);
-                            $name = is_object($value) ? '<span>' . $name . '</span>' : $name;
-                            $result .= static::_doDump($value, $name, $indent .
-                                            $do_dump_indent, $reference, $depth);
-                            $class_properties[] = $name;
-                        }
-                        // protected/private properties
+                        // public/protected/private properties
                         $class = @new ReflectionClass($avar);
                         $properties = $class->getProperties();
                         foreach ($properties as $property) {
@@ -1210,13 +1201,15 @@ class Debugger implements ServiceInterface, DebuggerInterface {
                                 $name = $name . ':private';
                             } else if ($property->isProtected()) {
                                 $name = $name . ':protected';
+                            }else if ($property->isPublic()) {
+                                $name = $name . ':public';
                             }
                             if ($property->isStatic()) {
                                 $name = $name . ':static';
                             }
                             $property->setAccessible(true);
                             $value = $property->getValue($avar);
-                            if (!in_array($name, $class_properties)) {
+                            if (!in_array($name, $properties)) {
                                 $name = static::_cleanBuffer($name);
                                 $name = is_object($value) ? '<span>' . $name . '</span>' : $name;
                                 $result .= static::_doDump($value, $name, $indent . $do_dump_indent, $reference, $depth);
@@ -1393,10 +1386,10 @@ class Debugger implements ServiceInterface, DebuggerInterface {
     protected static function _buildMenu() {
         $ul = '<ul class="tabs right" id="floatingTab">';
         //$ul .= '<li><a href="#" onClick="minimize();return false;">>></a></li>';
-        $num_msg = @count(static::$_buffer['log']);
+        $num_msg = (is_null(static::$_buffer['log']) ? 0 : @count(static::$_buffer['log']));
         $ul .= '<li>' . static::_menuLinks('msgPanel', 'log & messages ( ' . $num_msg . ' ) ',
                         'messages ( ' . $num_msg . ' ) ') . '</li>';
-        $num_msg = @count(static::$_buffer['sql']);
+        $num_msg = (is_null(static::$_buffer['sql']) ? 0 : @count(static::$_buffer['sql']));
         $ul .= '<li>' . static::_menuLinks('sqlPanel', 'mysql query messages ( ' . $num_msg . ' ) ',
                         'sql ( ' . $num_msg . ' ) ') . '</li>';
         $num_msg = (@count(static::$_finalCoverageData) + @count(static::$_finalTraceData) );
