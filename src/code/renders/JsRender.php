@@ -110,7 +110,7 @@ class JsRender {
             $this->setOnlyServerTrasnformation($conf['onlyServerTrasnformation']);
         }
         if (isset($conf['enableSSRender'])) {
-            $this->setOnlyServerTrasnformation($conf['enableSSRender']);
+            $this->setEnableSSRender($conf['enableSSRender']);
         }
     }
 
