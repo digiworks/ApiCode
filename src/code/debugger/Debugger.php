@@ -1201,7 +1201,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
                                 $name = $name . ':private';
                             } else if ($property->isProtected()) {
                                 $name = $name . ':protected';
-                            }else if ($property->isPublic()) {
+                            } else if ($property->isPublic()) {
                                 $name = $name . ':public';
                             }
                             if ($property->isStatic()) {
@@ -2149,7 +2149,12 @@ class Debugger implements ServiceInterface, DebuggerInterface {
      * @param	string		$var		the session var to retrieve
      */
     protected static function _getSessionVars($var = null) {
-        return ( $var ) ? @$_SESSION['debugger'][$var] : @$_SESSION['debugger'];
+        $ret = "";
+        $session_debugger = @$_SESSION['debugger'];
+        if (!is_null($session_debugger)) {
+            $ret = ( $var ) ? @$_SESSION['debugger'][$var] : @$_SESSION['debugger'];
+        }
+        return $ret;
     }
 
     /**
