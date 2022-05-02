@@ -2150,8 +2150,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
      */
     protected static function _getSessionVars($var = null) {
         $ret = "";
-        $session_debugger = @$_SESSION['debugger'];
-        if (!is_null($session_debugger)) {
+        if (isset($_SESSION['debugger'])) {
             $ret = ( $var ) ? @$_SESSION['debugger'][$var] : @$_SESSION['debugger'];
         }
         return $ret;
