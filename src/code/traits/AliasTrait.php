@@ -28,7 +28,7 @@ trait AliasTrait {
 
     public static function setAlias($alias, $path) {
         if (strncmp($alias, '@', 1)) {
-            $alias = '~' . $alias;
+            $alias = '@' . $alias;
         }
         if (!defined($alias)) {
             define($alias, $path);
