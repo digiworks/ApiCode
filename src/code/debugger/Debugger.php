@@ -1273,7 +1273,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
                     $result .= '<br>';
                 } else { // could be a float, an integer or undefined
                     //$avar=static::_cleanBuffer($avar);
-                    $result .= sizeof($avar) . ')</span> ' . $type_color . $avar . '</span><br>';
+                    $result .= '**' . ')</span> ' . $type_color . $avar . '</span><br>';
                 }
             }
             $var = @$var[$keyvar];
