@@ -20,7 +20,7 @@ class JsRender {
     protected $stylesheets = [];
 
     /** @var bool */
-    protected $enabled = true;
+    protected $enableSSRender = true;
 
     /** @var string */
     protected $entry;
@@ -61,20 +61,20 @@ class JsRender {
     public function __construct($conf) {
         $this->init($conf);
         $this->loader = new SsrLoader('js/lib/ssr.js');
-        $this->loader->setEnableSSRender($this->enabled);
+        $this->loader->setEnableSSRender($this->enableSSRender);
     }
 
     /**
      * 
      * @param array $conf
      */
-    protected function init($conf){
+    protected function init($conf) {
         $engine = null;
         if (isset($conf['engine']['class'])) {
             $engine = ApiAppFactory::getApp()->newInstance($conf['engine']['class']);
             $this->engine = $engine;
         }
-        
+
         if (isset($conf['translator'])) {
             $translator = ApiAppFactory::getApp()->newInstance($conf['translator']['class'], [$engine]);
             $this->DOMTransformer($translator);
@@ -109,7 +109,11 @@ class JsRender {
         if (isset($conf['onlyServerTrasnformation'])) {
             $this->setOnlyServerTrasnformation($conf['onlyServerTrasnformation']);
         }
+        if (isset($conf['enableSSRender'])) {
+            $this->setOnlyServerTrasnformation($conf['enableSSRender']);
+        }
     }
+
     /**
      * 
      * @param RouteContext $controller
@@ -183,9 +187,8 @@ class JsRender {
      *
      * @return $this
      */
-    public function enabled(bool $enabled = true) {
-        $this->enabled = $enabled;
-
+    public function setEnableSSRender(bool $enabled = true) {
+        $this->enableSSRender = $enabled;
         return $this;
     }
 
@@ -194,10 +197,8 @@ class JsRender {
      *
      * @return $this
      */
-    public function disabled(bool $disabled = true) {
-        $this->enabled = !$disabled;
-
-        return $this;
+    public function getEnableSSRender() {
+        return $this->enableSSRender;
     }
 
     /**
@@ -276,7 +277,7 @@ class JsRender {
      * @throws type
      */
     public function loadImports() {
-        if (!$this->enabled) {
+        if (!$this->enableSSRender) {
             return $this->fallback;
         }
 
@@ -312,7 +313,7 @@ class JsRender {
      * @throws type
      */
     public function ssrCompilation($json = false) {
-        if (!$this->enabled) {
+        if (!$this->enableSSRender) {
             return $this->fallback;
         }
 
