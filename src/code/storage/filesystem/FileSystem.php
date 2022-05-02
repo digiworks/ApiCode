@@ -45,13 +45,14 @@ class FileSystem implements ServiceInterface {
         $this->basePathJS = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseJsFolderPath', "");
         $this->basePathCss = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseCssFolderPath', "");
     }
-
+    
     /**
      * 
      * @param type $url
      * @return File
      */
     public function getFile($url) {
+        $url = $this->app->getAlias($url);
         return new File($this->basePath . DIRECTORY_SEPARATOR . $url);
     }
 
@@ -61,6 +62,7 @@ class FileSystem implements ServiceInterface {
      * @return File
      */
     public function getJs($url) {
+        $url = $this->app->getAlias($url);
         return new File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
     }
 
@@ -70,6 +72,7 @@ class FileSystem implements ServiceInterface {
      * @return File
      */
     public function getCss($url) {
+        $url = $this->app->getAlias($url);
         return new File($this->basePathCss . DIRECTORY_SEPARATOR . $url);
     }
 

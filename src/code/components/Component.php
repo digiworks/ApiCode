@@ -23,7 +23,7 @@ abstract class Component {
     public function __construct($name, $conf) {
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath()))->init());
         static::setName($name);
-        define($this->getAliasPath(), $this->getBasePath() . DIRECTORY_SEPARATOR);
+        ApiAppFactory::getApp()->setAlias($this->getAliasPath(), $this->getBasePath() . DIRECTORY_SEPARATOR);
     }
 
     public function init() {
@@ -48,7 +48,7 @@ abstract class Component {
     }
 
     public function getAliasPath() {
-        return "@" . static::getName();
+        return "~" . static::getName();
     }
 
     /**

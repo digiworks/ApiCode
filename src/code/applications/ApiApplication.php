@@ -6,6 +6,7 @@ use code\components\Component;
 use code\configuration\Configurations;
 use code\service\ServiceTypes;
 use code\structure\Structure;
+use code\traits\AliasTrait;
 use code\utility\Arr;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
@@ -21,6 +22,8 @@ use Slim\Interfaces\RouteResolverInterface;
 
 class ApiApplication extends App implements CoreApplicationInterface {
 
+    use AliasTrait;
+    
     private $config_path = "etc/configurations";
     private $params;
     private $services = [];
