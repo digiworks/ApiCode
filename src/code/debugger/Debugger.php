@@ -436,7 +436,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
      * Processes the buffer to show the interface and/or the console messages
      */
     public static function processBuffer() {
-        @unregister_tick_function('tickHandler');
+        @unregister_tick_function([Debugger::class,'tickHandler']);
         static::$_countTime = false;
         if (static::$_codeCoverage) {
             $trace_o = static::$_options['code_coverage'];
@@ -462,7 +462,7 @@ class Debugger implements ServiceInterface, DebuggerInterface {
     }
 
     public static function processAjaxBuffer() {
-        @unregister_tick_function('tickHandler');
+        @unregister_tick_function([Debugger::class,'tickHandler']);
         static::$_countTime = false;
         if (static::$_codeCoverage) {
             $trace_o = static::$_options['code_coverage'];
