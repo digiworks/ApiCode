@@ -47,7 +47,7 @@ class FileSystem implements ServiceInterface {
         $this->basePathJS = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseJsFolderPath', "");
         $this->basePathCss = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseCssFolderPath', "");
     }
-    
+
     public function getBaseRootPath() {
         return $this->baseRootPath;
     }
@@ -64,7 +64,6 @@ class FileSystem implements ServiceInterface {
         return $this->basePathCss;
     }
 
-    
     /**
      * 
      * @param string $url
@@ -73,22 +72,22 @@ class FileSystem implements ServiceInterface {
     public function getFile(string $url) {
         if ($this->app->isAlias($url)) {
             $url = $this->app->getAlias($url);
-            $retFile = new File($url);
+            $retFile = new File($this->baseRootPath . $url);
         } else {
             $retFile = new File($this->baseRootPath . DIRECTORY_SEPARATOR . $url);
         }
         return $retFile;
     }
 
-   /**
-    * 
-    * @param string $url
-    * @return \code\storage\filesystem\File
-    */
+    /**
+     * 
+     * @param string $url
+     * @return \code\storage\filesystem\File
+     */
     public function getJs(string $url) {
         if ($this->app->isAlias($url)) {
             $url = $this->app->getAlias($url);
-            $retFile = new File($url);
+            $retFile = new File($this->baseRootPath . $url);
         } else {
             $retFile = new File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
         }
@@ -103,22 +102,22 @@ class FileSystem implements ServiceInterface {
     public function getCss(string $url) {
         if ($this->app->isAlias($url)) {
             $url = $this->app->getAlias($url);
-            $retFile = new File($url);
+            $retFile = new File($this->baseRootPath . $url);
         } else {
             $retFile = new File($this->basePathCss . DIRECTORY_SEPARATOR . $url);
         }
         return $retFile;
     }
 
-   /**
-    * 
-    * @param string $url
-    * @return \code\storage\filesystem\File
-    */
+    /**
+     * 
+     * @param string $url
+     * @return \code\storage\filesystem\File
+     */
     public function getStaticFile(string $url) {
         if ($this->app->isAlias($url)) {
             $url = $this->app->getAlias($url);
-            $retFile = new File($url);
+            $retFile = new File($this->baseRootPath . $url);
         } else {
             $retFile = new File($this->baseStaticPath . DIRECTORY_SEPARATOR . $url);
         }
@@ -165,7 +164,7 @@ class FileSystem implements ServiceInterface {
         if (isset($this->customCreators[$name])) {
             return $this->callCustomCreator();
         }
-        $driver = $this->app->newInstance($name,[$this]);
+        $driver = $this->app->newInstance($name, [$this]);
         return $driver;
     }
 
