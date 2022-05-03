@@ -165,7 +165,7 @@ class FileSystem implements ServiceInterface {
         if (isset($this->customCreators[$name])) {
             return $this->callCustomCreator();
         }
-        $driver = $this->app->newInstance($name);
+        $driver = $this->app->newInstance($name,[$this]);
         return $driver;
     }
 
