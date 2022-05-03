@@ -2,6 +2,8 @@
 
 namespace code\utility;
 
+use code\applications\ApiAppFactory;
+use code\service\ServiceTypes;
 use code\utility\string\Str;
 
 class Curl {
