@@ -52,7 +52,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public function deleteDirectory(string $directory): bool {
-        return rmdir($this->filesystem->getBaseRootPath() . DIRECTORY_SEPARATOR . $directory);
+        return rmdir($this->filesystem->getBaseRootPath() . $directory);
     }
 
     /**
@@ -146,7 +146,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public function diskfreespace($directory) {
-        return disk_free_space($directory);
+        return disk_free_space($this->filesystem->getBaseRootPath() . $this->filesystem->normalizePath($directory));
     }
 
     /**
@@ -155,7 +155,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public function disktotalspace($directory) {
-        return disk_total_space($directory);
+        return disk_total_space($this->filesystem->getBaseRootPath() . $this->filesystem->normalizePath($directory));
     }
 
     /**
@@ -199,7 +199,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $url
      */
     public function createAbsolutePath(string $url) {
-        return $this->filesystem->getBaseRootPath()  . $url;
+        return $this->filesystem->getBaseRootPath()  . $this->filesystem->normalizePath($url);
     }
 
 }
