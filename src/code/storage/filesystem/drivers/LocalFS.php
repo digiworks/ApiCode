@@ -36,7 +36,7 @@ class LocalFS implements StorageDriverInterface {
      * @param bool $recursive
      * @return type
      */
-    public  function createDirectory(string $directory,
+    public function createDirectory(string $directory,
             int $permissions = 0777,
             bool $recursive = false): bool {
 
@@ -48,7 +48,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $directory
      * @return type
      */
-    public  function deleteDirectory(string $directory): bool {
+    public function deleteDirectory(string $directory): bool {
         return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
     }
 
@@ -85,7 +85,7 @@ class LocalFS implements StorageDriverInterface {
         }
     }
 
-    public static function listContents(string $path, bool $deep): iterable {
+    public function listContents(string $path, bool $deep): iterable {
         /** @var SplFileInfo[] $iterator */
         $iterator = $deep ? $this->listDirectoryRecursively($path) : $this->listDirectory($path);
 
@@ -142,7 +142,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $directory
      * @return type
      */
-    public  function diskfreespace($directory) {
+    public function diskfreespace($directory) {
         return disk_free_space($directory);
     }
 
@@ -151,7 +151,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $directory
      * @return type
      */
-    public  function disktotalspace($directory) {
+    public function disktotalspace($directory) {
         return disk_total_space($directory);
     }
 
@@ -161,7 +161,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public function fileExists(string $path): bool {
-        return is_file($this->basePath . DIRECTORY_SEPARATOR .$path);
+        return is_file($this->basePath . DIRECTORY_SEPARATOR . $path);
     }
 
     /**
@@ -169,8 +169,8 @@ class LocalFS implements StorageDriverInterface {
      * @param string $url
      * @return type
      */
-    public  function dirname($url) {
-        return str_replace($this->basePath . DIRECTORY_SEPARATOR,'',dirname($url));
+    public function dirname($url) {
+        return str_replace($this->basePath . DIRECTORY_SEPARATOR, '', dirname($url));
     }
 
     /**
@@ -178,7 +178,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $url
      * @return type
      */
-    public  function realpath($url) {
+    public function realpath($url) {
         return realpath($url);
     }
 

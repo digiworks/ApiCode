@@ -71,27 +71,27 @@ class AwsS3V3 implements StorageDriverInterface {
         
     }
 
-    public static function deleteDirectory(string $path): bool {
+    public function deleteDirectory(string $path): bool {
         
     }
 
-    public  function dirname($url) {
+    public function dirname($url) {
         
     }
 
-    public  function diskfreespace($directory) {
+    public function diskfreespace($directory) {
         
     }
 
-    public  function disktotalspace($directory) {
+    public function disktotalspace($directory) {
         
     }
 
-    public  function listContents(string $path, bool $deep): iterable {
+    public function listContents(string $path, bool $deep): iterable {
         
     }
 
-    public  function realpath($url) {
+    public function realpath($url) {
         
     }
 

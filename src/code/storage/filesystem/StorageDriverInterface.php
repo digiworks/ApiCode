@@ -14,19 +14,19 @@ interface StorageDriverInterface {
     /**
      * @throws FilesystemException
      */
-    public static function fileExists(string $path): bool;
+    public  function fileExists(string $path): bool;
 
     /**
      * @throws UnableToDeleteDirectory
      * @throws FilesystemException
      */
-    public static function deleteDirectory(string $path): bool;
+    public  function deleteDirectory(string $path): bool;
 
     /**
      * @throws UnableToCreateDirectory
      * @throws FilesystemException
      */
-    public static function createDirectory(string $directory,
+    public  function createDirectory(string $directory,
             int $permissions = 0777,
             bool $recursive = false): bool;
 
@@ -35,7 +35,7 @@ interface StorageDriverInterface {
      *
      * @throws FilesystemException
      */
-    public static function listContents(string $path, bool $deep): iterable;
+    public  function listContents(string $path, bool $deep): iterable;
 
     public  function diskfreespace($directory);
 
