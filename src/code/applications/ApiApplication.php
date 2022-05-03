@@ -208,6 +208,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
             try {
                 $reflection = new ReflectionClass($class);
             } catch (ReflectionException $e) {
+                $this->getLogger()->error($e->getMessage());
                 return false;
             }
 
