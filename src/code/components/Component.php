@@ -142,7 +142,7 @@ abstract class Component {
      */
     public function getConfigurationPath(): string {
         $fileSystem = $this->getService(ServiceTypes::FILESYSTEM);
-        return $fileSystem->realpath($this->getBasePath() . DIRECTORY_SEPARATOR . $this->config_path);
+        return $fileSystem->createAbsolutePath($this->getBasePath() . DIRECTORY_SEPARATOR . $this->config_path);
     }
 
 }

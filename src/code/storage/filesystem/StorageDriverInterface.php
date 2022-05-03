@@ -44,6 +44,8 @@ interface StorageDriverInterface {
     public  function dirname($url);
 
     public  function realpath($url);
+    
+    public function createAbsolutePath(string $url);
 
     public function createStorageItem(string $path);
 }

@@ -98,4 +98,12 @@ class AwsS3V3 implements StorageDriverInterface {
         
     }
 
+    /**
+     * 
+     * @param string $url
+     */
+    public function createAbsolutePath(string $url) {
+        
+    }
+
 }

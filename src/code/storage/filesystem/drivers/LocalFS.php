@@ -182,7 +182,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public function realpath($url) {
-        return realpath($this->filesystem->getBaseRootPath() . DIRECTORY_SEPARATOR .$url);
+        return realpath($this->filesystem->getBaseRootPath() . $url);
     }
 
     /**
@@ -192,6 +192,14 @@ class LocalFS implements StorageDriverInterface {
      */
     public function createStorageItem(string $path) {
         return new File($path);
+    }
+
+    /**
+     * 
+     * @param string $url
+     */
+    public function createAbsolutePath(string $url) {
+        return $this->filesystem->getBaseRootPath()  . $url;
     }
 
 }
