@@ -35,10 +35,36 @@ class JsGateWayRender extends JsRender {
     }
 
     protected function init($conf) {
-        parent::init($conf);
         if (isset($conf['gateway'])) {
             $this->setGateway($conf['gateway']);
         }
+        parent::init($conf);
+    }
+
+    /**
+     * 
+     * @param string $import
+     * @return $this
+     */
+    public function addImport(string $import) {
+        $import['lib'] = $this->gateway . $import['lib'];
+        $this->imports[] = $import;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param array $imports
+     * @return $this
+     */
+    public function addImports(array $imports) {
+        $chg_imports = [];
+        foreach ($imports as $import) {
+            $import['lib'] = $this->gateway . $import['lib'];
+            $chg_imports[] = $import;
+        }
+        $this->imports = Arr::mergeRecursive($this->imports, $chg_imports);
+        return $this;
     }
 
 }
