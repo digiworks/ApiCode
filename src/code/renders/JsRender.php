@@ -95,7 +95,6 @@ class JsRender {
 
         if (isset($conf['imports'])) {
             $this->addImports($conf['imports']);
-            $this->loadImports();
         }
         if (isset($conf['onlyServerTrasnformation'])) {
             $this->setOnlyServerTrasnformation($conf['onlyServerTrasnformation']);
@@ -309,6 +308,7 @@ class JsRender {
         }
 
         try {
+            $this->loadImports();
             if (!is_null($this->getCurrentTheme())) {
                 $serverScript = $this->getCurrentTheme()->setView($this->view)->setRenderType(RenderTypes::SERVER)->render();
             } else {

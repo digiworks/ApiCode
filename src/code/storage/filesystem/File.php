@@ -174,4 +174,19 @@ class File extends StorageItem {
         throw UnableToRetrieveMetadata::fileSize($this->path, error_get_last()['message'] ?? '');
     }
 
+    /**
+     * 
+     */
+    public function file_get_contents(): string {
+        $buffer = "";
+        try {
+            $stream = $this->stream();
+            $buffer = $stream->read($this->filesize());
+            $stream->close();
+        } catch (Exception $ex) {
+            
+        }
+        return $buffer;
+    }
+
 }
