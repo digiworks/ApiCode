@@ -1,6 +1,6 @@
 <?php
 
-namespace code\service;
+namespace code\traits;
 
 use code\applications\ApiAppFactory;
 use code\applications\CoreApplicationInterface;

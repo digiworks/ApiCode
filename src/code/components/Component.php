@@ -5,8 +5,8 @@ namespace code\components;
 use code\applications\ApiAppFactory;
 use code\configuration\Configurations;
 use code\renders\JsRender;
-use code\service\ServicesTrait;
 use code\service\ServiceTypes;
+use code\traits\ServicesTrait;
 use ReflectionClass;
 
 abstract class Component {
