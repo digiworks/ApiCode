@@ -36,7 +36,7 @@ class LocalFS implements StorageDriverInterface {
      * @param bool $recursive
      * @return type
      */
-    public static function createDirectory(string $directory,
+    public  function createDirectory(string $directory,
             int $permissions = 0777,
             bool $recursive = false): bool {
 
@@ -48,7 +48,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $directory
      * @return type
      */
-    public static function deleteDirectory(string $directory): bool {
+    public  function deleteDirectory(string $directory): bool {
         return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
     }
 
@@ -142,7 +142,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $directory
      * @return type
      */
-    public static function diskfreespace($directory) {
+    public  function diskfreespace($directory) {
         return disk_free_space($directory);
     }
 
@@ -151,7 +151,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $directory
      * @return type
      */
-    public static function disktotalspace($directory) {
+    public  function disktotalspace($directory) {
         return disk_total_space($directory);
     }
 
@@ -160,7 +160,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $url
      * @return type
      */
-    public static function fileExists(string $path): bool {
+    public function fileExists(string $path): bool {
         return is_file($this->basePath . DIRECTORY_SEPARATOR .$path);
     }
 
@@ -169,7 +169,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $url
      * @return type
      */
-    public static function dirname($url) {
+    public  function dirname($url) {
         return str_replace($this->basePath . DIRECTORY_SEPARATOR,'',dirname($url));
     }
 
@@ -178,7 +178,7 @@ class LocalFS implements StorageDriverInterface {
      * @param string $url
      * @return type
      */
-    public static function realpath($url) {
+    public  function realpath($url) {
         return realpath($url);
     }
 
