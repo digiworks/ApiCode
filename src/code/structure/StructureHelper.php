@@ -3,6 +3,9 @@
 namespace code\structure;
 
 use ArrayAccess;
+use code\applications\ApiAppFactory;
+use code\service\ServiceTypes;
+use code\utility\Curl;
 use DomainException;
 use InvalidArgumentException;
 use ReflectionObject;
@@ -30,16 +33,11 @@ class StructureHelper {
      * @since   2.1
      */
     public static function loadFile($file, $format = Format::JSON, $options = []) {
-        if (!is_file($file)) {
+        $fileSystem = ApiAppFactory::getApp()->getService(ServiceTypes::FILESYSTEM);
+        if (!$fileSystem->fileExists($file)) {
             throw new InvalidArgumentException('No such file: ' . $file);
         }
-
-        if (strtolower($format) == Format::PHP) {
-            $data = include $file;
-        } else {
-            $data = file_get_contents($file);
-        }
-
+        $data = Curl::get($file);
         return static::loadString($data, $format, $options);
     }
 
