@@ -141,7 +141,8 @@ abstract class Component {
      * @return string
      */
     public function getConfigurationPath(): string {
-        return $this->getBasePath() . DIRECTORY_SEPARATOR . $this->config_path;
+        $fileSystem = $this->getService(ServiceTypes::FILESYSTEM);
+        return $fileSystem->realpath($this->getBasePath() . DIRECTORY_SEPARATOR . $this->config_path);
     }
 
 }
