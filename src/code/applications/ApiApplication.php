@@ -24,7 +24,7 @@ class ApiApplication extends App implements CoreApplicationInterface {
 
     use AliasTrait;
     
-    private $config_path = "etc/configurations";
+    private $config_path = "../etc/configurations";
     private $params;
     private $services = [];
     private $middlewares = [];
