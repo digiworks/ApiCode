@@ -181,7 +181,7 @@ class File extends StorageItem {
         $buffer = "";
         try {
             $stream = $this->stream();
-            $buffer = $stream->read($this->filesize());
+            $buffer = $stream->read($this->filesize()->fileSize());
             $stream->close();
         } catch (Exception $ex) {
             
