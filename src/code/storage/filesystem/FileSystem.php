@@ -42,10 +42,10 @@ class FileSystem implements ServiceInterface {
     }
 
     public function init() {
-        $this->baseRootPath = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseRootFolderPath', "");
-        $this->baseStaticPath = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseStaticFolderPath', "");
-        $this->basePathJS = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseJsFolderPath', "");
-        $this->basePathCss = $this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseCssFolderPath', "");
+        $this->baseRootPath = $this->normalizeDir($this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseRootFolderPath', ""));
+        $this->baseStaticPath = $this->normalizeDir($this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseStaticFolderPath', ""));
+        $this->basePathJS = $this->normalizeDir($this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseJsFolderPath', ""));
+        $this->basePathCss = $this->normalizeDir($this->app->getService(ServiceTypes::CONFIGURATIONS)->get('env.web.baseCssFolderPath', ""));
     }
 
     public function getBaseRootPath() {
@@ -70,12 +70,8 @@ class FileSystem implements ServiceInterface {
      * @return \code\storage\filesystem\File
      */
     public function getFile(string $url) {
-        if ($this->app->isAlias($url)) {
-            $url = $this->app->getAlias($url);
-            $retFile = new File($this->baseRootPath . $url);
-        } else {
-            $retFile = new File($this->baseRootPath . DIRECTORY_SEPARATOR . $url);
-        }
+
+        $retFile = new File($this->baseRootPath . $this->normalizePath($url));
         return $retFile;
     }
 
@@ -85,12 +81,8 @@ class FileSystem implements ServiceInterface {
      * @return \code\storage\filesystem\File
      */
     public function getJs(string $url) {
-        if ($this->app->isAlias($url)) {
-            $url = $this->app->getAlias($url);
-            $retFile = new File($this->baseRootPath . $url);
-        } else {
-            $retFile = new File($this->basePathJS . DIRECTORY_SEPARATOR . $url);
-        }
+
+        $retFile = new File($this->basePathJS . $this->normalizePath($url));
         return $retFile;
     }
 
@@ -100,12 +92,8 @@ class FileSystem implements ServiceInterface {
      * @return \code\storage\filesystem\File
      */
     public function getCss(string $url) {
-        if ($this->app->isAlias($url)) {
-            $url = $this->app->getAlias($url);
-            $retFile = new File($this->baseRootPath . $url);
-        } else {
-            $retFile = new File($this->basePathCss . DIRECTORY_SEPARATOR . $url);
-        }
+
+        $retFile = new File($this->basePathCss . $this->normalizePath($url));
         return $retFile;
     }
 
@@ -115,12 +103,8 @@ class FileSystem implements ServiceInterface {
      * @return \code\storage\filesystem\File
      */
     public function getStaticFile(string $url) {
-        if ($this->app->isAlias($url)) {
-            $url = $this->app->getAlias($url);
-            $retFile = new File($this->baseRootPath . $url);
-        } else {
-            $retFile = new File($this->baseStaticPath . DIRECTORY_SEPARATOR . $url);
-        }
+
+        $retFile = new File($this->baseStaticPath . $this->normalizePath($url));
         return $retFile;
     }
 
@@ -225,6 +209,22 @@ class FileSystem implements ServiceInterface {
      */
     public function __call($method, $parameters) {
         return $this->disk()->$method(...$parameters);
+    }
+
+    public function normalizePath($path): string {
+        if ($this->app->isAlias($path)) {
+            $path = $this->app->getAlias($path);
+        }
+
+        return $path;
+    }
+
+    public function normalizeDir($path): string {
+        $path = $this->normalizePath($path);
+        if (!str_ends_with($path, DIRECTORY_SEPARATOR)) {
+            $path .= DIRECTORY_SEPARATOR;
+        }
+        return $path;
     }
 
 }
