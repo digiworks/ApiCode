@@ -2,7 +2,10 @@
 
 namespace code\storage\filesystem\drivers;
 
+use code\storage\filesystem\AwsS3File;
+use code\storage\filesystem\FileSystem;
 use code\storage\filesystem\StorageDriverInterface;
+use Throwable;
 
 class AwsS3V3 implements StorageDriverInterface {
 
@@ -49,8 +52,8 @@ class AwsS3V3 implements StorageDriverInterface {
      */
     private $client;
 
-    public function __construct(
-            S3ClientInterface $client
+    public function __construct(FileSystem $filesystem,
+            S3ClientInterface $client = null
     ) {
         $this->client = $client;
     }
@@ -64,7 +67,7 @@ class AwsS3V3 implements StorageDriverInterface {
     }
 
     public function createStorageItem($path) {
-        new \code\storage\filesystem\AwsS3File($path, $this->client);
+        new AwsS3File($path, $this->client);
     }
 
     public static function createDirectory(string $directory, int $permissions = 0777, bool $recursive = false): bool {

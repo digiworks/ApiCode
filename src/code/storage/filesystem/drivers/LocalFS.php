@@ -7,6 +7,7 @@ use code\exceptions\UnableToCreateDirectory;
 use code\storage\filesystem\DirectoryAttributes;
 use code\storage\filesystem\File;
 use code\storage\filesystem\FileAttributes;
+use code\storage\filesystem\FileSystem;
 use code\storage\filesystem\StorageDriverInterface;
 use DirectoryIterator;
 use FilesystemIterator;
@@ -24,9 +25,11 @@ class LocalFS implements StorageDriverInterface {
      * @var int
      */
     private $linkHandling;
+    private $filesystem;
 
-    public function __construct(int $linkHandling = self::DISALLOW_LINKS) {
+    public function __construct(FileSystem $filesystem, int $linkHandling = self::DISALLOW_LINKS) {
         $this->linkHandling = $linkHandling;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -40,7 +43,7 @@ class LocalFS implements StorageDriverInterface {
             int $permissions = 0777,
             bool $recursive = false): bool {
 
-        return mkdir($this->basePath . DIRECTORY_SEPARATOR . $directory, $permissions, $recursive);
+        return mkdir($this->filesystem->getBaseRootPath() . DIRECTORY_SEPARATOR . $directory, $permissions, $recursive);
     }
 
     /**
@@ -49,7 +52,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public function deleteDirectory(string $directory): bool {
-        return rmdir($this->basePath . DIRECTORY_SEPARATOR . $directory);
+        return rmdir($this->filesystem->getBaseRootPath() . DIRECTORY_SEPARATOR . $directory);
     }
 
     /**
@@ -161,7 +164,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public function fileExists(string $path): bool {
-        return is_file($path);
+        return is_file($this->filesystem->getBaseRootPath() . DIRECTORY_SEPARATOR . $path);
     }
 
     /**
@@ -170,7 +173,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public function dirname($url) {
-        return dirname($url);
+        return str_replace($this->filesystem->getBaseRootPath(), '', dirname($url));
     }
 
     /**
@@ -182,7 +185,12 @@ class LocalFS implements StorageDriverInterface {
         return realpath($url);
     }
 
-    public function createStorageItem($path) {
+    /**
+     * 
+     * @param string $path
+     * @return File
+     */
+    public function createStorageItem(string $path) {
         return new File($path);
     }
 
