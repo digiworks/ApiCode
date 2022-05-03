@@ -22,7 +22,8 @@ class Curl {
         {
             $result = static::curl_get($url,$get,$options);
         }else{
-            $result = file_get_contents($url);
+            $fileSystem = ApiAppFactory::getApp()->getService(ServiceTypes::FILESYSTEM);
+            $result = $fileSystem->getFile($url)->file_get_contents();
         }
         return $result;
     }
