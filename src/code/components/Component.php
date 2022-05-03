@@ -118,7 +118,8 @@ abstract class Component {
      */
     public function getBasePath() {
         $rc = new ReflectionClass(get_class($this));
-        return dirname($rc->getFileName());
+        $fileSystem = $this->getService(ServiceTypes::FILESYSTEM);
+        return $fileSystem->dirname($rc->getFileName());
     }
 
     /**

@@ -161,7 +161,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public static function fileExists(string $path): bool {
-        return is_file($path);
+        return is_file($this->basePath . DIRECTORY_SEPARATOR .$path);
     }
 
     /**
@@ -170,7 +170,7 @@ class LocalFS implements StorageDriverInterface {
      * @return type
      */
     public static function dirname($url) {
-        return dirname($url);
+        return str_replace($this->basePath . DIRECTORY_SEPARATOR,'',dirname($url));
     }
 
     /**
