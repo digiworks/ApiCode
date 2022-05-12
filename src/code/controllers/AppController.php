@@ -107,13 +107,16 @@ class AppController {
          if (!is_null($this->component)) {
             $render =  $this->component->getRender();
             $render->setController($this);
-            $render->addStylesheets($this->component->loadStylesheets());
-            $render->addImports($this->component->loadImports());
-            
             $globalrender = $renderManager->getRender($this);
             $render->addStylesheets($globalrender->getStylesheets());
             $render->addImports($globalrender->getImports());
-                    
+            $render->DOMTransformer ($globalrender->getDOMTransformer());
+            $render->setThemes ($globalrender->getThemes());  
+            
+            $render->addStylesheets($this->component->loadStylesheets());
+            $render->addImports($this->component->loadImports());
+            
+                 
         }
         else{
             $render = $renderManager->getRender($this);

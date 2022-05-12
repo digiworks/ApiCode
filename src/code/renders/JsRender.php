@@ -157,20 +157,24 @@ class JsRender {
         }
         return $theme;
     }
-    
-     public function getThemes(): JsTheme {
+
+    public function getThemes(): array {
         return $this->themes;
+    }
+
+    public function setThemes(array $themes): void {
+        $this->themes = $themes;
     }
 
     public function DOMTransformer($cmd) {
         $this->transformer = $cmd;
         return $this;
     }
+
     public function getDOMTransformer() {
         return $this->transformer;
     }
 
-    
     public function getOnlyServerTrasnformation(): bool {
         return $this->onlyServerTrasnformation;
     }
@@ -228,16 +232,15 @@ class JsRender {
         $this->imports = Arr::mergeRecursive($this->imports, $imports);
         return $this;
     }
-    
+
     /**
      * 
      * @return array
      */
-    public function getImports() : array {
+    public function getImports(): array {
         return $this->imports;
     }
 
-    
     /**
      * 
      * @param array $imports
@@ -267,7 +270,7 @@ class JsRender {
         $this->stylesheets = Arr::mergeRecursive($this->stylesheets, $stylesheets);
         return $this;
     }
-    
+
     /**
      * 
      * @return array
@@ -276,7 +279,6 @@ class JsRender {
         return $this->stylesheets;
     }
 
-    
     /**
      * @param string $fallback
      *
