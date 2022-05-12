@@ -112,7 +112,7 @@ class AppController {
             $render->addImports($globalrender->getImports());
             $render->DOMTransformer ($globalrender->getDOMTransformer());
             $render->setThemes ($globalrender->getThemes());  
-            
+            $render->useTheme($globalrender->getThemeInUse());
             $render->addStylesheets($this->component->loadStylesheets());
             $render->addImports($this->component->loadImports());
             
