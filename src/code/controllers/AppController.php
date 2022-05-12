@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Slim\Routing\RouteContext;
 
-abstract class AppController {
+class AppController {
 
     /** @var ServerRequestInterface $request */
     protected $request;
@@ -191,18 +191,13 @@ abstract class AppController {
      * @param ResponseInterface $response
      * @param array $args
      */
-    public function renderView(ServerRequestInterface $request, ResponseInterface $response, array $args) {
+    public function renderview(ServerRequestInterface $request, ResponseInterface $response, array $args) {
 
-        try {
-            $routeContext = RouteContext::fromRequest($request);
-            $route = $routeContext->getRoute();
-            $name = $route->getName();
-            $groups = $route->getGroups();
-            $methods = $route->getMethods();
-            $arguments = $route->getArguments();
-            $basePath = $routeContext->getBasePath();
-
+       try {
             $this->setRequest($request)->setResponse($response);
+            $data = $request->getQueryParams();
+            $this->setCurrentView($data['url'])->buildViewResponse()->render();
+            
         } catch (Exception $ex) {
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
