@@ -3,6 +3,7 @@
 namespace code\renders;
 
 class JsRestRender extends JsRender {
+
     /**
      * 
      * @return string
@@ -14,7 +15,11 @@ class JsRestRender extends JsRender {
             $clientScript = $this->view->setRenderType(RenderTypes::CLIENT)->render();
         }
 
-        return $this->addBaseAppConfig() . $clientScript;
+        $view = [
+            'theme' => $this->getThemeInUse(),
+            'view' => $this->addBaseAppConfig() . $clientScript
+        ];
+        return json_encode($view);
     }
 
     protected function addBaseAppConfig() {

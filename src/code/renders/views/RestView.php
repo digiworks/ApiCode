@@ -31,7 +31,8 @@ class RestView extends View {
     public function load() {
         $view = "";
         try {
-            $view = $this->restClient->get($this->url, ['verify' => false]);
+            $restRender = $this->restClient->get($this->url, ['verify' => false]);
+            $view = json_decode($restRender,true)['view'];
         } catch (Exception $ex) {
             
         }
