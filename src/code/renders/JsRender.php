@@ -157,12 +157,20 @@ class JsRender {
         }
         return $theme;
     }
+    
+     public function getThemes(): JsTheme {
+        return $this->themes;
+    }
 
     public function DOMTransformer($cmd) {
         $this->transformer = $cmd;
         return $this;
     }
+    public function getDOMTransformer() {
+        return $this->transformer;
+    }
 
+    
     public function getOnlyServerTrasnformation(): bool {
         return $this->onlyServerTrasnformation;
     }
