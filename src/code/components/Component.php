@@ -22,8 +22,13 @@ abstract class Component {
     private static $name;
 
     /** @var JsRender $render */
-    private $render;
+    protected $render;
 
+    public function getRender() {
+        return $this->render;
+    }
+
+        
     public function __construct($name, $conf) {
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath()))->init());
         static::setName($name);

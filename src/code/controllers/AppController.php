@@ -104,7 +104,13 @@ class AppController {
      */
     public function render() {
         $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-        $render = $renderManager->getRender($this);
+         if (!is_null($this->component)) {
+            $render =  $this->component->getRender();
+            $render->setController($this);
+        }
+        else{
+            $render = $renderManager->getRender($this);
+        }
         if (!is_null($this->theme)) {
             $render->useTheme($this->theme);
         }
@@ -196,6 +202,9 @@ class AppController {
        try {
             $this->setRequest($request)->setResponse($response);
             $data = $request->getQueryParams();
+            if(isset($data['m']) && !empty($data['m'])){
+                $this->setComponent(ApiAppFactory::getApp()->getComponent($data['m']));
+            }
             $this->setCurrentView($data['url'])->buildViewResponse()->render();
             
         } catch (Exception $ex) {
@@ -203,6 +212,19 @@ class AppController {
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
         }
         return $this->getResponse();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getPatternRoute(string $pattern): RouteInterface
+    {
+        foreach (ApiAppFactory::getApp()->getRouteCollector()->getRoutes() as $route) {
+            if ($pattern === $route->getPattern()) {
+                return $route;
+            }
+        }
+        throw new RuntimeException('Named route does not exist for name: ' . $pattern);
     }
 
 }
