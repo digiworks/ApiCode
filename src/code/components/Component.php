@@ -11,6 +11,9 @@ use ReflectionClass;
 
 abstract class Component {
 
+    const RENDER_CONFIGURATIONS = "render";
+    
+    
     use ServicesTrait;
 
     private $config_path = "etc/configurations";
@@ -25,6 +28,8 @@ abstract class Component {
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath()))->init());
         static::setName($name);
         ApiAppFactory::getApp()->setAlias($this->getAliasPath(), $this->getBasePath());
+        $confRender = $conf->get(static::RENDER_CONFIGURATIONS);
+        $this->render = ApiAppFactory::getApp()->newInstance($confRender['class'], [$confRender]);
     }
 
     public function init() {
