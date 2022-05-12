@@ -33,7 +33,7 @@ abstract class Component {
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath()))->init());
         static::setName($name);
         ApiAppFactory::getApp()->setAlias($this->getAliasPath(), $this->getBasePath());
-        $confRender = $conf->get(static::RENDER_CONFIGURATIONS);
+        $confRender = $conf[static::RENDER_CONFIGURATIONS];
         $this->render = ApiAppFactory::getApp()->newInstance($confRender['class'], [$confRender]);
     }
 

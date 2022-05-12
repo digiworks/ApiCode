@@ -220,7 +220,16 @@ class JsRender {
         $this->imports = Arr::mergeRecursive($this->imports, $imports);
         return $this;
     }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getImports() : array {
+        return $this->imports;
+    }
 
+    
     /**
      * 
      * @param array $imports
@@ -250,7 +259,16 @@ class JsRender {
         $this->stylesheets = Arr::mergeRecursive($this->stylesheets, $stylesheets);
         return $this;
     }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getStylesheets() {
+        return $this->stylesheets;
+    }
 
+    
     /**
      * @param string $fallback
      *

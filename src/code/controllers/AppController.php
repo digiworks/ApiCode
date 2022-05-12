@@ -107,16 +107,19 @@ class AppController {
          if (!is_null($this->component)) {
             $render =  $this->component->getRender();
             $render->setController($this);
+            $render->addStylesheets($this->component->loadStylesheets());
+            $render->addImports($this->component->loadImports());
+            
+            $globalrender = $renderManager->getRender($this);
+            $render->addStylesheets($globalrender->getStylesheets());
+            $render->addImports($globalrender->getImports());
+                    
         }
         else{
             $render = $renderManager->getRender($this);
         }
         if (!is_null($this->theme)) {
             $render->useTheme($this->theme);
-        }
-        if (!is_null($this->component)) {
-            $render->addStylesheets($this->component->loadStylesheets());
-            $render->addImports($this->component->loadImports());
         }
         $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
         return $this;
