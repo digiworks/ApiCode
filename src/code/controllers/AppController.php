@@ -104,7 +104,7 @@ class AppController {
      */
     public function render() {
         $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-         if (!is_null($this->component)) {
+         if (!is_null($this->component) && !is_null($this->component->getRender()) ) {
             $render =  $this->component->getRender();
             $render->setController($this);
             $globalrender = $renderManager->getRender($this);
