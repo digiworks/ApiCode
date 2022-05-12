@@ -129,7 +129,7 @@ class SsrLoader extends Loader {
                 if (Str::startsWith($import['lib'], "http", false)) {
                     $script = '<script ' . $type . ' src="' . $import['lib'] . '"></script>';
                 } else {
-                    $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '?version=' . $version . '"></script>';
+                    $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '?v=' . $version . '"></script>';
                     //$script = '<script ' . $type . ' src="'. $apiGtw . '/' . $import['lib'] . '"></script>';
                 }
                 $import_scripts .= $script . PHP_EOL;
