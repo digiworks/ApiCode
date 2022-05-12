@@ -48,7 +48,7 @@ class JsGateWayRender extends JsRender {
      * @return $this
      */
     public function addImport(string $import) {
-        $import['lib'] = $this->gateway . $import['lib'];
+        $import['lib'] = $this->gateway . "/api/file/js/" . $import['lib'];
         $this->imports[] = $import;
         return $this;
     }
@@ -61,7 +61,7 @@ class JsGateWayRender extends JsRender {
     public function addImports(array $imports) {
         $chg_imports = [];
         foreach ($imports as $import) {
-            $import['lib'] = $this->gateway . $import['lib'];
+            $import['lib'] = $this->gateway . "/api/file/js/" . $import['lib'];
             $chg_imports[] = $import;
         }
         $this->imports = Arr::mergeRecursive($this->imports, $chg_imports);

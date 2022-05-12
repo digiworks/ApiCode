@@ -91,6 +91,14 @@ abstract class AppController {
         return $this;
     }
 
+    public function __construct() {
+        $this->init();
+    }
+
+    public function init() {
+        
+    }
+
     /**
      * 
      */
@@ -175,6 +183,31 @@ abstract class AppController {
 
         return ($scheme !== '' ? $scheme . ':' : '')
                 . ($basePath ? '//' . $basePath : '');
+    }
+
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     */
+    public function renderView(ServerRequestInterface $request, ResponseInterface $response, array $args) {
+
+        try {
+            $routeContext = RouteContext::fromRequest($request);
+            $route = $routeContext->getRoute();
+            $name = $route->getName();
+            $groups = $route->getGroups();
+            $methods = $route->getMethods();
+            $arguments = $route->getArguments();
+            $basePath = $routeContext->getBasePath();
+
+            $this->setRequest($request)->setResponse($response);
+        } catch (Exception $ex) {
+            ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
+            ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
+        }
+        return $this->getResponse();
     }
 
 }
