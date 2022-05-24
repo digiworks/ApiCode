@@ -118,7 +118,7 @@ class JsRender {
      * @return type
      */
     public function getThemeInUse() {
-        return $this->themeName;
+        return is_null($this->themeName) ? $this->defualtThemeName : $this->themeName;
     }
 
     /**
