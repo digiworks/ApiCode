@@ -2,6 +2,8 @@
 
 namespace code\renders;
 
+use code\utility\Arr;
+
 class JsRestRender extends JsRender {
 
     /**
@@ -27,6 +29,32 @@ class JsRestRender extends JsRender {
     protected function addBaseAppConfig() {
         $jsString = " baseApp.indexPageApiGateway = '" . $this->controller->getFullUrl() . "';";
         return $jsString . " ";
+    }
+    
+    /**
+     * 
+     * @param string $import
+     * @return $this
+     */
+    public function addImport(string $import) {
+        $import['lib'] = $this->controller->getFullUrl() . "/api/file/js/" . $import['lib'];
+        $this->imports[] = $import;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param array $imports
+     * @return $this
+     */
+    public function addImports(array $imports) {
+        $chg_imports = [];
+        foreach ($imports as $import) {
+            $import['lib'] = $this->controller->getFullUrl() . "/api/file/js/" . $import['lib'];
+            $chg_imports[] = $import;
+        }
+        $this->imports = Arr::mergeRecursive($this->imports, $chg_imports);
+        return $this;
     }
 
 }
