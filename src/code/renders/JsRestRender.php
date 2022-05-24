@@ -17,6 +17,8 @@ class JsRestRender extends JsRender {
 
         $view = [
             'theme' => $this->getThemeInUse(),
+            'css' => $this->stylesheets,
+            'imports' => $this->imports,
             'view' => $this->addBaseAppConfig() . $clientScript
         ];
         return json_encode($view);

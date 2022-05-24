@@ -104,23 +104,22 @@ class AppController {
      */
     public function render() {
         $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-         if (!is_null($this->component) && !is_null($this->component->getRender()) ) {
-            $render =  $this->component->getRender();
-            $render->setController($this);
-            $globalrender = $renderManager->getRender($this);
-            $render->addStylesheets($globalrender->getStylesheets());
-            $render->addImports($globalrender->getImports());
-            $render->DOMTransformer ($globalrender->getDOMTransformer());
-            $render->setThemes ($globalrender->getThemes());  
-            $render->useTheme($globalrender->getThemeInUse());
+        $render = $renderManager->getRender($this);
+         if (!is_null($this->component) ) {
+            if(!is_null($this->component->getRender())){
+                $globalrender = $render;
+                $render =  $this->component->getRender();
+                $render->setController($this);
+                $render->addStylesheets($globalrender->getStylesheets());
+                $render->addImports($globalrender->getImports());
+                $render->DOMTransformer ($globalrender->getDOMTransformer());
+                $render->setThemes ($globalrender->getThemes());  
+                $render->useTheme($globalrender->getThemeInUse());
+            }
             $render->addStylesheets($this->component->loadStylesheets());
-            $render->addImports($this->component->loadImports());
-            
-                 
+            $render->addImports($this->component->loadImports());     
         }
-        else{
-            $render = $renderManager->getRender($this);
-        }
+        
         if (!is_null($this->theme)) {
             $render->useTheme($this->theme);
         }
