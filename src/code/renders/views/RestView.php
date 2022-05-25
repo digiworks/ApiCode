@@ -35,14 +35,34 @@ class RestView extends View {
         try {
             $response = $this->restClient->get($this->url, ['verify' => false]);
             $restRender = json_decode($response, true);
-            $this->render->addImports($restRender['imports']);
-            $this->render->addStylesheets($restRender['stylesheets']);
+            $this->addImports($restRender['imports']);
+            $this->addStylesheets($restRender['stylesheets']);
             $view = $restRender['view'];
         } catch (Exception $ex) {
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
         }
         return $view;
+    }
+
+    protected function addImports($restRender) {
+        if (isset($restRender['imports'])) {
+             $this->render->addImports($restRender['imports']);
+        }
+    }
+
+    protected function addStylesheets($restRender) {
+        if (isset($restRender['stylesheets'])) {
+            $this->render->addStylesheets($restRender['stylesheets']);
+        }
+    }
+
+    public function getImports() {
+        return $this->imports;
+    }
+
+    public function getStylesheets() {
+        return $this->stylesheets;
     }
 
 }

@@ -42,39 +42,4 @@ class JsGateWayRender extends JsRender {
         }
         parent::init($conf);
     }
-
-    /**
-     * 
-     * @param string $import
-     * @return $this
-     */
-    public function addImport(string $import) {
-        $uriFactory = new UriFactory();
-        $uri =$uriFactory->createUri($import['lib']);
-        if (!$uri->isAbsolute()) {
-            $import['lib'] = $this->gateway . "/api/file/js/" . $import['lib'];
-        }
-        $this->imports[] = $import;
-        return $this;
-    }
-
-    /**
-     * 
-     * @param array $imports
-     * @return $this
-     */
-    public function addImports(array $imports) {
-        $chg_imports = [];
-        $uriFactory = new UriFactory();
-        foreach ($imports as $import) {
-            $uri = $uriFactory->createUri($import['lib']);
-            if (!$uri->isAbsolute()) {
-                $import['lib'] = $this->gateway . "/api/file/js/" . $import['lib'];
-            }
-            $chg_imports[] = $import;
-        }
-        $this->imports = Arr::mergeRecursive($this->imports, $chg_imports);
-        return $this;
-    }
-
 }
