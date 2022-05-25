@@ -754,7 +754,7 @@ class Arr {
      * @return array
      */
     public static function append(array ...$arrays) : array{
-        return array_merge($arrays);
+        return array_push($arrays);
     }
     
     /**
