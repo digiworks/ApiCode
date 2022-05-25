@@ -229,7 +229,7 @@ class JsRender {
      * @return $this
      */
     public function addImports(array $imports) {
-        $this->imports = Arr::mergeRecursive($this->imports, $imports);
+        $this->imports = Arr::mergeRecursive($imports, $this->imports);
         return $this;
     }
 
@@ -267,7 +267,7 @@ class JsRender {
      * @return $this
      */
     public function addStylesheets(array $stylesheets) {
-        $this->stylesheets = Arr::mergeRecursive($this->stylesheets, $stylesheets);
+        $this->stylesheets = Arr::mergeRecursive($stylesheets, $this->stylesheets);
         return $this;
     }
 
