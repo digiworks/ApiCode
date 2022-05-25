@@ -11,19 +11,19 @@ class RestView extends View {
     protected $restClient;
     protected $url;
     protected $options = [];
-    protected $imports = [];
-    protected $stylesheets = [];
+    protected $render;
 
     /**
      * 
      * @param string $url
      * @param string $base_url
      */
-    public function __construct(ServerRequestInterface $request, string $url, string $base_url = "", $options = []) {
+    public function __construct(ServerRequestInterface $request, string $url, $render, string $base_url = "", $options = []) {
         $this->url = $url;
         $this->options = $options;
         $this->restClient = new RestClient($base_url);
         $this->restClient->withRequestCookieParams($request);
+        $this->render = $render;
     }
 
     /**
@@ -35,34 +35,14 @@ class RestView extends View {
         try {
             $response = $this->restClient->get($this->url, ['verify' => false]);
             $restRender = json_decode($response, true);
-            $this->loadImports($restRender);
-            $this->loadStylesheets($restRender);
+            $this->render->loadImports($restRender['imports']);
+            $this->render->loadStylesheets($restRender['stylesheets']);
             $view = $restRender['view'];
         } catch (Exception $ex) {
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
         }
         return $view;
-    }
-
-    protected function loadImports($restRender) {
-        if (isset($restRender['imports'])) {
-            $this->imports = $restRender['imports'];
-        }
-    }
-
-    protected function loadStylesheets($restRender) {
-        if (isset($restRender['stylesheets'])) {
-            $this->stylesheets = $restRender['stylesheets'];
-        }
-    }
-
-    public function getImports() {
-        return $this->imports;
-    }
-
-    public function getStylesheets() {
-        return $this->stylesheets;
     }
 
 }

@@ -32,9 +32,7 @@ class JsGateWayRender extends JsRender {
      */
     public function renderView(string $view): string {
 
-        $this->view = new RestView($this->controller->getRequest(), $view, $this->gateway);
-        $this->addImports($this->view->getImports());
-        $this->addStylesheets($this->view->getStylesheets());
+        $this->view = new RestView($this->controller->getRequest(), $view, $this,  $this->gateway);
         return $this->render();
     }
 
