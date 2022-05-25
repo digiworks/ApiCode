@@ -267,7 +267,7 @@ class JsRender {
      * @return $this
      */
     public function addStylesheets(array $stylesheets) {
-        $this->stylesheets = Arr::mergeRecursive($stylesheets, $this->stylesheets);
+        $this->stylesheets = Arr::append($stylesheets, $this->stylesheets);
         return $this;
     }
 
