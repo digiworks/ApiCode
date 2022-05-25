@@ -756,7 +756,7 @@ class Arr {
     public static function append(array ...$arrays): array {
         $result_array = [];
         foreach ($arrays as $array) {
-            return array_merge(array_values($result_array), array_values($array));
+            $result_array =  array_merge(array_values($result_array), array_values($array));
         }
         return $result_array;
     }
