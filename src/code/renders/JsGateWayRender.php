@@ -50,7 +50,8 @@ class JsGateWayRender extends JsRender {
      * @return $this
      */
     public function addImport(string $import) {
-        $uri = \code\uri\UriFactory::createUri($import['lib']);
+        $uriFactory = new UriFactory();
+        $uri =$uriFactory->createUri($import['lib']);
         if (!$uri->isAbsolute()) {
             $import['lib'] = $this->gateway . "/api/file/js/" . $import['lib'];
         }
@@ -65,8 +66,9 @@ class JsGateWayRender extends JsRender {
      */
     public function addImports(array $imports) {
         $chg_imports = [];
+        $uriFactory = new UriFactory();
         foreach ($imports as $import) {
-            $uri = \code\uri\UriFactory::createUri($import['lib']);
+            $uri = $uriFactory->createUri($import['lib']);
             if (!$uri->isAbsolute()) {
                 $import['lib'] = $this->gateway . "/api/file/js/" . $import['lib'];
             }
