@@ -35,8 +35,8 @@ class RestView extends View {
         try {
             $response = $this->restClient->get($this->url, ['verify' => false]);
             $restRender = json_decode($response, true);
-            $this->addImports($restRender['imports']);
-            $this->addStylesheets($restRender['stylesheets']);
+            $this->addImports($restRender);
+            $this->addStylesheets($restRender);
             $view = $restRender['view'];
         } catch (Exception $ex) {
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
