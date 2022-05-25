@@ -229,7 +229,7 @@ class JsRender {
      * @return $this
      */
     public function addImports(array $imports) {
-        $this->imports = Arr::append($imports, $this->imports);
+        $this->imports = Arr::append($this->imports, $imports);
         return $this;
     }
 
@@ -267,7 +267,7 @@ class JsRender {
      * @return $this
      */
     public function addStylesheets(array $stylesheets) {
-        $this->stylesheets = Arr::append($stylesheets, $this->stylesheets);
+        $this->stylesheets = Arr::append( $this->stylesheets, $stylesheets);
         return $this;
     }
 
