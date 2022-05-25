@@ -457,12 +457,12 @@ class Arr {
         return static::find(
                         $data,
                         function (&$value, &$key) use ($callback) {
-                    if (is_string($callback)) {
-                        return !$callback($value);
-                    }
+                            if (is_string($callback)) {
+                                return !$callback($value);
+                            }
 
-                    return !$callback($value, $key);
-                },
+                            return !$callback($value, $key);
+                        },
                         $keepKey
         );
     }
@@ -506,9 +506,9 @@ class Arr {
 
         // If condition is string, we just use this as key name to get sort data from items.
         $callback = is_callable($condition) ? $condition : function ($item) use ($condition) {
-            // We don't know child item is array or object, use getter to get it.
-            return static::get($item, $condition);
-        };
+                    // We don't know child item is array or object, use getter to get it.
+                    return static::get($item, $condition);
+                };
 
         // Loop items to get sorting conditions with defined in callback.
         foreach ($data as $key => $value) {
@@ -753,10 +753,14 @@ class Arr {
      * @param array $arrays
      * @return array
      */
-    public static function append(array ...$arrays) : array{
-        return array_push($arrays);
+    public static function append(array ...$arrays): array {
+        $result_array = [];
+        foreach ($arrays as $array) {
+            return array_merge(array_values($result_array), array_values($array));
+        }
+        return $result_array;
     }
-    
+
     /**
      * Merge array recursively.
      *
