@@ -748,6 +748,16 @@ class Arr {
     }
 
     /**
+     * Append arrays.
+     * 
+     * @param array $arrays
+     * @return array
+     */
+    public static function append(array ...$arrays) : array{
+        return array_merge($arrays);
+    }
+    
+    /**
      * Merge array recursively.
      *
      * @param   array $array1  Array 1 to be merge.
@@ -756,7 +766,7 @@ class Arr {
      * @return  array Merged array.
      * @throws InvalidArgumentException
      *
-     * @since   4.0
+     * @since   1.0
      */
     public static function mergeRecursive($array1) {
         $result = $array1;
