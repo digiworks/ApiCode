@@ -3,6 +3,7 @@
 namespace code\renders;
 
 use code\renders\views\RestView;
+use code\uri\UriFactory;
 use code\utility\Arr;
 
 class JsGateWayRender extends JsRender {
