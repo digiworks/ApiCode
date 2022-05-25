@@ -1,0 +1,50 @@
+<?php
+
+namespace code\utility\assert;
+
+use TypeError;
+
+class TypeAssert {
+
+    /**
+     * assert
+     *
+     * @param  bool|callable  $assertion
+     * @param  string         $message
+     * @param  mixed          $value
+     * @param  callable|null  $exception
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function assert(
+            mixed $assertion,
+            string $message,
+            mixed $value = null,
+            ?callable $exception = null
+    ): void {
+        if (is_callable($assertion)) {
+            $result = $assertion();
+        } else {
+            $result = (bool) $assertion;
+        }
+
+        if (!$result) {
+            static::createAssert($exception, Assert::getCaller(2))->throwException($message, $value);
+        }
+    }
+
+    public static function createAssert(?callable $exception = null, ?string $caller = null): Assert {
+        return new Assert($exception ?? static::exception(), $caller ?? Assert::getCaller(2));
+    }
+
+    protected static function exception(): callable {
+        return static fn(string $msg) => new TypeError($msg);
+    }
+
+    public static function describeValue($value): string {
+        return Assert::describeValue($value);
+    }
+
+}

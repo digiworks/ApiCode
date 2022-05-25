@@ -11,6 +11,8 @@ class RestView extends View {
     protected $restClient;
     protected $url;
     protected $options = [];
+    protected $imports = [];
+    protected $stylesheets = [];
 
     /**
      * 
@@ -31,12 +33,36 @@ class RestView extends View {
     public function load() {
         $view = "";
         try {
-            $restRender = $this->restClient->get($this->url, ['verify' => false]);
-            $view = json_decode($restRender,true)['view'];
+            $response = $this->restClient->get($this->url, ['verify' => false]);
+            $restRender = json_decode($response, true);
+            $this->loadImports($restRender);
+            $this->loadStylesheets($restRender);
+            $view = $restRender['view'];
         } catch (Exception $ex) {
-            
+            ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
+            ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
         }
         return $view;
+    }
+
+    protected function loadImports($restRender) {
+        if (isset($restRender['imports'])) {
+            $this->imports = $restRender['imports'];
+        }
+    }
+
+    protected function loadStylesheets($restRender) {
+        if (isset($restRender['stylesheets'])) {
+            $this->stylesheets = $restRender['stylesheets'];
+        }
+    }
+
+    public function getImports() {
+        return $this->imports;
+    }
+
+    public function getStylesheets() {
+        return $this->stylesheets;
     }
 
 }
