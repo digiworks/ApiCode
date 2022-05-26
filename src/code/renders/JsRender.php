@@ -15,6 +15,7 @@ use Slim\Routing\RouteContext;
 
 class JsRender {
 
+    protected $remoteRender = false;
     protected $engine;
     protected $imports = [];
     protected $stylesheets = [];
@@ -103,7 +104,16 @@ class JsRender {
             $this->setEnableSSRender($conf['enableSSRender']);
         }
     }
+    
+    public function getRemoteRender() {
+        return $this->remoteRender;
+    }
 
+    public function setRemoteRender($remoteRender): void {
+        $this->remoteRender = $remoteRender;
+    }
+
+    
     /**
      * 
      * @param RouteContext $controller

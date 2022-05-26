@@ -25,6 +25,13 @@ class JsGateWayRender extends JsRender {
         $this->gateway = $gateway;
     }
 
+    
+    public function __construct($conf) {
+        parent::__construct($conf);
+        $this->remoteRender = false;
+    }
+
+    
     /**
      * 
      * @param string $view
