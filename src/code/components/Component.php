@@ -32,12 +32,13 @@ abstract class Component {
         $this->addService(ServiceTypes::CONFIGURATIONS, (new Configurations($this->getConfigurationPath()))->init());
         static::setName($name);
         ApiAppFactory::getApp()->setAlias($this->getAliasPath(), $this->getBasePath());
-        $confRender = $conf[static::RENDER_CONFIGURATIONS];
-        if (isset($confRender['class'])) {
-            $this->render = ApiAppFactory::getApp()->newInstance($confRender['class'], [$confRender]);
-        }else{
-            $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-            $this->render = $renderManager->getRender();
+        $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
+        $this->render = $renderManager->getRender();
+        if (isset($conf[static::RENDER_CONFIGURATIONS])) {
+            $confRender = $conf[static::RENDER_CONFIGURATIONS];
+            if (isset($confRender['class'])) {
+                $this->render = ApiAppFactory::getApp()->newInstance($confRender['class'], [$confRender]);
+            }
         }
     }
 
@@ -97,7 +98,7 @@ abstract class Component {
         if ($this->render->getRemoteRender()) {
             if (!empty($this->render->getGateway())) {
                 $strObject = StringObject::create(static::getName());
-                ApiAppFactory::getApp()->get("/" . static::getName()."[/{url}]", 'code\\controllers\\' . $strObject->upperCaseFirst()->getString() . 'Controller:home');
+                ApiAppFactory::getApp()->get("/" . static::getName() . "[/{url}]", 'code\\controllers\\' . $strObject->upperCaseFirst()->getString() . 'Controller:home');
             }
         } else {
             foreach ($this->defineRoutes() as $route) {
