@@ -7,6 +7,7 @@ use code\configuration\Configurations;
 use code\renders\JsRender;
 use code\service\ServiceTypes;
 use code\traits\ServicesTrait;
+use code\utility\string\StringObject;
 use ReflectionClass;
 
 abstract class Component {
@@ -90,8 +91,15 @@ abstract class Component {
      */
     public function loadRoutes(): array {
         $routes = [];
-        foreach ($this->defineRoutes() as $route) {
-            $routes[] = $route;
+        if ($this->render->getRemoteRender()) {
+            if (!empty($this->render->getGateway())) {
+                $strObject = StringObject::create(static::getName());
+                ApiAppFactory::getApp()->get("/" . static::getName(), 'code\\controllers\\' . $strObject->upperCaseFirst()->getString() . 'Controller:home');
+            }
+        } else {
+            foreach ($this->defineRoutes() as $route) {
+                $routes[] = $route;
+            }
         }
         return $routes;
     }
@@ -102,9 +110,11 @@ abstract class Component {
      */
     public function loadImports(): array {
         $imports = [];
-        foreach ($this->defineImports() as $import) {
-            $import['lib'] = $this->calculatePath($import['lib']);
-            $imports[] = $import;
+        if (!$this->render->getRemoteRender()) {
+            foreach ($this->defineImports() as $import) {
+                $import['lib'] = $this->calculatePath($import['lib']);
+                $imports[] = $import;
+            }
         }
         return $imports;
     }
@@ -115,8 +125,10 @@ abstract class Component {
      */
     public function loadStylesheets(): array {
         $stylesheets = [];
-        foreach ($this->defineStylesheets() as $stylesheet) {
-            $stylesheets[] = $this->calculatePath($stylesheet);
+        if (!$this->render->getRemoteRender()) {
+            foreach ($this->defineStylesheets() as $stylesheet) {
+                $stylesheets[] = $this->calculatePath($stylesheet);
+            }
         }
         return $stylesheets;
     }

@@ -105,7 +105,7 @@ class JsRender {
         }
     }
     
-    public function getRemoteRender() {
+    public function getRemoteRender() : bool{
         return $this->remoteRender;
     }
 
