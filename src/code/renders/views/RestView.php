@@ -2,6 +2,7 @@
 
 namespace code\renders\views;
 
+use code\applications\ApiAppFactory;
 use code\rest\RestClient;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,7 +20,7 @@ class RestView extends View {
      * @param string $base_url
      */
     public function __construct(ServerRequestInterface $request, string $url, $render, string $base_url = "", $options = []) {
-        $this->url = $url;
+        $this->url = $render->getController()->getFullPath();
         $this->options = $options;
         $this->restClient = new RestClient($base_url);
         $this->restClient->withRequestCookieParams($request);

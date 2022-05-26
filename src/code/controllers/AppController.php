@@ -187,6 +187,13 @@ class AppController {
         $path = $uri->getPath();
         return $path;
     }
+    
+    public function getFullPath() {
+        /** @var UriInterface $uri */
+        $uri = $this->getRequest()->getUri();
+        $path = $uri->getPath() . "?".$uri->getQuery();
+        return $path;
+    }
 
     public function getFullUrl() {
         /** @var UriInterface $uri */

@@ -115,6 +115,14 @@ class JsRender {
 
     /**
      * 
+     * @return AppController
+     */
+    public function getController() : ?AppController {
+        return $this->controller;
+    }
+
+    /**
+     * 
      * @return type
      */
     public function getThemeInUse() {
@@ -267,7 +275,7 @@ class JsRender {
      * @return $this
      */
     public function addStylesheets(array $stylesheets) {
-        $this->stylesheets = Arr::append( $this->stylesheets, $stylesheets);
+        $this->stylesheets = Arr::append($this->stylesheets, $stylesheets);
         return $this;
     }
 

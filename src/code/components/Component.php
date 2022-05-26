@@ -91,7 +91,6 @@ abstract class Component {
     public function loadRoutes(): array {
         $routes = [];
         foreach ($this->defineRoutes() as $route) {
-            $route['controller'] = $route['controller'];
             $routes[] = $route;
         }
         return $routes;
