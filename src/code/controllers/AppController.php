@@ -103,27 +103,30 @@ class AppController {
      * 
      */
     public function render() {
-        $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-        $render = $renderManager->getRender($this);
-         if (!is_null($this->component) ) {
-            if(!is_null($this->component->getRender())){
-                $globalrender = $render;
-                $render =  $this->component->getRender();
-                $render->setController($this);
-                $render->addStylesheets($globalrender->getStylesheets());
-                $render->addImports($globalrender->getImports());
-                $render->DOMTransformer ($globalrender->getDOMTransformer());
-                $render->setThemes ($globalrender->getThemes());  
-                $render->useTheme($globalrender->getThemeInUse());
+        if($this->beforeRender()){
+            $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
+            $render = $renderManager->getRender($this);
+            if (!is_null($this->component)) {
+                if (!is_null($this->component->getRender())) {
+                    $globalrender = $render;
+                    $render = $this->component->getRender();
+                    $render->setController($this);
+                    $render->addStylesheets($globalrender->getStylesheets());
+                    $render->addImports($globalrender->getImports());
+                    $render->DOMTransformer($globalrender->getDOMTransformer());
+                    $render->setThemes($globalrender->getThemes());
+                    $render->useTheme($globalrender->getThemeInUse());
+                }
+                $render->addStylesheets($this->component->loadStylesheets());
+                $render->addImports($this->component->loadImports());
             }
-            $render->addStylesheets($this->component->loadStylesheets());
-            $render->addImports($this->component->loadImports());     
+
+            if (!is_null($this->theme)) {
+                $render->useTheme($this->theme);
+            }
+            $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
+            $this->afterRender();
         }
-        
-        if (!is_null($this->theme)) {
-            $render->useTheme($this->theme);
-        }
-        $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
         return $this;
     }
 
@@ -204,32 +207,61 @@ class AppController {
      */
     public function renderview(ServerRequestInterface $request, ResponseInterface $response, array $args) {
 
-       try {
+        try {
             $this->setRequest($request)->setResponse($response);
             $data = $request->getQueryParams();
-            if(isset($data['m']) && !empty($data['m'])){
+            if (isset($data['m']) && !empty($data['m'])) {
                 $this->setComponent(ApiAppFactory::getApp()->getComponent($data['m']));
             }
             $this->setCurrentView($data['url'])->buildViewResponse()->render();
-            
         } catch (Exception $ex) {
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
             ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
         }
         return $this->getResponse();
     }
-    
+
     /**
-     * {@inheritdoc}
+     * 
+     * @param string $pattern
+     * @return RouteInterface
+     * @throws RuntimeException
      */
-    public function getPatternRoute(string $pattern): RouteInterface
-    {
+    public function getPatternRoute(string $pattern): RouteInterface {
         foreach (ApiAppFactory::getApp()->getRouteCollector()->getRoutes() as $route) {
             if ($pattern === $route->getPattern()) {
                 return $route;
             }
         }
         throw new RuntimeException('Named route does not exist for name: ' . $pattern);
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    public function beforeRender() : bool{
+        $continue = true;
+        if (!is_null($this->getComponent())) {
+            if (!is_null($this->getComponent()->getRender())) {
+                if (!empty($this->getComponent()->getRender()->getGateway())) {
+                    $this->response
+                            ->withHeader('Location', "/v?m=" . ApiChat::getName() . "&url=/chat")
+                            ->withStatus(302);
+                    $continue = false;
+                }
+            }
+        }
+        return $continue;
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    public function afterRender() : bool{
+        $continue = true;
+        return $continue;
     }
 
 }
