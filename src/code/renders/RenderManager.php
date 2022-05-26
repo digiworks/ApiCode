@@ -18,7 +18,7 @@ class RenderManager implements ServiceInterface {
      * 
      * @return JsRender
      */
-    public function getRender(?AppController $controller) {
+    public function getRender(?AppController $controller = null) {
         return $this->render->setController($controller);
     }
 

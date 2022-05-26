@@ -37,7 +37,7 @@ abstract class Component {
             $this->render = ApiAppFactory::getApp()->newInstance($confRender['class'], [$confRender]);
         }else{
             $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-            $this->render = $renderManager->getRender(null);
+            $this->render = $renderManager->getRender();
         }
     }
 
