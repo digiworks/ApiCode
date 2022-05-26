@@ -97,7 +97,7 @@ abstract class Component {
         if ($this->render->getRemoteRender()) {
             if (!empty($this->render->getGateway())) {
                 $strObject = StringObject::create(static::getName());
-                ApiAppFactory::getApp()->get("/" . static::getName(), 'code\\controllers\\' . $strObject->upperCaseFirst()->getString() . 'Controller:home');
+                ApiAppFactory::getApp()->get("/" . static::getName()."[/{url}]", 'code\\controllers\\' . $strObject->upperCaseFirst()->getString() . 'Controller:home');
             }
         } else {
             foreach ($this->defineRoutes() as $route) {
