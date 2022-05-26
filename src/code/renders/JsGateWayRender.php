@@ -28,7 +28,7 @@ class JsGateWayRender extends JsRender {
     
     public function __construct($conf) {
         parent::__construct($conf);
-        $this->remoteRender = false;
+        $this->remoteRender = true;
     }
 
     
