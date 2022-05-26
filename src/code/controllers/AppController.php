@@ -246,7 +246,7 @@ class AppController {
             if (!is_null($this->getComponent()->getRender())) {
                 if (!empty($this->getComponent()->getRender()->getGateway())) {
                     $this->response
-                            ->withHeader('Location', "/v?m=" . ApiChat::getName() . "&url=/chat")
+                            ->withHeader('Location', "/v?m=" . $this->getComponent()->getName() . "&url=". $this->getPath())
                             ->withStatus(302);
                     $continue = false;
                 }
