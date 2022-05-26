@@ -103,30 +103,29 @@ class AppController {
      * 
      */
     public function render() {
-        if($this->beforeRender()){
-            $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
-            $render = $renderManager->getRender($this);
-            if (!is_null($this->component)) {
-                if (!is_null($this->component->getRender())) {
-                    $globalrender = $render;
-                    $render = $this->component->getRender();
-                    $render->setController($this);
-                    $render->addStylesheets($globalrender->getStylesheets());
-                    $render->addImports($globalrender->getImports());
-                    $render->DOMTransformer($globalrender->getDOMTransformer());
-                    $render->setThemes($globalrender->getThemes());
-                    $render->useTheme($globalrender->getThemeInUse());
-                }
-                $render->addStylesheets($this->component->loadStylesheets());
-                $render->addImports($this->component->loadImports());
-            }
 
-            if (!is_null($this->theme)) {
-                $render->useTheme($this->theme);
+        $renderManager = ApiAppFactory::getApp()->getService(ServiceTypes::RENDER);
+        $render = $renderManager->getRender($this);
+        if (!is_null($this->component)) {
+            if (!is_null($this->component->getRender())) {
+                $globalrender = $render;
+                $render = $this->component->getRender();
+                $render->setController($this);
+                $render->addStylesheets($globalrender->getStylesheets());
+                $render->addImports($globalrender->getImports());
+                $render->DOMTransformer($globalrender->getDOMTransformer());
+                $render->setThemes($globalrender->getThemes());
+                $render->useTheme($globalrender->getThemeInUse());
             }
-            $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
-            $this->afterRender();
+            $render->addStylesheets($this->component->loadStylesheets());
+            $render->addImports($this->component->loadImports());
         }
+
+        if (!is_null($this->theme)) {
+            $render->useTheme($this->theme);
+        }
+        $this->response->getBody()->write($render->renderView($this->getFullViewPath($this->currentView)));
+
         return $this;
     }
 
@@ -240,13 +239,13 @@ class AppController {
      * 
      * @return boolean
      */
-    public function beforeRender() : bool{
+    public function beforeRender(): bool {
         $continue = true;
         if (!is_null($this->getComponent())) {
             if (!is_null($this->getComponent()->getRender())) {
                 if (!empty($this->getComponent()->getRender()->getGateway())) {
                     $this->response
-                            ->withHeader('Location', "/v?m=" . $this->getComponent()->getName() . "&url=". $this->getPath())
+                            ->withHeader('Location', "/v?m=" . $this->getComponent()->getName() . "&url=" . $this->getPath())
                             ->withStatus(302);
                     $continue = false;
                 }
@@ -259,7 +258,7 @@ class AppController {
      * 
      * @return boolean
      */
-    public function afterRender() : bool{
+    public function afterRender(): bool {
         $continue = true;
         return $continue;
     }
