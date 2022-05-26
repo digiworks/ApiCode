@@ -9,7 +9,8 @@ use code\service\ServiceTypes;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use Slim\Routing\RouteContext;
+use RuntimeException;
+use Slim\Interfaces\RouteInterface;
 
 class AppController {
 
@@ -187,11 +188,11 @@ class AppController {
         $path = $uri->getPath();
         return $path;
     }
-    
+
     public function getFullPath() {
         /** @var UriInterface $uri */
         $uri = $this->getRequest()->getUri();
-        $path = $uri->getPath() . "?".$uri->getQuery();
+        $path = $uri->getPath() . "?" . $uri->getQuery();
         return $path;
     }
 
@@ -207,28 +208,6 @@ class AppController {
 
     /**
      * 
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param array $args
-     */
-    public function renderview(ServerRequestInterface $request, ResponseInterface $response, array $args) {
-
-        try {
-            $this->setRequest($request)->setResponse($response);
-            $data = $request->getQueryParams();
-            if (isset($data['m']) && !empty($data['m'])) {
-                $this->setComponent(ApiAppFactory::getApp()->getComponent($data['m']));
-            }
-            $this->setCurrentView($data['url'])->buildViewResponse()->render();
-        } catch (Exception $ex) {
-            ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
-            ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
-        }
-        return $this->getResponse();
-    }
-
-    /**
-     * 
      * @param string $pattern
      * @return RouteInterface
      * @throws RuntimeException
@@ -240,34 +219,6 @@ class AppController {
             }
         }
         throw new RuntimeException('Named route does not exist for name: ' . $pattern);
-    }
-
-    /**
-     * 
-     * @return boolean
-     */
-    public function beforeRender(): bool {
-        $continue = true;
-        if (!is_null($this->getComponent())) {
-            if (!is_null($this->getComponent()->getRender())) {
-                if (!empty($this->getComponent()->getRender()->getGateway())) {
-                    $this->response
-                            ->withHeader('Location', "/v?m=" . $this->getComponent()->getName() . "&url=" . $this->getPath())
-                            ->withStatus(302);
-                    $continue = false;
-                }
-            }
-        }
-        return $continue;
-    }
-
-    /**
-     * 
-     * @return boolean
-     */
-    public function afterRender(): bool {
-        $continue = true;
-        return $continue;
     }
 
 }
