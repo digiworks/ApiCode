@@ -129,7 +129,7 @@ class SsrLoader extends Loader {
                 if (Str::startsWith($import['lib'], "http", false)) {
                     $script = '<script ' . $type . ' src="' . $import['lib'] . '"></script>';
                 } else {
-                    $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '?v=' . $version . '"></script>';
+                    $script = '<script ' . $type . ' src="' . $apiGtw . '/api/file/js/' . $import['lib'] . '?ver=' . $version . '"></script>';
                     //$script = '<script ' . $type . ' src="'. $apiGtw . '/' . $import['lib'] . '"></script>';
                 }
                 $import_scripts .= $script . PHP_EOL;
@@ -151,7 +151,7 @@ class SsrLoader extends Loader {
             if (Str::startsWith($stylesheet, "http", false)) {
                 $script = '<link rel="stylesheet" href="' . $stylesheet . '"/>';
             } else {
-                $script = '<link rel="stylesheet" href="/api/file/css/' . $stylesheet . '?version=' . $version . '"/>';
+                $script = '<link rel="stylesheet" href="/api/file/css/' . $stylesheet . '?ver=' . $version . '"/>';
             }
             $stylesheet_scripts .= $script . PHP_EOL;
         }
