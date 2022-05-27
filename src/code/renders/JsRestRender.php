@@ -13,8 +13,7 @@ class JsRestRender extends JsRender {
 
     public function __construct($conf) {
         parent::__construct($conf);
-        $env = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::ENV);
-        $this->appVersion = $env['version'];
+        $this->appVersion = ApiAppFactory::getApp()->getService(ServiceTypes::CONFIGURATIONS)->get(Configurations::VERSION);
     }
 
     /**
