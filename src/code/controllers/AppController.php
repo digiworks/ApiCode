@@ -28,6 +28,12 @@ class AppController {
     /** @var ResponseBuilder $responsebuilder */
     protected $responsebuilder = null;
 
+    /**
+     * Array params with values to send to IndexPage
+     * @return array
+     */
+    protected $jsParams = [];
+
     public function getRequest() {
         return $this->request;
     }
@@ -212,21 +218,21 @@ class AppController {
      * @param ResponseInterface $response
      * @param array $args
      */
-    /*public function renderview(ServerRequestInterface $request, ResponseInterface $response, array $args) {
+    /* public function renderview(ServerRequestInterface $request, ResponseInterface $response, array $args) {
 
-        try {
-            $this->setRequest($request)->setResponse($response);
-            $data = $request->getQueryParams();
-            if (isset($data['m']) && !empty($data['m'])) {
-                $this->setComponent(ApiAppFactory::getApp()->getComponent($data['m']));
-            }
-            $this->setCurrentView($data['url'])->buildViewResponse()->render();
-        } catch (Exception $ex) {
-            ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
-            ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
-        }
-        return $this->getResponse();
-    }*/
+      try {
+      $this->setRequest($request)->setResponse($response);
+      $data = $request->getQueryParams();
+      if (isset($data['m']) && !empty($data['m'])) {
+      $this->setComponent(ApiAppFactory::getApp()->getComponent($data['m']));
+      }
+      $this->setCurrentView($data['url'])->buildViewResponse()->render();
+      } catch (Exception $ex) {
+      ApiAppFactory::getApp()->getLogger()->error("error", $ex->getMessage());
+      ApiAppFactory::getApp()->getLogger()->error("error", $ex->getTraceAsString());
+      }
+      return $this->getResponse();
+      } */
 
     /**
      * 
@@ -241,6 +247,33 @@ class AppController {
             }
         }
         throw new RuntimeException('Named route does not exist for name: ' . $pattern);
+    }
+
+    /**
+     * 
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function addJsParam($key, $value) {
+        $this->jsParams[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param string $key
+     * @return $this
+     */
+    public function removeJsParam($key) {
+        if (isset($this->jsParams[$key])) {
+            unset($this->jsParams[$key]);
+        }
+        return $this;
+    }
+    
+    public function getJsParams(){
+        return $this->jsParams;
     }
 
 }

@@ -104,8 +104,8 @@ class JsRender {
             $this->setEnableSSRender($conf['enableSSRender']);
         }
     }
-    
-    public function getRemoteRender() : bool{
+
+    public function getRemoteRender(): bool {
         return $this->remoteRender;
     }
 
@@ -113,7 +113,6 @@ class JsRender {
         $this->remoteRender = $remoteRender;
     }
 
-    
     /**
      * 
      * @param RouteContext $controller
@@ -127,7 +126,7 @@ class JsRender {
      * 
      * @return AppController
      */
-    public function getController() : ?AppController {
+    public function getController(): ?AppController {
         return $this->controller;
     }
 
@@ -420,7 +419,20 @@ class JsRender {
             }
             array_unshift($scriptLibs, ['lib' => $this->transformer->getLib(), "tranlsator" => ""]);
         }
-        return $renderer->addImports($scriptLibs)->setScriptClient($clientScript)->render();
+        return $renderer->addImports($scriptLibs)->setScriptClient($this->addContollerParams() . $clientScript)->render();
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    protected function addContollerParams() {
+        $params = $this->getController()->getJsParams();
+        $placeholders = [
+            '{{pageParams}}' => json_encode($params)
+        ];
+        $jsString = "var pageParams = {{pageParams}};";
+        return strtr($jsString) . " ";
     }
 
     /**

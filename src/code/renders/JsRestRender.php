@@ -31,13 +31,14 @@ class JsRestRender extends JsRender {
             'theme' => $this->getThemeInUse(),
             'css' => $this->stylesheets,
             'imports' => $this->imports,
-            'view' => $this->addBaseAppConfig() . $clientScript
+            'view' => $this->addContollerParams() . $clientScript
         ];
         return json_encode($view);
     }
 
-    protected function addBaseAppConfig() {
-        $jsString = " baseApp.indexPageApiGateway = '" . $this->controller->getFullUrl() . "';";
+    protected function addContollerParams() {
+        $paramStr = parent::addContollerParams();
+        $jsString = " baseApp.indexPageApiGateway = '" . $this->controller->getFullUrl() . "';" . $paramStr;
         return $jsString . " ";
     }
 
