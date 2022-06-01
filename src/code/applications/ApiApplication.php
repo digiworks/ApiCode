@@ -23,7 +23,7 @@ use Slim\Interfaces\RouteResolverInterface;
 class ApiApplication extends App implements CoreApplicationInterface {
 
     use AliasTrait;
-    
+
     private $config_path = "../etc/configurations";
     private $params;
     private $services = [];
@@ -234,13 +234,32 @@ class ApiApplication extends App implements CoreApplicationInterface {
         
     }
 
+    /**
+     * 
+     * @param array $params
+     */
     public function addParams($params) {
         $data = Arr::mergeRecursive($this->params->toArray(), $params);
         $this->params->load($data);
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function getParams() {
-        return $this->params;
+        return $this->params["decoded"];
+    }
+
+    /**
+     * Current logged user id.
+     * @return int
+     */
+    public function getUserId(): int {
+        if (isset($this->params["decoded"]["uid"])) {
+            return $this->params["decoded"]["uid"];
+        }
+        return null;
     }
 
 }
