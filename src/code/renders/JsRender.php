@@ -432,7 +432,7 @@ class JsRender {
             '{{pageParams}}' => json_encode($params)
         ];
         $jsString = "var pageParams = {{pageParams}};";
-        return strtr($jsString) . " ";
+        return strtr($jsString, $placeholders) . " ";
     }
 
     /**
