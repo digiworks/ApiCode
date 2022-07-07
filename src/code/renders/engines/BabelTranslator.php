@@ -1,22 +1,12 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace code\renders\engines;
 
 use code\exceptions\EngineError;
 use code\renders\RenderEngineInterface;
 use code\utility\Curl;
 
-/**
- * Description of BabelTranslator
- *
- * @author digiw
- */
+
 class BabelTranslator {
 
     const command = "(Babel.transform('%s', {presets:['es2017', 'react', 'stage-3'],plugins: ['transform-react-jsx', 'syntax-async-functions']}).code);";

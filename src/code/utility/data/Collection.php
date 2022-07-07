@@ -7,11 +7,6 @@ use code\utility\Arr;
 use InvalidArgumentException;
 use Traversable;
 
-/**
- * Description of Collection
- *
- * @author digiw
- */
 class Collection extends BaseCollection implements DataInterface {
 
     /**

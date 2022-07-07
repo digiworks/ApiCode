@@ -7,11 +7,7 @@ use Traversable;
 use Yosymfony\Toml\Toml;
 use Yosymfony\Toml\TomlBuilder;
 
-/**
- * Description of TomlFormat
- *
- * @author digiw
- */
+
 class TomlFormat implements FormatInterface {
 
     /**

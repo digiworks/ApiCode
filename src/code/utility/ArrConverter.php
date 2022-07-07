@@ -3,11 +3,7 @@ namespace code\utility;
 
 use code\base\utility\string\Mbstring;
 
-/**
- * Description of ArrConverter
- *
- * @author digiw
- */
+
 class ArrConverter {
     /**
      * Flip array key and value and make 2-dimensional array to 1-dimensional.

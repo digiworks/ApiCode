@@ -5,11 +5,6 @@ use Closure;
 use code\base\utility\Arr;
 use function mb_internal_encoding;
 
-/**
- * Description of Str
- *
- * @author digiw
- */
 class Str {
 
     public const CASE_SENSITIVE = true;

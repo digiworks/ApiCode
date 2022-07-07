@@ -6,11 +6,6 @@ use Symfony\Component\Yaml\Dumper as SymfonyYamlDumper;
 use Symfony\Component\Yaml\Parser as SymfonyYamlParser;
 
 
-/**
- * Description of YamlFormat
- *
- * @author digiw
- */
 class YamlFormat implements FormatInterface {
 
     /**
